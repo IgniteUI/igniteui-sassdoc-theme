@@ -1,0 +1,293 @@
+////
+/// @group themes
+/// @access public
+/// @author <a href="https://github.com/simeonoff" target="_blank">Simeon Simeonoff</a>
+/// @author <a href="https://github.com/desig9stein" target="_blank">Marin Popov</a>
+////
+
+/// @param {Map} $palette [$default-palette] - The palette used as basis for styling the component.
+/// @param {Map} $schema [$light-schema] - The schema used as basis for styling the component.
+///
+/// @param {Color} $track-color [null] - The color of the track.
+/// @param {Color} $thumb-color [null] - The color of the thumb.
+/// @param {Color} $label-background-color [null] - The background color of the bubble label.
+/// @param {Color} $label-text-color [null] - The text color of the bubble label.
+///
+/// @param {Color} $disabled-thumb-color [null] - The thumb color when its disabled.
+/// @param {Color} $base-track-color [null] - The base background color of the track.
+/// @param {Color} $disabled-base-track-color [null] - The base background color of the track when is disabled.
+///
+/// @requires $default-palette
+/// @requires $light-schema
+/// @requires apply-palette
+/// @requires extend
+/// @requires text-contrast
+///
+/// @example scss Set custom track and thumb on colors
+///   $my-slider-theme: igx-slider-theme($thumb-on-color: black, $track-on-color: yellow);
+///   // Pass the theme to the igx-slider component mixin
+///   @include igx-slider($my-slider-theme);
+@function igx-slider-theme(
+    $palette: $default-palette,
+    $schema: $light-schema,
+
+    $track-color: null,
+    $thumb-color: null,
+
+    $label-background-color: null,
+    $label-text-color: null,
+
+    $disabled-thumb-color: null,
+    $base-track-color: null,
+    $disabled-base-track-color: null
+
+) {
+    $name: 'igx-slider';
+    $theme: apply-palette(map-get($schema, $name), $palette);
+
+    @if not($label-text-color) and $label-background-color {
+        $label-text-color: text-contrast($label-background-color);
+    }
+
+    @return extend($theme, (
+        name: $name,
+        palette: $palette,
+        track-color: $track-color,
+        thumb-color: $thumb-color,
+        label-background-color: $label-background-color,
+        label-text-color: $label-text-color,
+        disabled-thumb-color: $disabled-thumb-color,
+        base-track-color: $base-track-color,
+        disabled-base-track-color: $disabled-base-track-color
+    ));
+}
+
+/// @param {Map} $theme - The theme used to style the component.
+/// @requires {mixin} igx-root-css-vars
+/// @requires rem
+/// @requires --var
+@mixin igx-slider($theme) {
+    @include igx-root-css-vars($theme);
+
+    // @debug $theme;
+
+    $slider-height: 48px;
+    $slider-track-height: 2px;
+
+    // Slider Thumb
+    $slider-thumb-width: 40px;
+    $slider-thumb-height: $slider-thumb-width;
+    $slider-thumb-radius: $slider-thumb-width / 2;
+
+    // Slider Label
+    $slider-label-width: 36px;
+    $slider-label-height: $slider-label-width;
+    $slider-label-radius: $slider-label-width / 2;
+    $slider-label-font-size: rem(12px);
+    $slider-label-font-weight: 600;
+    $slider-label-padding: 0 rem(2px);
+
+    %igx-slider-display {
+        display: flex;
+        position: relative;
+        height: rem($slider-height);
+        align-items: center;
+    }
+
+    %igx-slider-thumbs-container {
+        position: absolute;
+        width: 100%;
+        height: 0;
+        cursor: default;
+        z-index: 1;
+    }
+
+    %igx-slider-track {
+        position: absolute;
+        width: 100%;
+        height: rem($slider-track-height);
+        background: --var($theme, 'base-track-color');
+        transition: background .2s $ease-out-quad;
+    }
+
+    %igx-slider-track--disabled {
+        background: --var($theme, 'disabled-base-track-color');
+    }
+
+    %igx-slider-track-ticks {
+        position: absolute;
+        width: 100%;
+        height: rem($slider-track-height);
+        background-size: 100% em($slider-track-height);
+        opacity: .85;
+        transition: opacity .2s $ease-out-quad;
+        z-index: 1;
+    }
+
+    %igx-slider-track-ticks--disabled {
+        visibility: hidden;
+    }
+
+    %igx-slider-track-fill {
+        position: absolute;
+        width: 100%;
+        height: inherit;
+        background: --var($theme, 'track-color');
+        transform-origin: left center;
+        transform: scaleX(0);
+    }
+
+    %igx-slider-track-fill--disabled {
+        visibility: hidden;
+    }
+
+    %igx-thumb-display {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: $slider-thumb-width;
+        height: $slider-thumb-height;
+        outline-style: none;
+        top: -#{rem($slider-thumb-radius)};
+        margin-left: -#{rem($slider-thumb-radius)};
+
+        &:focus %igx-thumb-dot::after {
+            opacity: .18;
+            /* 32 / 40 */
+            transform: scale(.8);
+        }
+    }
+
+    %igx-thumb--disabled {
+        &:hover %igx-thumb-label {
+            opacity: 0;
+        }
+    }
+
+    %igx-thumb-label {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        top: -#{rem($slider-thumb-height - 6px)};
+        pointer-events: none;
+        min-width: rem($slider-label-width);
+        height: rem($slider-label-height);
+        padding: $slider-label-padding;
+        border-radius: rem($slider-label-radius);
+        margin: 0 auto;
+        font-size: $slider-label-font-size;
+        font-weight: $slider-label-font-weight;
+        line-height: 1;
+        color: --var($theme, 'label-text-color');
+        background: --var($theme, 'label-background-color');
+        opacity: 0;
+        border-color: --var($theme, 'label-background-color') transparent transparent;
+        transition: opacity .1s $ease-out-quad;
+        z-index: -1;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -#{$slider-label-radius};
+            width: rem($slider-label-width);
+            height: $slider-label-height;
+            border-radius: 0 $slider-label-radius $slider-label-radius;
+            background: inherit;
+            transform: rotate(-135deg);
+            z-index: -1;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: rem(40px);
+            left: calc(50% - 1px);
+            border-left: 1px solid;
+            border-right: 1px solid;
+            border-top: rem(14px) solid;
+            border-color: inherit;
+        }
+    }
+
+    %igx-thumb-dot {
+        position: relative;
+        left: 0;
+        padding: rem(20px);
+        pointer-events: none;
+
+        &:hover::after {
+            opacity: .12;
+            /* 32 / 40 */
+            transform: scale(.8);
+        }
+
+        &::before {
+            position: absolute;
+            content: '';
+            width: rem(12px);
+            height: rem(12px);
+            left: #{rem($slider-thumb-radius) - rem(6px)};
+            top: #{rem($slider-thumb-radius) - rem(6px)};
+            background: --var($theme, 'thumb-color');
+            transform: rotate(45deg);
+            transition: transform .1s $ease-out-quad, border-radius .1s $ease-out-quad;
+            border-radius: rem($slider-thumb-radius);
+        }
+
+        &::after {
+            position: absolute;
+            content: '';
+            width: rem($slider-thumb-width);
+            height: rem($slider-thumb-height);
+            background: --var($theme, 'thumb-color');
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: center center;
+            transition: transform .1s $ease-out-quad, opacity .1s $ease-out-quad;
+            border-radius: 50%;
+        }
+    }
+
+    %igx-thumb-dot--disabled {
+        pointer-events: none;
+
+        &::before {
+            background: --var($theme, 'disabled-thumb-color');
+            border-radius: rem($slider-thumb-radius);
+        }
+
+        &::after {
+            transform: scale(0);
+        }
+    }
+
+    %igx-thumb-dot--active {
+        &::before {
+            border-radius: 0 $slider-thumb-radius $slider-thumb-radius;
+        }
+    }
+
+    %igx-thumb-dot--pressed {
+        &::after {
+            opacity: .24 !important;
+            /* 48 / 40 */
+            transform: scale(1.2) !important;
+        }
+    }
+
+    %igx-thumb-label--active {
+        opacity: 1;
+    }
+
+    %igx-thumb--active {
+        z-index: 1;
+    }
+}
