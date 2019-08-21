@@ -6,7 +6,7 @@
     "sassdoc-theme"
   ],
   "scripts": {
-    "start": "gulp develop"
+    "start": "set SASSDOC_PROJ=styles && set SASSDOC_OUTPUT=output && gulp develop"
   },
   "dependencies": {
     "extend": "^1.0.0",

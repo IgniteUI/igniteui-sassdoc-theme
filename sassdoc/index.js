@@ -155,14 +155,8 @@ const theme = themeleon(__dirname, function (t) {
             localize: (options) => {
                 const value = options.fn(this).trim();
                 const lang = process.env.SASSDOC_LANG;
-                const shellFilePath = process.env.SHELL_FILE_PATH;
-                if (!shellFilePath) { 
-                  return value;
-                }
-
-                const shellContent = JSON.parse(fs.readFileSync(shellFilePath.trim(), 'utf8'));
-                if (lang && shellContent && shellContent[lang.trim()]) {
-                    return shellContent[lang.trim()][value];
+                if (lang && shell[lang.trim()]) {
+                    return shell[lang.trim()][value];
                 }
 
                 return value;

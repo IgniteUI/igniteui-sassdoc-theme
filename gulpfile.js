@@ -1,16 +1,17 @@
 'use strict';
 
-const {src, dest, watch, series, parallel} = require('gulp');
+// require('custom-env').env();
+
+const {src, dest, watch, series} = require('gulp');
 const sass = require('gulp-sass');
 const slash = require('slash');
 const postcss = require('gulp-postcss');
-const uglify = require('gulp-uglify');
 const cache = require('gulp-cached');
-const rename = require('gulp-rename');
 const gutil = require('gulp-util');
 const ts = require('gulp-typescript');
 const browserSync = require('browser-sync');
 const pngcrush = require('pngcrush');
+const process = require('process');
 
 const path = require('path');
 const fs = require('fs-extra');
@@ -22,14 +23,8 @@ const sassdoc = require('sassdoc');
 
 // Set your Sass project (the one you're generating docs for) path.
 // Relative to this Gulpfile.
-const projectPath = path.join(__dirname, 'styles');
-
-// Project path helper.
-const project = () => {
-    var args = Array.prototype.slice.call(arguments);
-    args.unshift(projectPath);
-    return path.resolve.apply(path, args);
-};
+const projectPath = path.join(__dirname, process.env.SASSDOC_PROJ.trim());
+// console.log(process.env);
 
 const tsProject = ts.createProject(slash(path.join(__dirname, 'sassdoc', 'tsconfig.json')));
 
@@ -42,7 +37,7 @@ const dirs = {
     js: slash(path.join(__dirname, 'sassdoc', 'assets', 'js')),
     tpl: slash(path.join(__dirname, 'sassdoc', 'views')),
     src: projectPath,
-    docs: slash(path.join(__dirname, 'test'))
+    docs: slash(path.join(__dirname, process.env.SASSDOC_OUTPUT.trim()))
 };
 
 
@@ -57,7 +52,7 @@ const styles = (cb) => {
     src(slash(path.join(__dirname, 'sassdoc', 'scss', '**/*.scss')))
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(postcss(processors))
-        .pipe(dest('assets/css'))
+        .pipe(dest(slash(path.join(__dirname, 'sassdoc', 'assets', 'css'))));
     
     cb();
 };
@@ -67,7 +62,7 @@ const scripts = (cb) => {
         .pipe(tsProject());
 
 
-    tsResult.js.pipe(dest(slash(__dirname)));
+    tsResult.js.pipe(dest(slash(path.join(__dirname, 'sassdoc', 'assets', 'js'))));
     
     cb();
 };
@@ -77,12 +72,7 @@ const browserSyncFn = (cb) => {
       server: {
           baseDir: dirs.docs
       },
-      files: [
-          path.join(dirs.docs, '*.html'),
-          path.join(dirs.docs, 'assets/css/**/*.css'),
-          path.join(dirs.docs, 'assets/js/**/*.js')
-      ],
-      watch: true
+      port: 3000
     };
 
     browserSync.init(config);
@@ -94,6 +84,7 @@ const browserSyncFn = (cb) => {
 // SassDoc compilation.
 // See: http://sassdoc.com/customising-the-view/
 const compile = async (cb) => {
+  console.log(process.env.SASSDOC_PROJ);
     const config = {
         verbose: true,
         dest: dirs.docs,
@@ -113,34 +104,36 @@ const compile = async (cb) => {
     src(slash(path.join(dirs.src, '**/*.scss')))
         .pipe(sdStream);
 
-    // cb(sdStream.promise);
     // Await for the full documentation process.
     return await sdStream.promise;
 };
 
 const browserReload = (cb) => {
   browserSync.reload();
-
   cb();
 };
 // Dump JS files from theme into `docs/assets` whenever they get modified.
 // Prevent requiring a full `compile`.
-const dumpJS = () => {
+const dumpJS = (cb) => {
     const src = dirs.js;
-    const dest = path.join(dirs.docs, 'assets', 'js');
+    const dest = slash(path.join(dirs.docs, 'assets', 'js'));
 
-    return copy(src, dest).then(function () {
-        gutil.log(src + ' copied to ' + path.relative(__dirname, dest));
+    copy(src, dest).then(function () {
+        gutil.log(src + ' copied to ' + dest);
     });
+
+    cb();
 };
 
-const dumpCSSFn = () => {
+const dumpCSSFn = (cb) => {
     const src = dirs.css;
-    const dest = path.join(dirs.docs, 'assets/css');
+    const dest = slash(path.join(dirs.docs, 'assets/css'));
 
-    return copy(src, dest).then(function () {
-        gutil.log(src + ' copied to ' + path.relative(__dirname, dest));
+    copy(src, dest).then(function () {
+        gutil.log(src + ' copied to ' + slash(path.relative(__dirname, dest)));
     });
+
+    cb();
 };
 
 // Dump CSS files from theme into `docs/assets` whenever they get modified.
@@ -151,11 +144,11 @@ const dumpCSS = series(
 );
 
 
-const develop = (cb) => {
-  watch(slash(path.join(__dirname,'sassdoc','scss', '**/*.scss')), dumpCSS);
-  watch(slash(path.join(__dirname,'sassdoc','assets', 'js', '**/*.js')), {}, dumpJS);
-  watch(slash(path.join(__dirname,'sassdoc','views', '**/*.{handlebars,hbs}')), compile);
-  watch(slash(path.join(__dirname,'sassdoc','typescript', '**/*.ts')), scripts);
+const watchFiles = (cb) => {
+  watch(slash(path.join(__dirname,'sassdoc','scss', '**/*.scss')), series(dumpCSS, browserReload));
+  watch(slash(path.join(__dirname,'sassdoc','assets', 'js', '**/*.js')), {}, series(dumpJS, browserReload));
+  watch(slash(path.join(__dirname,'sassdoc','views', '**/*.{handlebars,hbs}')), series(compile, browserReload));
+  watch(slash(path.join(__dirname,'sassdoc','typescript', '**/*.ts')), series(scripts, browserReload));
 
   cb();
 };
@@ -166,15 +159,9 @@ module.exports.develop = series(
   compile,
   styles,
   scripts,
+  watchFiles,
   browserSyncFn,
-  develop
 );
-// gulp.task('develop', ['compile', 'styles', 'scripts', 'browser-sync'], function () {
-//     gulp.watch('sassdoc/scss/**/*.scss', ['styles', 'dumpCSS']);
-//     gulp.watch('sassdoc/assets/js/**/*.js', ['dumpJS']);
-//     gulp.watch('sassdoc/views/**/*.{handlebars,hbs}', ['compile']);
-//     gulp.watch('sassdoc/typescript/**/*.ts', ['scripts']);
-// });
 
 
 const svgmin = () => {
@@ -204,12 +191,6 @@ const imagemin = () => {
 
 // Pre release/deploy optimisation tasks.
 module.exports.dist = series(
-  // jsmin,
   svgmin,
   imagemin
 );
-// gulp.task('dist', [
-//     'jsmin',
-//     'svgmin',
-//     'imagemin',
-// ]);
