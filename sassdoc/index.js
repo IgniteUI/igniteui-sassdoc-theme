@@ -25,7 +25,7 @@ const sassPlug = require('sassdoc-plugin-localization');
 const process = require('process');
 const fs = require('fs');
 const path = require('path');
-const shell = require('../../../template/strings/shell-strings.json');
+// const shell = require('../../../template/strings/shell-strings.json');
 
 themeleon.use({
     /**
@@ -80,7 +80,6 @@ const theme = themeleon(__dirname, function (t) {
             parameters: 'partials/parameters',
             properties: 'partials/properties',
             returns: 'partials/return',
-            example: 'partials/example',
             infraHead: 'partials/infragistics/header',
             infraFoot: 'partials/infragistics/footer',
             infraHeadJA: 'partials/infragistics/infranav.ja',
@@ -156,8 +155,14 @@ const theme = themeleon(__dirname, function (t) {
             localize: (options) => {
                 const value = options.fn(this).trim();
                 const lang = process.env.SASSDOC_LANG;
-                if (lang && shell[lang.trim()]) {
-                    return shell[lang.trim()][value];
+                const shellFilePath = process.env.SHELL_FILE_PATH;
+                if (!shellFilePath) { 
+                  return value;
+                }
+
+                const shellContent = JSON.parse(fs.readFileSync(shellFilePath.trim(), 'utf8'));
+                if (lang && shellContent && shellContent[lang.trim()]) {
+                    return shellContent[lang.trim()][value];
                 }
 
                 return value;
