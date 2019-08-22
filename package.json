@@ -10,7 +10,7 @@
     "build": "gulp sassdocBuild"
   },
   "dependencies": {
-    "extend": "^1.0.0",
+    "extend": "^2.0.2",
     "handlebars": "^4.0.11",
     "sassdoc-extras": "^2.0.0",
     "themeleon": "^3.0.0"
