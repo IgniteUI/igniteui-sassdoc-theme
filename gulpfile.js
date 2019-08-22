@@ -3,15 +3,19 @@
 // require('custom-env').env();
 
 const {src, dest, watch, series} = require('gulp');
+const { spawnSync } = require('child_process');
 const sass = require('gulp-sass');
+const shell = require('gulp-shell');
 const slash = require('slash');
 const postcss = require('gulp-postcss');
 const cache = require('gulp-cached');
 const gutil = require('gulp-util');
+const concat = require('gulp-concat');
 const ts = require('gulp-typescript');
 const browserSync = require('browser-sync');
 const pngcrush = require('pngcrush');
 const process = require('process');
+const del = require('del');
 
 const path = require('path');
 const fs = require('fs-extra');
@@ -19,12 +23,11 @@ const Promise = require('bluebird');
 const copy = Promise.promisify(fs.copy);
 
 const sassdoc = require('sassdoc');
-
+const { argv } = require('yargs');
 
 // Set your Sass project (the one you're generating docs for) path.
 // Relative to this Gulpfile.
-const projectPath = path.join(__dirname, process.env.SASSDOC_PROJ.trim());
-// console.log(process.env);
+const projectPath = argv.project ? argv.project : slash(path.join(__dirname, 'styles'));
 
 const tsProject = ts.createProject(slash(path.join(__dirname, 'sassdoc', 'tsconfig.json')));
 
@@ -37,7 +40,7 @@ const dirs = {
     js: slash(path.join(__dirname, 'sassdoc', 'assets', 'js')),
     tpl: slash(path.join(__dirname, 'sassdoc', 'views')),
     src: projectPath,
-    docs: slash(path.join(__dirname, process.env.SASSDOC_OUTPUT.trim()))
+    docs: argv.output ? argv.output : slash(path.join(__dirname, 'output'))
 };
 
 
@@ -57,12 +60,12 @@ const styles = (cb) => {
     cb();
 };
 
-const scripts = (cb) => {
+const buildTS = (cb) => {
     var tsResult = src(slash(path.join(__dirname, 'sassdoc', 'typescript', '**/*.ts')))
         .pipe(tsProject());
 
 
-    tsResult.js.pipe(dest(slash(path.join(__dirname, 'sassdoc', 'assets', 'js'))));
+    tsResult.js.pipe(dest(slash(path.join(__dirname, 'sassdoc'))));
     
     cb();
 };
@@ -84,7 +87,6 @@ const browserSyncFn = (cb) => {
 // SassDoc compilation.
 // See: http://sassdoc.com/customising-the-view/
 const compile = async (cb) => {
-  console.log(process.env.SASSDOC_PROJ);
     const config = {
         verbose: true,
         dest: dirs.docs,
@@ -148,7 +150,7 @@ const watchFiles = (cb) => {
   watch(slash(path.join(__dirname,'sassdoc','scss', '**/*.scss')), series(dumpCSS, browserReload));
   watch(slash(path.join(__dirname,'sassdoc','assets', 'js', '**/*.js')), {}, series(dumpJS, browserReload));
   watch(slash(path.join(__dirname,'sassdoc','views', '**/*.{handlebars,hbs}')), series(compile, browserReload));
-  watch(slash(path.join(__dirname,'sassdoc','typescript', '**/*.ts')), series(scripts, browserReload));
+  watch(slash(path.join(__dirname,'sassdoc','typescript', '**/*.ts')), series(buildTS, browserReload));
 
   cb();
 };
@@ -158,7 +160,7 @@ const watchFiles = (cb) => {
 module.exports.develop = series(
   compile,
   styles,
-  scripts,
+  buildTS,
   watchFiles,
   browserSyncFn,
 );
@@ -193,4 +195,33 @@ const imagemin = () => {
 module.exports.dist = series(
   svgmin,
   imagemin
+);
+
+const sassdocClearMainJS = (cb) => {
+  const outputPath = slash(path.join(__dirname, 'sassdoc', 'assets', 'js'));
+  del.sync(slash(path.join(outputPath, 'main.js')));
+  del.sync(slash(path.join(outputPath, 'main.d.ts')));
+
+  cb();
+};
+
+const concatJS = (cb) => {
+  src([
+    slash(path.join(dirs.js, '/**/!(tag-versions.req)*.js')),
+  ])
+  .pipe(concat('main.js'))
+  .pipe(dest(dirs.js));
+
+  cb();
+};
+
+const sassdocBuildTS = (cb) => {
+  spawnSync(`tsc --project ${slash(path.join(__dirname, 'sassdoc', 'tsconfig.json'))}`, {stdio: 'inherit', shell: true});
+  cb();
+};
+
+module.exports.sassdocBuild = series(
+  sassdocClearMainJS,
+  sassdocBuildTS,
+  concatJS,
 );

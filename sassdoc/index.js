@@ -25,7 +25,6 @@ const sassPlug = require('sassdoc-plugin-localization');
 const process = require('process');
 const fs = require('fs');
 const path = require('path');
-// const shell = require('../../../template/strings/shell-strings.json');
 
 themeleon.use({
     /**
@@ -54,7 +53,8 @@ const theme = themeleon(__dirname, function (t) {
      * If only json conversion is needed the whole process of documentation rendering has to be stopped.
      */
     if (t.ctx.convert) {
-        return t.convert(t.ctx._data, path.join('extras', 'sassdoc'));
+        const exportPath = t.ctx.export_json ? t.ctx.export_json : path.join('extras', 'sassdoc');
+        return t.convert(t.ctx._data, exportPath);
     }
     /**
      * Copy the assets folder from the theme's directory in the
@@ -155,6 +155,7 @@ const theme = themeleon(__dirname, function (t) {
             localize: (options) => {
                 const value = options.fn(this).trim();
                 const lang = process.env.SASSDOC_LANG;
+                const shell = t.ctx.shellStringsPath ? require(t.ctx.shellStringsPath) : '';
                 if (lang && shell[lang.trim()]) {
                     return shell[lang.trim()][value];
                 }
@@ -305,7 +306,7 @@ function getConfigData(envs, templateLang) {
         return;
     }
 
-    const pathConfig = path.join('extras', 'docs', 'themes', 'config.json');
+    const pathConfig = path.join(__dirname, 'config.json');
     const data = JSON.parse(fs.readFileSync(pathConfig, 'utf8'));
     return data[lang.trim()][env.trim()];
 }
