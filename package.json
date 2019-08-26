@@ -1,9 +1,14 @@
 {
   "name": "igniteui-sassdoc-theme",
   "description": "Default SassDoc theme used in Ignite UI for Angular.",
+  "author": "Infragistics",
+  "license": "MIT",
   "version": "0.1.0",
   "keywords": [
-    "sassdoc-theme"
+    "sassdoc",
+    "theme",
+    "styles api",
+    "custom"
   ],
   "scripts": {
     "run:dev": "set SASSDOC_PROJ=styles && set SASSDOC_OUTPUT=output && gulp develop",
