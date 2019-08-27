@@ -4,6 +4,10 @@
   "author": "Infragistics",
   "license": "MIT",
   "version": "0.1.0",
+  "files": [
+    "sassdoc/",
+    "gulpfile.js"
+  ],
   "keywords": [
     "sassdoc",
     "theme",
