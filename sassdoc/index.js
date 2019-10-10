@@ -80,8 +80,8 @@ const theme = themeleon(__dirname, function (t) {
             parameters: 'partials/parameters',
             properties: 'partials/properties',
             returns: 'partials/return',
-            infraHead: 'partials/infragistics/header',
-            infraFoot: 'partials/infragistics/footer',
+            infraHead: 'partials/infragistics/infranav',
+            infraFoot: 'partials/infragistics/infrafoot',
             infraHeadJA: 'partials/infragistics/infranav.ja',
             infraFootJA: 'partials/infragistics/infrafoot.ja'
         },
