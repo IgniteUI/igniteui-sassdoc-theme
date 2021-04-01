@@ -27,7 +27,7 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
-    "autoprefixer": "^9.7.4",
+    "autoprefixer": "^9.8.6",
     "bluebird": "^3.7.2",
     "browser-sync": "^2.26.7",
     "del": "^5.1.0",
@@ -45,11 +45,11 @@
     "gulp-util": "^3.0.8",
     "imagemin-pngcrush": "^5.1.0",
     "lunr": "^2.3.8",
-    "pngcrush": "^2.0.1",
+    "pngcrush": "^2.1.1",
     "sassdoc": "^2.7.1",
     "sassdoc-plugin-localization": "^1.4.1",
     "slash": "^3.0.0",
-    "typescript": "^3.7.5",
-    "yargs": "^14.2.2"
+    "typescript": "^3.9.9",
+    "yargs": "^14.2.3"
   }
 }
