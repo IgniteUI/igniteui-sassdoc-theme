@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, zkolev/use-ga ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, zkolev/use-ga ]
 
 jobs:
   build:
