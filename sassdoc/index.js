@@ -93,9 +93,14 @@ const theme = themeleon(__dirname, function (t) {
             json: function (context) {
                 return JSON.stringify(context);
             },
-            github: function (file, line) {
-                const url = 'https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular/src/lib/core/styles/';
-                return `${url}${file}#L${line}`;
+            github: function (file, line, package) {
+                let source = {
+                    default: 'https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular/src/lib/core/styles/',
+                    theming: 'https://github.com/IgniteUI/igniteui-theming/tree/master/sass/',
+
+                }
+
+                return `${source[package]}${file}#L${line}`;
             },
             typeClass: function (context) {
                 switch (context) {
@@ -294,6 +299,35 @@ module.exports = function (dest, ctx) {
      */
     return theme.apply(this, arguments);
 };
+
+/**
+ * A package annotation to determine the base URL for code definitions.
+ */
+function packageAnnotation () {
+    return {
+        name: 'package',
+        parse: function(text) {
+            return {
+                name: text.trim()
+            };
+        },
+        resolve: function(data) {
+            data.forEach((item) => {
+                if (item.package.name === 'auto') {
+                    item.package.name = 'default';
+                }
+            });
+        },
+        default: function() {
+            return {
+                name: 'auto'
+            }
+        },
+        multiple: false
+    }
+}
+
+module.exports.annotations = [packageAnnotation];
 
 function getConfigData(envs, templateLang) {
     let {
