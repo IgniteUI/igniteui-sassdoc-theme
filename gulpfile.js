@@ -10,7 +10,7 @@ const shell = require('gulp-shell');
 const slash = require('slash');
 const postcss = require('gulp-postcss');
 const cache = require('gulp-cached');
-const gutil = require('gulp-util');
+const log = require('fancy-log');
 const concat = require('gulp-concat');
 const ts = require('gulp-typescript');
 const browserSync = require('browser-sync');
@@ -117,7 +117,7 @@ const dumpJS = (cb) => {
     const dest = slash(path.join(dirs.docs, 'assets', 'js'));
 
     copy(src, dest).then(function () {
-        gutil.log(src + ' copied to ' + dest);
+        log(src + ' copied to ' + dest);
     });
 
     cb();
@@ -128,7 +128,7 @@ const dumpCSSFn = (cb) => {
     const dest = slash(path.join(dirs.docs, 'assets/css'));
 
     copy(src, dest).then(function () {
-        gutil.log(src + ' copied to ' + slash(path.relative(__dirname, dest)));
+        log(src + ' copied to ' + slash(path.relative(__dirname, dest)));
     });
 
     cb();
