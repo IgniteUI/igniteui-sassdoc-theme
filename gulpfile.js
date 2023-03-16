@@ -2,9 +2,10 @@
 
 // require('custom-env').env();
 
+const autoprefixer = require('autoprefixer');
 const {src, dest, watch, series} = require('gulp');
 const { spawnSync } = require('child_process');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const shell = require('gulp-shell');
 const slash = require('slash');
 const postcss = require('gulp-postcss');
@@ -45,16 +46,14 @@ const dirs = {
 
 
 const styles = (cb) => {
-    var browsers = ['last 2 version', '> 1%', 'ie 9'];
-    var processors = [
-        require('autoprefixer')({
-            browsers: browsers
-        })
-    ];
+    const prefixer = postcss([autoprefixer({
+        cascade: false,
+        grid: true
+    })]);
 
     src(slash(path.join(__dirname, 'sassdoc', 'scss', '**/*.scss')))
         .pipe(sass.sync().on('error', sass.logError))
-        .pipe(postcss(processors))
+        .pipe(prefixer)
         .pipe(dest(slash(path.join(__dirname, 'sassdoc', 'assets', 'css'))));
     
     cb();

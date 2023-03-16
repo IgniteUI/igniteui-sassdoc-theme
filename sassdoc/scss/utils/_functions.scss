@@ -5,6 +5,8 @@
 /// @param {Number} $percentage - percentage of `$color` in returned color
 /// @return {Color}
 ///
+@use "sass:math";
+
 @function tint($color, $percentage) {
   @return mix($color, white, $percentage);
 }
@@ -30,7 +32,7 @@
   @if (unitless($context)) {
       $context: $context * 1px;
   }
-  @return ($pixels / $context) * 1em;
+  @return math.div($pixels, $context) * 1em;
 }
 
 /// Pixels to root relative values (rem).
@@ -44,5 +46,5 @@
   @if (unitless($context)) {
       $context: $context * 1px;
   }
-  @return ($pixels / $context) * 1rem;
+  @return math.div($pixels, $context) * 1rem;
 }

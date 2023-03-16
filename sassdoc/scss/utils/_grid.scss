@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $num-columns: 12;
 $browser-context: 16px;
 $xs-min: 320px;
@@ -10,7 +12,7 @@ $lg-res: rem($lg-min, $browser-context);
 $sizes: (sm: $sm-res, md: $md-res, lg: $lg-res);
 $gutter-width: rem(24px, $browser-context);
 $outer-margin: rem(15px, $browser-context);
-$half-gutter-width: $gutter-width / 2;
+$half-gutter-width: $gutter-width * 0.5;
 
 @mixin column($name, $num) {
     .col-#{$name}-#{$num} {
@@ -18,14 +20,14 @@ $half-gutter-width: $gutter-width / 2;
         flex: 0 0 auto;
         padding-right: $gutter-width * .5;
         padding-left: $gutter-width * .5;
-        flex-basis: 100% / $num-columns * $num;
-        max-width: 100% / $num-columns * $num;
+        flex-basis: math.div(100%, $num-columns) * $num;
+        max-width: math.div(100%, $num-columns) * $num;
     }
 }
 
 @mixin offset($name, $num) {
     .col-#{$name}-offset-#{$num} {
-        margin-left: 100% / $num-columns * $num;
+        margin-left: math.div(100%, $num-columns) * $num;
     }
 }
 
