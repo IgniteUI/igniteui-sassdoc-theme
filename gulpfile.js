@@ -46,10 +46,7 @@ const dirs = {
 
 
 const styles = (cb) => {
-    const prefixer = postcss([autoprefixer({
-        cascade: false,
-        grid: true
-    })]);
+    const prefixer = postcss([autoprefixer({ cascade: false })]);
 
     src(slash(path.join(__dirname, 'sassdoc', 'scss', '**/*.scss')))
         .pipe(sass.sync().on('error', sass.logError))
