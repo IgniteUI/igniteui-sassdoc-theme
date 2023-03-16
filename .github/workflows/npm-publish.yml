@@ -15,14 +15,28 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
+
       - run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - run: echo ${VERSION}
-      - run: npm ci
-      - run: npm run build
-      - run: if [[ ${VERSION} == *"alpha"* || ${VERSION} == *"beta"* || ${VERSION} == *"rc"* ]]; then echo "NPM_TAG=next"; else echo "NPM_TAG=latest"; fi >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Define NPM tag
+        run: if [[ ${VERSION} == *"alpha"* || ${VERSION} == *"beta"* || ${VERSION} == *"rc"* ]]; then echo "NPM_TAG=next"; else echo "NPM_TAG=latest"; fi >> $GITHUB_ENV
       - run: echo ${NPM_TAG}
-      - run: npm version ${VERSION} --no-git-tag-version --save --verbose
-      - run: npm publish --tag ${NPM_TAG}
+
+      - name: Create package version
+        run: npm version ${VERSION} --no-git-tag-version --save --allow-same-version --verbose
+        working-directory: ./
+
+      - name: Publish igniteui-sassdoc-theme
+        run: npm publish --tag ${NPM_TAG}
+        working-directory: ./
         env: 
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
