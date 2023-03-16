@@ -1,0 +1,5 @@
+Firefox ESR
+not last 2 versions
+not > 0.5%
+not ie <= 11
+not dead

@@ -2,14 +2,15 @@
 
 // require('custom-env').env();
 
+const autoprefixer = require('autoprefixer');
 const {src, dest, watch, series} = require('gulp');
 const { spawnSync } = require('child_process');
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const shell = require('gulp-shell');
 const slash = require('slash');
 const postcss = require('gulp-postcss');
 const cache = require('gulp-cached');
-const gutil = require('gulp-util');
+const log = require('fancy-log');
 const concat = require('gulp-concat');
 const ts = require('gulp-typescript');
 const browserSync = require('browser-sync');
@@ -45,16 +46,11 @@ const dirs = {
 
 
 const styles = (cb) => {
-    var browsers = ['last 2 version', '> 1%', 'ie 9'];
-    var processors = [
-        require('autoprefixer')({
-            browsers: browsers
-        })
-    ];
+    const prefixer = postcss([autoprefixer({ cascade: false })]);
 
     src(slash(path.join(__dirname, 'sassdoc', 'scss', '**/*.scss')))
         .pipe(sass.sync().on('error', sass.logError))
-        .pipe(postcss(processors))
+        .pipe(prefixer)
         .pipe(dest(slash(path.join(__dirname, 'sassdoc', 'assets', 'css'))));
     
     cb();
@@ -121,7 +117,7 @@ const dumpJS = (cb) => {
     const dest = slash(path.join(dirs.docs, 'assets', 'js'));
 
     copy(src, dest).then(function () {
-        gutil.log(src + ' copied to ' + dest);
+        log(src + ' copied to ' + dest);
     });
 
     cb();
@@ -132,7 +128,7 @@ const dumpCSSFn = (cb) => {
     const dest = slash(path.join(dirs.docs, 'assets/css'));
 
     copy(src, dest).then(function () {
-        gutil.log(src + ' copied to ' + slash(path.relative(__dirname, dest)));
+        log(src + ' copied to ' + slash(path.relative(__dirname, dest)));
     });
 
     cb();
