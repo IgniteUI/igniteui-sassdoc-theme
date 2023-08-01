@@ -48,7 +48,7 @@ themeleon.use({
  *
  * The theme function describes the steps to render the theme.
  */
-const theme = themeleon(__dirname, function (t) {
+const theme = themeleon(__dirname, function(t) {
     /**
      * If only json conversion is needed the whole process of documentation rendering has to be stopped.
      */
@@ -86,14 +86,14 @@ const theme = themeleon(__dirname, function (t) {
             infraFootJA: 'partials/infragistics/infrafoot.ja'
         },
         helpers: {
-            debug: function (content) {
+            debug: function(content) {
                 console.log("----VALUE-----");
                 console.log(content);
             },
-            json: function (context) {
+            json: function(context) {
                 return JSON.stringify(context);
             },
-            github: function (file, line, package) {
+            github: function(file, line, package) {
                 let source = {
                     default: 'https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular/src/lib/core/styles/',
                     theming: 'https://github.com/IgniteUI/igniteui-theming/tree/master/sass/',
@@ -102,7 +102,7 @@ const theme = themeleon(__dirname, function (t) {
 
                 return `${source[package]}${file}#L${line}`;
             },
-            typeClass: function (context) {
+            typeClass: function(context) {
                 switch (context) {
                     case "mixin":
                         return "--mixin";
@@ -157,6 +157,17 @@ const theme = themeleon(__dirname, function (t) {
                         return options.inverse(options.data.root);
                 }
             },
+            ifTheme: function(scope, options) {
+                const { name, type } = scope;
+                return name.includes('-theme') && type === 'function' ? options.fn(this) : options.inverse(this);
+            },
+            columnSize: (scope, opt1, opt2) => {
+                return scope.includes('-theme') ? opt1 : opt2;
+            },
+            paramToVar: (name) => {
+                const reserved = ['schema'];
+                return reserved.includes(name) ? 'N/A' : `--${name}`;
+            },
             localize: (options) => {
                 const value = options.fn(this).trim();
                 const lang = process.env.SASSDOC_LANG;
@@ -192,7 +203,7 @@ const theme = themeleon(__dirname, function (t) {
  * a literal object, but that can be overridden by the user's
  * configuration.
  */
-module.exports = function (dest, ctx) {
+module.exports = function(dest, ctx) {
     var def = {
         display: {
             access: ['public', 'private'],
@@ -273,7 +284,7 @@ module.exports = function (dest, ctx) {
      * You can then use `data.byGroupAndType` instead of `data` in your
      * templates to manipulate the indexed object.
      */
-    ctx.idx = lunr(function () {
+    ctx.idx = lunr(function() {
         this.field('type');
         this.field('name');
 
@@ -303,7 +314,7 @@ module.exports = function (dest, ctx) {
 /**
  * A package annotation to determine the base URL for code definitions.
  */
-function packageAnnotation () {
+function packageAnnotation() {
     return {
         name: 'package',
         parse: function(text) {
