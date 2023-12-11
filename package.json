@@ -18,11 +18,12 @@
     "build": "gulp sassdocBuild"
   },
   "dependencies": {
+    "@simeonoff/themeleon": "^3.0.3",
     "extend": ">=2.0.2",
     "handlebars": "^4.7.8",
+    "merge": "^2.1.1",
     "minimist": "^1.2.8",
-    "sassdoc-extras": "^2.5.1",
-    "themeleon": "^3.0.2"
+    "sassdoc-extras": "^2.5.1"
   },
   "engines": {
     "node": ">=0.10.0"
