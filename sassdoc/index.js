@@ -4,7 +4,7 @@
  * See <https://github.com/themeleon/themeleon>.
  * See <https://github.com/tj/consolidate.js>.
  */
-const themeleon = require('themeleon')().use('consolidate');
+const themeleon = require('@simeonoff/themeleon')().use('consolidate');
 
 /**
  * Utility function we will use to merge a default configuration
