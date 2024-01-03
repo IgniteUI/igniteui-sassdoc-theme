@@ -1,4 +1,9 @@
 <h3 class="definition-header">
+    {{#if deprecated}}
+        <span>
+            <span class="definition-header__deprecated">deprecated</span>
+        </span>
+    {{/if}}
     <span>
         <span class="definition-header__type{{typeClass context.type}}">{{context.type}}</span>
     </span>

@@ -28,8 +28,14 @@
 
 %type-function {
   border-color: lighten($function-color, 20%);
-  background:lighten($function-color, 48%);
+  background: lighten($function-color, 48%);
   color: $function-color;
+}
+
+%deprecated {
+  border-color: lighten($red, 32%);
+  background: lighten($red, 42%);
+  color: $red;
 }
 
 %list-style {

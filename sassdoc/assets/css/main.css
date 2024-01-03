@@ -1185,7 +1185,7 @@ p {
   text-decoration: none;
 }
 
-.require__list-type--function, .require__list-type--mixin, .require__list-type, .usedby__list-type--function, .usedby__list-type--mixin, .usedby__list-type, .definition-header__type--function, .definition-header__type--mixin, .definition-header__type, .search-form__results-list-item .item--mixin, .search-form__results-list-item .item--function, .search-form__results-list-item .item--variable, .subnav__item-type--function, .subnav__item-type--mixin, .subnav__item-type {
+.require__list-type--function, .require__list-type--mixin, .require__list-type, .usedby__list-type--function, .usedby__list-type--mixin, .usedby__list-type, .definition-header__type--function, .definition-header__type--mixin, .definition-header__deprecated, .definition-header__type, .search-form__results-list-item .item--mixin, .search-form__results-list-item .item--function, .search-form__results-list-item .item--variable, .subnav__item-type--function, .subnav__item-type--mixin, .subnav__item-type {
   margin-right: 4px;
   color: #09f;
   font-size: 0.75rem;
@@ -1206,6 +1206,12 @@ p {
   border-color: #fca164;
   background: #fff6f0;
   color: #f66604;
+}
+
+.definition-header__deprecated {
+  border-color: #fab6bb;
+  background: #fde6e8;
+  color: #f01d2c;
 }
 
 .require__list, .usedby__list, .authors__names-list {
@@ -1594,6 +1600,7 @@ p {
   font-weight: 400;
   color: #333;
   margin: 2rem 0 1rem 0;
+  gap: 0.5rem;
 }
 .definition-header__access {
   padding: 0.125rem 0.3125rem;
@@ -1604,20 +1611,16 @@ p {
   font-size: 0.875rem;
 }
 
-.definition-header__name {
-  margin-right: 0.5rem;
+.definition-header__type {
+  margin: 0;
 }
 
-.definition-header__type {
-  margin-right: 0.5rem;
+.definition-header__deprecated {
+  margin: 0;
 }
 
 .definition-header__type--mixin {
-  margin-right: 0.5rem;
-}
-
-.definition-header__type--function {
-  margin-right: 0.5rem;
+  margin: 0;
 }
 
 .defined-in {
@@ -1640,6 +1643,24 @@ p {
 .defined-in__title {
   font-size: 0.875rem;
   margin-right: 0.25rem;
+}
+
+.deprecation {
+  display: flex;
+  font-size: 0.9375rem;
+  font-weight: 300;
+  color: #333;
+  margin-bottom: 1rem;
+}
+.deprecation code {
+  font-family: inherit;
+  font-style: italic;
+}
+.deprecation p {
+  margin-bottom: 1rem;
+}
+.deprecation__message {
+  font-weight: 500;
 }
 
 .usedby {
@@ -1780,7 +1801,7 @@ p {
 }
 
 .description {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-size: 0.9375rem;
   font-weight: 500;
   font-style: italic;
