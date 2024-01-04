@@ -217,6 +217,7 @@ const sassdocBuildTS = (cb) => {
 };
 
 module.exports.sassdocBuild = series(
+  styles,
   sassdocClearMainJS,
   sassdocBuildTS,
   concatJS,

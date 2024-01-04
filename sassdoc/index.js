@@ -66,6 +66,7 @@ const theme = themeleon(__dirname, function(t) {
         partials: {
             authors: 'partials/authors',
             description: 'partials/description',
+            deprecationMessage: 'partials/deprecationMessage',
             example: 'partials/example',
             footer: 'partials/footer',
             header: 'partials/header',
