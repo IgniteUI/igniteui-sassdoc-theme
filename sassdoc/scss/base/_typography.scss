@@ -1,3 +1,5 @@
+@use '../utils/_variables' as *;
+
 body {
     font-family: $text-font-stack;
     font-size: 100%;

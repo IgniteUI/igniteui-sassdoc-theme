@@ -1,3 +1,6 @@
+@use "sass:math";
+@use 'variables' as *;
+@use 'grid' as *;
 
 /// Slightly lighten a color
 /// @access public
@@ -5,7 +8,6 @@
 /// @param {Number} $percentage - percentage of `$color` in returned color
 /// @return {Color}
 ///
-@use "sass:math";
 
 @function tint($color, $percentage) {
   @return mix($color, white, $percentage);
@@ -26,10 +28,10 @@
 /// @param {number|string} $pixels - The pixel value to be converted.
 /// @param {number|string} $context [$browser-context] - The base context to convert against.
 @function em($pixels, $context: $browser-context) {
-  @if (unitless($pixels)) {
+  @if (math.is-unitless($pixels)) {
       $pixels: $pixels * 1px;
   }
-  @if (unitless($context)) {
+  @if (math.is-unitless($context)) {
       $context: $context * 1px;
   }
   @return math.div($pixels, $context) * 1em;
@@ -40,10 +42,10 @@
 /// @param {number|string} $pixels - The pixel value to be converted.
 /// @param {number|string} $context [$browser-context] - The base context to convert against.
 @function rem($pixels, $context: $browser-context) {
-  @if (unitless($pixels)) {
+  @if (math.is-unitless($pixels)) {
       $pixels: $pixels * 1px;
   }
-  @if (unitless($context)) {
+  @if (math.is-unitless($context)) {
       $context: $context * 1px;
   }
   @return math.div($pixels, $context) * 1rem;

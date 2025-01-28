@@ -1,3 +1,9 @@
+@use 'sass:map';
+@use '../utils/bem' as *;
+@use '../utils/functions' as *;
+@use '../utils/variables' as *;
+@use 'extends/helpers' as *;
+
 @include b(authors) {
   margin: rem($top-gutter) 0 rem($bottom-gutter) 0;
 
@@ -13,6 +19,7 @@
 
   @include e(names-list) {
     @extend %list-style;
+
     margin-bottom: 0;
     p {
       margin-bottom: 0;

@@ -1,3 +1,8 @@
+@use '../utils/bem' as *;
+@use '../utils/functions' as *;
+@use '../utils/variables' as *;
+@use 'extends/helpers' as *;
+
 @include b(subnav) {
   list-style: none;
   padding: 0 rem(8);

@@ -1,3 +1,8 @@
+@use '../utils/bem' as *;
+@use '../utils/functions' as *;
+@use '../utils/variables' as *;
+@use 'extends/helpers' as *;
+
 @include b(description) {
     margin-bottom: rem(16px);
     font-size: rem(15px);

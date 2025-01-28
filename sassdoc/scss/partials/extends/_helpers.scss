@@ -1,3 +1,7 @@
+@use 'sass:color';
+@use '../../utils/variables' as *;
+@use '../../utils/functions' as *;
+
 %section-title {
   color: $black;
   font-weight: 400;
@@ -16,25 +20,25 @@
   line-height: rem(24, 16);
   font-weight: 600;
   padding: 0 rem(2, 16);
-  border: 1px solid lighten($var-color, 32%);
-  background: lighten($var-color, 46%);
+  border: 1px solid color.adjust($var-color, $lightness: 32%);
+  background: color.adjust($var-color, $lightness: 46%);
 }
 
 %type-mixin {
-  border-color: lighten($mixin-color, 60%);
-  background: lighten($mixin-color, 70%);
+  border-color: color.adjust($mixin-color, $lightness: 60%);
+  background: color.adjust($mixin-color, $lightness: 70%);
   color: $mixin-color;
 }
 
 %type-function {
-  border-color: lighten($function-color, 20%);
-  background: lighten($function-color, 48%);
+  border-color: color.adjust($function-color, $lightness: 20%);
+  background: color.adjust($function-color, $lightness: 48%);
   color: $function-color;
 }
 
 %deprecated {
-  border-color: lighten($red, 32%);
-  background: lighten($red, 42%);
+  border-color: color.adjust($red, $lightness: 32%);
+  background: color.adjust($red, $lightness: 42%);
   color: $red;
 }
 

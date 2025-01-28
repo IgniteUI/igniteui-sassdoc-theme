@@ -1,13 +1,19 @@
+@use 'sass:map';
+@use '../utils/bem' as *;
+@use '../utils/functions' as *;
+@use '../utils/variables' as *;
+@use 'extends/helpers' as *;
+
 @include b(search-form) {
     position: fixed;
     z-index: 4;
     background: $nav-bg;
     width: rem($navbar-width);
     min-width: rem($navbar-width);
-    top: rem(map-get($infra-head-height, 'mobile') + $secondary-header-height);
+    top: rem(map.get($infra-head-height, 'mobile') + $secondary-header-height);
 
     @media only screen and (min-width: 960px) {
-        top: rem(map-get($infra-head-height, 'desktop') + $secondary-header-height);
+        top: rem(map.get($infra-head-height, 'desktop') + $secondary-header-height);
     }
 
     @include e(input-container) {

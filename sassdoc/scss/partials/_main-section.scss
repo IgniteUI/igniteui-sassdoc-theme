@@ -1,9 +1,14 @@
+@use 'sass:map';
+@use '../utils/bem' as *;
+@use '../utils/functions' as *;
+@use '../utils/variables' as *;
+
 @include b(main-content) {
   display: flex;
-  padding-top: rem(map-get($infra-head-height, 'mobile') + $secondary-header-height);
+  padding-top: rem(map.get($infra-head-height, 'mobile') + $secondary-header-height);
   
   @media only screen and (min-width: 960px) {
-    padding-top: rem(map-get($infra-head-height, 'desktop') + $secondary-header-height);
+    padding-top: rem(map.get($infra-head-height, 'desktop') + $secondary-header-height);
   }
 }
 

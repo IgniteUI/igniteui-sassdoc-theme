@@ -1,24 +1,24 @@
 //
 // Sass utils
 //
-@import "utils/variables";
-@import "utils/functions";
-@import "utils/grid";
-@import "utils/mixins";
-@import "utils/bem";
-@import "utils/helpers";
+@use "utils/variables" as *;
+@use "utils/functions" as *;
+@use "utils/grid" as *;
+@use "utils/mixins" as *;
+@use "utils/bem" as *;
+@use "utils/helpers" as *;
 
 //
 // Vendors
 //
-@import "vendors/vendors";
+@use "vendors";
 
 //
 // Base
 //
-@import "base/base";
+@use "base";
 
 //
 // Partials
 //
-@import "partials/main";
+@use "partials";

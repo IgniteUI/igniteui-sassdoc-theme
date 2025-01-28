@@ -1,3 +1,7 @@
+@use 'sass:color';
+@use '../utils/functions' as *;
+@use '../utils/variables' as *;
+
 pre {
     position: relative;
     opacity: 1;
@@ -37,7 +41,7 @@ pre {
     align-items: center;
     padding: 8px;
     font-size: 12px;
-    color: transparentize(#fff, 0.4);
+    color: color.adjust(#fff, $alpha: -0.4);
     background: $igblue;
     font-weight: bold;
     border: 0;
