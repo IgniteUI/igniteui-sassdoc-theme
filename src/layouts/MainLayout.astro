@@ -1,0 +1,32 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import "../styles/global.scss";
+
+const { title = "Sassdoc Documentation" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Header />
+    <div class="wrapper">
+      <aside class="sidebar">
+        <div class="sidebar__search">searchbox</div>
+        <div class="sidebar__scrollable">
+          <slot name="sidebar" />
+        </div>
+      </aside>
+
+      <main class="content">
+        <slot />
+      </main>
+    </div>
+    <Footer />
+  </body>
+</html>

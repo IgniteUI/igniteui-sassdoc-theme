@@ -1,0 +1,124 @@
+@use 'igniteui-theming' as *;
+@use 'igniteui-theming/sass/color/presets' as *;
+
+@include palette($light-material-palette);
+
+@property --offset {
+  syntax: "<length>";
+  initial-value: 0px;
+  inherits: true;
+}
+
+html {
+  scroll-padding-top: 129px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  timeline-scope: --myScroller;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  --offset: 129px;
+  display: grid;
+  align-items: start;
+  grid-template-areas: "content";
+}
+
+.main-head {
+  position: sticky;
+  top: 0;
+  background-color: wheat;
+  height: 129px;
+  z-index: 1;
+}
+
+.main-footer {
+  grid-area: footer;
+  height: 200px;
+  background-color: wheat;
+  z-index: 1;
+  view-timeline: --myScroller block;
+}
+
+@keyframes appear {
+  to {
+    --offset: calc(100vh + 200px); // height of header and footer
+  }
+}
+
+.content {
+  position: relative;
+  min-height: calc(100vh - 129px);
+  padding: 20px;
+  grid-area: content;
+  z-index: 0;
+}
+
+.sidebar {
+  position: sticky;
+  top: 129px;
+  display: none;
+  height: calc(100vh - var(--offset));
+  grid-area: sidebar;
+  background-color: beige;
+  overflow: hidden;
+
+  nav {
+    height: 2000px;
+  }
+
+  @supports (timeline-scope: --myScroller) {
+    animation: appear;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-timeline: --myScroller;
+  }
+}
+
+.sidebar__search {
+  align-content: center;
+  background-color: white;
+  border: 1px solid wheat;
+  padding: 8px;
+  height: 40px;
+}
+
+.sidebar__scrollable {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (width < 500) {
+  .main-head {
+    height: 100px;
+  }
+
+  .main-footer {
+    height: 400px;
+  }
+}
+
+@media (width > 856px) {
+  .wrapper {
+    grid-template-columns: 300px 3fr;
+    grid-template-areas: "sidebar content";
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+}
+
+h1 {
+  color: red;
+}

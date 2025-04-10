@@ -1,0 +1,27 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Search from "astro-pagefind/components/Search";
+import { getCollection } from "astro:content";
+
+const sassdoc = await getCollection("sassdoc");
+---
+
+<MainLayout>
+  <Sidebar slot="sidebar" />
+  <h1>main page</h1>
+  <Search
+    id="search"
+    className="pagefind-ui"
+    uiOptions={{ showImages: false, showSubResults: true }}
+  />
+  <ul data-pagefind-ignore>
+    {
+      sassdoc.map(({ data: { group } }) => (
+        <li>
+          <a href={`/${group}`}>{group}</a>
+        </li>
+      ))
+    }
+  </ul>
+</MainLayout>

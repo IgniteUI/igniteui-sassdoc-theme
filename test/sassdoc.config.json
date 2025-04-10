@@ -1,0 +1,9 @@
+{
+  "theme": "../dist",
+  "dest": "../site",
+  "autofill": ["throw", "content"],
+  "display": {
+    "alias": true,
+    "access": ["public", "private"]
+  }
+}

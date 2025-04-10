@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import CodeSample from "../components/CodeSample.astro";
+
+export async function getStaticPaths() {
+  const sassdoc = await getCollection("sassdoc");
+
+  return sassdoc.map(({ data: { group, items: entries } }) => {
+    const items = Object.values(entries).flatMap((data) => data);
+
+    return {
+      params: { group },
+      props: { items },
+    };
+  });
+}
+
+const { group } = Astro.params;
+const { items } = Astro.props;
+---
+
+<MainLayout>
+  <h1>{group}</h1>
+  {
+    items.map((item) => (
+      <section>
+        <h3 id={item.context.name}>
+          <a aria-hidden="true" href={`#${item.context.name}`}>
+            #
+          </a>
+          {item.context.name} ({item.context.type})
+        </h3>
+
+        <CodeSample example={item.example} />
+
+        <p>{item.description}</p>
+      </section>
+    ))
+  }
+</MainLayout>

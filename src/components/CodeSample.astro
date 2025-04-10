@@ -1,0 +1,22 @@
+---
+import { Code } from "astro-expressive-code/components";
+const { example: data } = Astro.props;
+
+type ItemExample = {
+  type: string;
+  code: string;
+  description: string;
+};
+---
+
+<Fragment>
+  {
+    data &&
+      data.map((example: ItemExample) => (
+        <section data-pagefind-ignore>
+          {example.description && <h4>{example.description}</h4>}
+          <Code lang={example.type} code={example.code} />
+        </section>
+      ))
+  }
+</Fragment>
