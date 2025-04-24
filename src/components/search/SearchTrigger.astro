@@ -1,0 +1,56 @@
+---
+import styles from "./SearchTrigger.module.scss";
+
+export interface Props {
+  id?: string;
+  label?: string;
+  showShortcut?: boolean;
+  icon?: string;
+  dialogId?: string;
+}
+
+const {
+  id = "search-trigger",
+  label = "Search documentation",
+  showShortcut = true,
+  icon = "search",
+  dialogId = "search-dialog",
+} = Astro.props;
+---
+
+<button
+  id={id}
+  class={styles.trigger}
+  aria-label={label}
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  type="button"
+>
+  <i class={`material-symbols-sharp ${styles.icon}`}>{icon}</i>
+  <span class={styles.label}>{label}</span>
+  {
+    showShortcut && (
+      <div class={styles.shortcut}>
+        <kbd>CTRL</kbd>
+        <kbd>K</kbd>
+      </div>
+    )
+  }
+</button>
+
+<script is:inline define:vars={{ id, dialogId }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const triggerEl = document.getElementById(id);
+
+    if (triggerEl) {
+      triggerEl.addEventListener("click", () => {
+        if (
+          window.searchDialogEvents &&
+          typeof window.searchDialogEvents.openDialog === "function"
+        ) {
+          window.searchDialogEvents.openDialog(dialogId);
+        }
+      });
+    }
+  });
+</script>

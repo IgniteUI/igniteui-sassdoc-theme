@@ -1,0 +1,70 @@
+---
+import type { TypeGroup, ObjectType } from "../../content/sassdoc-schema";
+import styles from "./Navigation.module.scss";
+
+export interface Props {
+  data: TypeGroup;
+}
+
+const { data } = Astro.props;
+
+const typeMap = {
+  variable: {
+    name: "variables",
+    icon: "variables",
+  },
+  function: {
+    name: "functions",
+    icon: "function",
+  },
+  mixin: {
+    name: "mixins",
+    icon: "code_blocks",
+  },
+  placeholder: {
+    name: "placeholder",
+    icon: "percent",
+  },
+  css: {
+    name: "CSS",
+    icon: "css",
+  },
+};
+
+const displayType = (type: ObjectType) => {
+  return typeMap[type].name;
+};
+
+const displayIcon = (type: ObjectType) => {
+  return typeMap[type].icon;
+};
+---
+
+<div class={styles.container}>
+  {
+    data.map(([type, items]) => (
+      <details open>
+        <summary>
+          <div style="display: flex; align-items: center; gap: var(--spacing-2)">
+            <i inert data-object-type={type} class="material-symbols-sharp">
+              {displayIcon(type)}
+            </i>
+            <span>{displayType(type)}</span>
+          </div>
+          <i inert class:list={["material-symbols-sharp", styles.toggleIcon]}>
+            chevron_right
+          </i>
+        </summary>
+        <ul>
+          {items.map(({ context: { name } }) => (
+            <li>
+              <a tabindex="0" href={`#${name}`}>
+                {name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    ))
+  }
+</div>

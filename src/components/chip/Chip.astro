@@ -1,0 +1,13 @@
+---
+import styles from "./Chip.module.scss";
+
+export interface Props {
+  type?: string;
+}
+
+const { type } = Astro.props;
+---
+
+<div data-object-type={type ?? "default"} class={styles.container}>
+  <slot />
+</div>

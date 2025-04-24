@@ -1,0 +1,78 @@
+---
+import { type Item } from "../../content/sassdoc-schema";
+import Show from "../Show.astro";
+import ReferenceList from "../reference-list/ReferenceList.astro";
+import styles from "./Metadata.module.scss";
+
+export interface Props {
+  item: Item;
+  group: string;
+}
+
+const { item, group } = Astro.props;
+
+const hasMetadata =
+  item.require ||
+  item.usedBy ||
+  item.see ||
+  item.alias ||
+  item.aliasedGroup ||
+  item.link;
+---
+
+<Show condition={hasMetadata}>
+  <section class={styles.container}>
+    <div class={styles.grid}>
+      <Show condition={item.require}>
+        <ReferenceList
+          title="Requires"
+          items={item.require?.map(({ type, name, group }) => ({
+            type,
+            name,
+            group: group || ""
+          })) || []}
+        />
+      </Show>
+
+      <Show condition={item.usedBy}>
+        <ReferenceList
+          title="Used By"
+          items={item.usedBy?.map(({ context: { name, type }, group }) => ({ type, name, group })) || []}
+        />
+      </Show>
+
+      <Show condition={item.see}>
+        <ReferenceList
+          title="See"
+          items={item.see?.map((ref) => ({
+            type: ref.context.type,
+            name: ref.context.name,
+            group: ref.group[0]
+          })) || []}
+        />
+      </Show>
+
+      <Show condition={item.alias}>
+        <ReferenceList
+          title="Alias of"
+          items={[{
+            type: item.context.type,
+            name: item.alias!,
+            group
+          }]}
+        />
+      </Show>
+
+      <Show condition={item.aliasedGroup}>
+        <ReferenceList
+          title="Aliases"
+          items={item.aliasedGroup?.map(({ group, name }) => ({
+            type: item.context.type,
+            name,
+            group: group[0]
+          })) || []}
+        />
+      </Show>
+    </div>
+  </section>
+</Show>

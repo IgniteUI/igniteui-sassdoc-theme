@@ -23,6 +23,14 @@ export default defineConfig({
           dest: "./src",
         },
         {
+          src: "src/scripts",
+          dest: "./src",
+        },
+        {
+          src: "src/i18n",
+          dest: "./src",
+        },
+        {
           src: "src/content",
           dest: "./src",
         },

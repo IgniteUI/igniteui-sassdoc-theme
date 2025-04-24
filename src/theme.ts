@@ -1,8 +1,12 @@
 import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
-import extras from "sassdoc-extras";
-import { groupName } from "./utils";
+import {
+  byGroupAndType,
+  groupName,
+  display,
+  resolveGroupsForRequiredItems,
+} from "./utils";
 import type {
   AnnotationCallback,
   Context,
@@ -138,13 +142,16 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
     }
 
     // Apply display configuration
-    extras.display(ctx);
+    display(ctx);
 
     // Apply group names mapping
     groupName(ctx);
 
+    // Add group metadata for required items
+    resolveGroupsForRequiredItems(ctx);
+
     // Transform data by group and type
-    ctx.groupedData = extras.byGroupAndType(ctx.data);
+    ctx.groupedData = byGroupAndType(ctx.data);
 
     // Execute afterProcess plugin hooks
     await this.executePluginHooks("afterProcess", ctx);
@@ -175,6 +182,7 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
       fs.writeJsonSync(srcDataPath, ctx.groupedData);
 
       await this.executePluginHooks("beforeBuild", ctx);
+      process.env.PUBLIC_LANG = ctx.lang ?? 'en';
 
       await build({
         logLevel: "error",

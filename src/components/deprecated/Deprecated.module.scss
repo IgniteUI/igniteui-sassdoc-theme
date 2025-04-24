@@ -1,0 +1,31 @@
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8px);
+    padding: rem(8px);
+    background-color: var(--ig-warn-50);
+    border-inline-start: 2px solid var(--ig-warn-500);
+    color: var(--ig-warn-50-contrast);
+
+    h4 {
+        @include type-style(h5);
+
+        display: inline-flex;
+        align-items: center;
+        gap: rem(8px);
+        color: var(--ig-warn-500);
+    }
+
+    h4,
+    p {
+        margin-block: 0;
+    }
+
+    p {
+        @include type-style(h6) {
+            font-weight: 400;
+        }
+    }
+}

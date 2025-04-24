@@ -1,0 +1,38 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: rem(8px);
+    }
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        color: var(--ig-gray-700);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--ig-gray-900);
+        }
+    }
+
+    .icon {
+        font-family: "Material Symbols Sharp";
+        font-size: rem(18px);
+        margin-right: rem(8px);
+        color: var(--ig-gray-900);
+        opacity: 0.8;
+    }
+
+    .caption {
+        font-size: rem(14px);
+    }
+}
+

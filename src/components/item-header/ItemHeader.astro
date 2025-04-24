@@ -1,0 +1,67 @@
+---
+import { z, getCollection } from "astro:content";
+import { ItemSchema } from "../../content/sassdoc-schema";
+import styles from "./ItemHeader.module.scss";
+import Show from "../Show.astro";
+
+type Item = z.infer<typeof ItemSchema>;
+
+export interface Props {
+  item?: Item;
+}
+
+const { item } = Astro.props;
+const {
+  access,
+  context: { name, type, line },
+  description,
+  deprecated,
+  package: project,
+  file: { path },
+} = item!;
+
+const sources = await getCollection("sources");
+const source = sources.find((item) => item.data.id === project?.name)?.data.url;
+const codeLocURL = source && `${source}${path}#L${line.start}`;
+---
+
+<section class={styles.container}>
+  <a data-pagefind-ignore class={styles.anchor} href={`#${name}`}>#</a>
+  <header>
+    <h2 id={name}>
+      <span class={styles.definitionHeader}>
+        <span
+          data-pagefind-ignore
+          data-object-type={type}
+          class={styles.type}>{type}</span
+        >
+        <span
+          class:list={[
+            styles.name,
+            {
+              [styles.deprecated]: deprecated,
+            },
+          ]}>{name}</span
+        >
+        <span data-pagefind-ignore class={styles.access}>{access}</span>
+      </span>
+      <Show condition={codeLocURL}>
+        <a
+          tabindex="0"
+          href={codeLocURL}
+          target="_blank"
+          class={styles.codeLink}
+        >
+          <span data-pagefind-ignore>view code</span>
+          <i
+            data-pagefind-ignore
+            inert
+            class="material-symbols-sharp"
+            data-object-type={type}>open_in_new</i
+          >
+        </a>
+      </Show>
+    </h2>
+    <p class={styles.description}>{description}</p>
+  </header>
+</section>

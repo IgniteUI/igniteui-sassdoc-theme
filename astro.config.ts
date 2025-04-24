@@ -11,7 +11,15 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode({
-      themes: ["rose-pine-moon"],
+      themes: ["github-light"],
+      styleOverrides: {
+        borderRadius: "0",
+        borderWidth: "1px",
+        borderColor: "var(--ig-gray-300)",
+        frames: {
+          shadowColor: "none",
+        },
+      },
       shiki: {
         bundledLangs: ["scss", "html"],
         engine: "oniguruma",

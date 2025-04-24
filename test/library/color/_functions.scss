@@ -30,6 +30,7 @@ $_enhanced-accessibility: false;
 }
 
 /// Generates a color palette.
+/// @deprecated Use the palette function instead.
 /// @access public
 /// @group Palettes
 /// @param {Color} $primary - The primary color used to generate the primary color palette (required).
@@ -43,7 +44,7 @@ $_enhanced-accessibility: false;
 /// @param {String} $variant [null] - Used internally (optional).
 /// @requires {function} shades
 /// @returns {Map} - A map consisting of color shades for the passed base colors (primary, secondary, gray, etc).
-/// @example scss
+/// @example scss - Minimal implementation required to build a cutom palette
 ///   // $primary, $secondary, $surface are required parameters.
 ///   $my-palette: palette($primary: #09f,$secondary #222, $surface: #fff);
 @function palette(

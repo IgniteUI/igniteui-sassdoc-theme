@@ -1,0 +1,29 @@
+---
+import Show from "../Show.astro";
+import type { Item } from "../../content/sassdoc-schema";
+import styles from "./VersionHistory.module.scss";
+import Chip from "../chip/Chip.astro";
+
+export interface Props {
+  item: Item;
+}
+
+const { item } = Astro.props;
+---
+
+<Show condition={item.since}>
+  <section class={styles.container}>
+    <ul>
+      <h5 class={styles.title}>Version History</h5>
+      {
+        item.since?.map(({ version, description }) => (
+          <li>
+            <i class="material-symbols-sharp">commit</i>
+            <h5>{version}</h5>
+            <p>{description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Show>

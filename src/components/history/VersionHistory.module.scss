@@ -1,0 +1,37 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    display: grid;
+
+    ul {
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        row-gap: var(--spacing-4);
+        align-items: start;
+        list-style: none;
+        padding-inline: 0;
+        margin: 0;
+    }
+
+    .title {
+        grid-column: 1 / -1;
+    }
+
+    li {
+        display: grid;
+        align-items: center;
+        grid-template-columns: subgrid;
+        grid-column: 1 / -1;
+
+        i {
+            font-size: var(--ig-h4-font-size);
+            color: var(--ig-primary-400);
+        }
+
+        p {
+            grid-column: 2 / -1;
+            font-size: var(--ig-h6-font-size);
+        }
+    }
+}

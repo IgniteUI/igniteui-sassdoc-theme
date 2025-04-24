@@ -1,22 +1,39 @@
 import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
-import { SassdocGroupSchema } from "./sassdoc-schema";
+import { SassDocSchema, SourceSchema } from "./sassdoc-schema";
 
-const sassdocCollection = defineCollection({
+const sassdoc = defineCollection({
   loader: file("src/data/sassdoc-data.json", {
     parser: (content) => {
-      const data = JSON.parse(content);
+      const data = Object.entries(JSON.parse(content));
 
-      return Object.entries(data).map(([group, items]) => ({
+      return data.map(([group, items]) => ({
         id: group,
         group,
         items,
       }));
     },
   }),
-  schema: SassdocGroupSchema,
+  schema: SassDocSchema,
+});
+
+const sources = defineCollection({
+  loader: async () => {
+    return [
+      {
+        id: "default",
+        url: "https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular/src/lib/core/styles/",
+      },
+      {
+        id: "theming",
+        url: "https://github.com/IgniteUI/igniteui-theming/tree/master/sass/",
+      },
+    ];
+  },
+  schema: SourceSchema,
 });
 
 export const collections = {
-  sassdoc: sassdocCollection,
+  sassdoc,
+  sources,
 };

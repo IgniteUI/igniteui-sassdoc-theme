@@ -1,0 +1,108 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: pre-start / post-end;
+
+    .type {
+        padding: rem(4px) rem(8px);
+        border: rem(2px) solid;
+        font-size: rem(14px);
+        align-self: center;
+    }
+
+    .name {
+        @include ellipsis();
+
+        color: var(--ig-gray-800);
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .deprecated {
+        text-decoration: line-through;
+        text-decoration-color: hsl(from var(--ig-warn-600) h s l / 0.5);
+        text-decoration-thickness: 2px;
+    }
+
+    .description {
+        margin-block-start: 0;
+        padding-block: var(--spacing-2);
+    }
+
+    .access {
+        color: var(--ig-gray-300);
+        align-self: center;
+    }
+
+    header {
+        grid-column: pre-end / post-start;
+    }
+
+    h2 {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .definitionHeader {
+        display: inline-flex;
+        gap: var(--spacing-2);
+        align-items: center;
+        flex: 0 1 auto;
+    }
+
+    a {
+        opacity: 0;
+        text-decoration: none;
+        transition:
+            opacity 0.2s ease-in,
+            color 0.2s ease-in;
+    }
+
+    .anchor {
+        @include type-style(h2);
+
+        display: none;
+        color: var(--ig-gray-400);
+        padding-inline: var(--spacing-4);
+        grid-column: pre-start / pre-end;
+        text-align: end;
+
+        &:hover {
+            color: var(--ig-gray-600);
+            text-decoration: underline;
+        }
+    }
+
+    .codeLink {
+        display: none;
+        align-items: center;
+        color: var(--ig-gray-700);
+        font-size: var(--ig-h5-font-size);
+        text-decoration: none;
+        gap: var(--spacing-2);
+
+        span {
+            text-decoration: underline;
+        }
+    }
+
+    &:focus-within,
+    &:hover {
+        a {
+            opacity: 1;
+        }
+    }
+
+    @media (width >= 768px) {
+        .anchor {
+            display: inline;
+        }
+
+        .codeLink {
+            display: inline-flex;
+        }
+    }
+}

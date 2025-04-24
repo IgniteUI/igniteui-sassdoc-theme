@@ -1,0 +1,35 @@
+---
+import Show from "../Show.astro";
+import styles from "./LinkList.module.scss";
+
+export interface LinkItem {
+  url: string;
+  caption?: string;
+}
+
+export interface Props {
+  title: string;
+  items: LinkItem[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<Show condition={items && items.length > 0}>
+  <section class={styles.container}>
+    <h5>{title}</h5>
+    <ul>
+      {
+        items.map(({ url, caption }) => (
+          <li>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              <span class={styles.icon}>link</span>
+              <span class={styles.caption}>{caption || url}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Show>
+

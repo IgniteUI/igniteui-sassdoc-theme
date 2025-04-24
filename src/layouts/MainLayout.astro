@@ -1,32 +1,79 @@
 ---
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import Show from "../components/Show.astro";
+import { SearchDialog } from "../components/search";
+import { getLangFromEnv } from '../i18n/utils';
 import "../styles/global.scss";
 
-const { title = "Sassdoc Documentation" } = Astro.props;
+export interface Props {
+  title?: string;
+  showSidebar?: boolean;
+  lang?: string;
+}
+
+const {
+  title = "Sassdoc Documentation",
+  showSidebar = false,
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={getLangFromEnv()}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://use.typekit.net" />
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/zhy2hpz.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
     <title>{title}</title>
   </head>
-  <body>
+  <body data-has-sidebar={showSidebar}>
+    <style>
+      .material-symbols-sharp {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+
     <Header />
-    <div class="wrapper">
+
+    <Show condition={showSidebar}>
+      <div class="sidebar__overlay"></div>
       <aside class="sidebar">
-        <div class="sidebar__search">searchbox</div>
         <div class="sidebar__scrollable">
           <slot name="sidebar" />
         </div>
       </aside>
+    </Show>
 
-      <main class="content">
-        <slot />
-      </main>
-    </div>
+    <main class="content">
+      <slot />
+    </main>
+
     <Footer />
+
+    <SearchDialog id="search-dialog" />
+
+    <script>
+      import { initLayoutObserver } from "../scripts/layoutObserver.ts";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initLayoutObserver();
+      });
+    </script>
   </body>
 </html>

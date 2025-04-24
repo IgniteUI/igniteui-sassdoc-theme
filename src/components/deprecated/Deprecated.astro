@@ -1,0 +1,22 @@
+---
+import type { Item } from "../../content/sassdoc-schema";
+import Show from "../Show.astro";
+import styles from "./Deprecated.module.scss";
+
+export interface Props {
+  item?: Item;
+}
+
+const { item } = Astro.props;
+const { deprecated } = item!;
+---
+
+<Show condition={deprecated}>
+  <section class={styles.container}>
+    <h4>
+      <i class="material-symbols-sharp">warning</i>
+      <span>Deprecated</span>
+    </h4>
+    <p>{deprecated}</p>
+  </section>
+</Show>

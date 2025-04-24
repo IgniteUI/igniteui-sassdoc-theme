@@ -1,0 +1,23 @@
+////
+/// @package theming
+/// @group demo
+////
+
+/// Just a demo variable.
+/// @type String
+/// @access private
+/// @deprecated Use $another-demo
+/// @see $another-demo
+/// @since 17.1.1 - don't eat it
+/// @since 17.1.2 - don't drink it
+/// @link http://google.com Google
+/// @link http://duckduckgo.com DuckDuckGo
+/// @author <a href="https://github.com/simeonoff" target="_blank">Simeon Simeonoff</a>
+/// @requires {function} palette
+$demo: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+
+/// Just a demo variable but public.
+/// @access public
+/// @alias demo
+/// @requires {variable} demo
+$another-demo: "this is also a demo var";

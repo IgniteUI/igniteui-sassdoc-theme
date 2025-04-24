@@ -1,0 +1,55 @@
+---
+import { z } from "astro:content";
+import Show from "../Show.astro";
+import styles from "./Parameter.module.scss";
+import { ParameterSchema } from "../../content/sassdoc-schema";
+import Chip from "../chip/Chip.astro";
+
+type Parameters = z.infer<typeof ParameterSchema>;
+
+export interface Props {
+  items?: Parameters[];
+}
+
+const { items } = Astro.props;
+---
+
+<Show condition={items}>
+  <section data-pagefind-ignore class={styles.container}>
+    <h5>Parameters</h5>
+    <div class={styles.tableContainer}>
+      <table>
+        <thead>
+          <tr>
+            <th id="name" scope="col">Name</th>
+            <th id="type" scope="col">Type</th>
+            <th id="value" scope="col" class={styles.type}>Default</th>
+            <th id="desc" scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            items?.map(({ name, type, default: def, description: desc }) => (
+              <tr>
+                <td headers="name" class={styles.name}>
+                  ${name}
+                  {!def && <span class={styles.required}>*</span>}
+                </td>
+                <td headers="type">
+                  <Chip type="default">{type}</Chip>
+                </td>
+                <td headers="value" class={styles.type}>
+                  {def || "-"}
+                </td>
+                <td headers="desc" class="description">
+                  {desc &&
+                    desc.replace(/\s?\((?:required|optional)\)\.?$/, ".")}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Show>
