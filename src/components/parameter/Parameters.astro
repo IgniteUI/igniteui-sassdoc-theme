@@ -4,6 +4,7 @@ import Show from "../Show.astro";
 import styles from "./Parameter.module.scss";
 import { ParameterSchema } from "../../content/sassdoc-schema";
 import Chip from "../chip/Chip.astro";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
 type Parameters = z.infer<typeof ParameterSchema>;
 
@@ -12,19 +13,22 @@ export interface Props {
 }
 
 const { items } = Astro.props;
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
 ---
 
 <Show condition={items}>
   <section data-pagefind-ignore class={styles.container}>
-    <h5>Parameters</h5>
+    <h5>{t("parameters.title")}</h5>
     <div class={styles.tableContainer}>
       <table>
         <thead>
           <tr>
-            <th id="name" scope="col">Name</th>
-            <th id="type" scope="col">Type</th>
-            <th id="value" scope="col" class={styles.type}>Default</th>
-            <th id="desc" scope="col">Description</th>
+            <th id="name" scope="col">{t("parameters.name")}</th>
+            <th id="type" scope="col">{t("parameters.type")}</th>
+            <th id="value" scope="col" class={styles.type}>{t("parameters.default")}</th>
+            <th id="desc" scope="col">{t("parameters.description")}</th>
           </tr>
         </thead>
         <tbody>

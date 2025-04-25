@@ -1,6 +1,7 @@
 ---
 import Show from "../Show.astro";
 import styles from "./LinkList.module.scss";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
 export interface LinkItem {
   url: string;
@@ -8,16 +9,17 @@ export interface LinkItem {
 }
 
 export interface Props {
-  title: string;
   items: LinkItem[];
 }
 
-const { title, items } = Astro.props;
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+const { items } = Astro.props;
 ---
 
 <Show condition={items && items.length > 0}>
   <section class={styles.container}>
-    <h5>{title}</h5>
+    <h5>{t("metadata.links.title")}</h5>
     <ul>
       {
         items.map(({ url, caption }) => (

@@ -3,6 +3,7 @@ import { z, getCollection } from "astro:content";
 import { ItemSchema } from "../../content/sassdoc-schema";
 import styles from "./ItemHeader.module.scss";
 import Show from "../Show.astro";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
 type Item = z.infer<typeof ItemSchema>;
 
@@ -23,6 +24,9 @@ const {
 const sources = await getCollection("sources");
 const source = sources.find((item) => item.data.id === project?.name)?.data.url;
 const codeLocURL = source && `${source}${path}#L${line.start}`;
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
 ---
 
 <section class={styles.container}>
@@ -52,7 +56,7 @@ const codeLocURL = source && `${source}${path}#L${line.start}`;
           target="_blank"
           class={styles.codeLink}
         >
-          <span data-pagefind-ignore>view code</span>
+          <span data-pagefind-ignore>{t("item.viewCode")}</span>
           <i
             data-pagefind-ignore
             inert

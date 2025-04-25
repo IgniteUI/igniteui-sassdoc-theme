@@ -3,6 +3,7 @@ import { type Item } from "../../content/sassdoc-schema";
 import Show from "../Show.astro";
 import ReferenceList from "../reference-list/ReferenceList.astro";
 import styles from "./Metadata.module.scss";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
 export interface Props {
   item: Item;
@@ -18,6 +19,9 @@ const hasMetadata =
   item.alias ||
   item.aliasedGroup ||
   item.link;
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
 ---
 
 <Show condition={hasMetadata}>
@@ -25,7 +29,7 @@ const hasMetadata =
     <div class={styles.grid}>
       <Show condition={item.require}>
         <ReferenceList
-          title="Requires"
+          title={t("metadata.requires")}
           items={item.require?.map(({ type, name, group }) => ({
             type,
             name,
@@ -36,14 +40,14 @@ const hasMetadata =
 
       <Show condition={item.usedBy}>
         <ReferenceList
-          title="Used By"
+          title={t("metadata.usedBy")}
           items={item.usedBy?.map(({ context: { name, type }, group }) => ({ type, name, group })) || []}
         />
       </Show>
 
       <Show condition={item.see}>
         <ReferenceList
-          title="See"
+          title={t("metadata.see")}
           items={item.see?.map((ref) => ({
             type: ref.context.type,
             name: ref.context.name,
@@ -54,7 +58,7 @@ const hasMetadata =
 
       <Show condition={item.alias}>
         <ReferenceList
-          title="Alias of"
+          title={t("metadata.aliasOf")}
           items={[{
             type: item.context.type,
             name: item.alias!,
@@ -65,7 +69,7 @@ const hasMetadata =
 
       <Show condition={item.aliasedGroup}>
         <ReferenceList
-          title="Aliases"
+          title={t("metadata.aliases")}
           items={item.aliasedGroup?.map(({ group, name }) => ({
             type: item.context.type,
             name,

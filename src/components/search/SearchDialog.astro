@@ -1,10 +1,14 @@
 ---
 import Search from "astro-pagefind/components/Search";
 import styles from "./SearchDialog.module.scss";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
 export interface Props {
   id?: string;
 }
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
 
 const { id = "search-dialog" } = Astro.props;
 ---
@@ -12,7 +16,7 @@ const { id = "search-dialog" } = Astro.props;
 <dialog id={id}>
   <div class={styles.wrapper}>
     <header class={styles.header}>
-      <h2 id="search-title" class={styles.title}>Search Documentation</h2>
+      <h2 id="search-title" class={styles.title}>{t("search.dialog.title")}</h2>
 
       <button class={styles.closeButton} aria-label="Close search">
         <i class="material-symbols-sharp">close</i>
@@ -29,7 +33,7 @@ const { id = "search-dialog" } = Astro.props;
     <footer class={styles.footer}>
       <div class={styles.shortcut}>
         <kbd>ESC</kbd>
-        <span>to close</span>
+        <span>{t("search.dialog.esc")}</span>
       </div>
     </footer>
   </div>

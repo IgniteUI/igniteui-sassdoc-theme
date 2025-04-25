@@ -1,5 +1,6 @@
 ---
 import styles from "./SearchTrigger.module.scss";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
 export interface Props {
   id?: string;
@@ -9,25 +10,30 @@ export interface Props {
   dialogId?: string;
 }
 
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+
 const {
   id = "search-trigger",
-  label = "Search documentation",
+  label,
   showShortcut = true,
   icon = "search",
   dialogId = "search-dialog",
 } = Astro.props;
+
+const buttonLabel = label || t("search.trigger.label");
 ---
 
 <button
   id={id}
   class={styles.trigger}
-  aria-label={label}
+  aria-label={buttonLabel}
   aria-haspopup="dialog"
   aria-expanded="false"
   type="button"
 >
   <i class={`material-symbols-sharp ${styles.icon}`}>{icon}</i>
-  <span class={styles.label}>{label}</span>
+  <span class={styles.label}>{buttonLabel}</span>
   {
     showShortcut && (
       <div class={styles.shortcut}>

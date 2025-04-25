@@ -1,8 +1,12 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
+import { getLangFromEnv, useTranslations } from "../i18n/utils";
 
 const sassdoc = await getCollection("sassdoc");
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
 ---
 
 <style>
@@ -155,38 +159,37 @@ const sassdoc = await getCollection("sassdoc");
 <MainLayout showSidebar={false}>
   <div class="home-layout">
     <header class="header">
-      <h1 class="main-title">Ignite UI Sass Documentation</h1>
+      <h1 class="main-title">{t("home.title")}</h1>
       <p class="subtitle">
-        A modern documentation theme for Sass libraries, with comprehensive
-        coverage of components, mixins, functions, and variables.
+        {t("home.subtitle")}
       </p>
     </header>
 
     <div class="features">
       <div class="feature">
         <i class="material-symbols-sharp feature-icon">search</i>
-        <h3 class="feature-title">Full-Text Search</h3>
+        <h3 class="feature-title">{t("home.feature1.title")}</h3>
         <p class="feature-description">
-          Quickly find anything in the documentation with powerful search.
+          {t("home.feature1.description")}
         </p>
       </div>
       <div class="feature">
         <i class="material-symbols-sharp feature-icon">code_blocks</i>
-        <h3 class="feature-title">Code Examples</h3>
+        <h3 class="feature-title">{t("home.feature2.title")}</h3>
         <p class="feature-description">
-          See practical examples of how to use components and functions.
+          {t("home.feature2.description")}
         </p>
       </div>
       <div class="feature">
         <i class="material-symbols-sharp feature-icon">space_dashboard</i>
-        <h3 class="feature-title">Intuitive Navigation</h3>
+        <h3 class="feature-title">{t("home.feature3.title")}</h3>
         <p class="feature-description">
-          Easily navigate between related components and dependencies.
+          {t("home.feature3.description")}
         </p>
       </div>
     </div>
 
-    <h2 class="libraries-title">Browse Modules</h2>
+    <h2 class="libraries-title">{t("home.browse.title")}</h2>
     <ul class="group-navigation">
       {
         sassdoc.map(({ data: { group } }) => (
@@ -200,7 +203,7 @@ const sassdoc = await getCollection("sassdoc");
     <div class="cta">
       <a href={`/${sassdoc[0]?.data.group || ""}`} class="cta-button">
         <i class="material-symbols-sharp">code</i>
-        Browse Documentation
+        {t("home.browse.button")}
       </a>
     </div>
   </div>

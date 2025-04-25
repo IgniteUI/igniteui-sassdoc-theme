@@ -23,7 +23,7 @@
 
     .deprecated {
         text-decoration: line-through;
-        text-decoration-color: hsl(from var(--ig-warn-600) h s l / 0.5);
+        text-decoration-color: hsl(from var(--ig-gray-800) h s l / 0.65);
         text-decoration-thickness: 2px;
     }
 
@@ -77,7 +77,7 @@
     }
 
     .codeLink {
-        display: none;
+        display: inline-flex;
         align-items: center;
         color: var(--ig-gray-700);
         font-size: var(--ig-h5-font-size);
@@ -96,13 +96,9 @@
         }
     }
 
-    @media (width >= 768px) {
+    @media (width >= 960px) {
         .anchor {
             display: inline;
-        }
-
-        .codeLink {
-            display: inline-flex;
         }
     }
 }
