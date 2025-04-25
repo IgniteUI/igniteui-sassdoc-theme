@@ -15,6 +15,7 @@
   "navigation.functions": "functions",
   "navigation.mixins": "mixins",
   "navigation.placeholder": "placeholder",
+  "navigation.css": "CSS",
   "history.title": "Version History",
   "home.title": "Ignite UI Sass Documentation",
   "home.subtitle": "A modern documentation theme for Sass libraries, with comprehensive coverage of components, mixins, functions, and variables.",

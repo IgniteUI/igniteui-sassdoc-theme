@@ -15,6 +15,7 @@
   "navigation.functions": "関数",
   "navigation.mixins": "ミックスイン",
   "navigation.placeholder": "プレースホルダー",
+  "navigation.css": "CSS",
   "history.title": "バージョン履歴",
   "home.title": "Ignite UI Sassドキュメント",
   "home.subtitle": "コンポーネント、ミックスイン、関数、変数を包括的にカバーする、Sassライブラリ向けのモダンなドキュメントテーマ。",

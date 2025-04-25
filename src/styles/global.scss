@@ -34,8 +34,9 @@ html {
 }
 
 body {
-    @include type-style(detail-1, false) {
+    @include type-style(h6, false) {
         margin: 0;
+        font-weight: normal;
     }
 
     --layout-rails: var(--spacing-4);

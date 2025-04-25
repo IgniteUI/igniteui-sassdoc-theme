@@ -1,7 +1,11 @@
 ---
 import type { TypeGroup, ObjectType } from "../../content/sassdoc-schema";
 import styles from "./Navigation.module.scss";
-import { getLangFromEnv, useTranslations } from "../../i18n/utils";
+import {
+  getLangFromEnv,
+  useTranslations,
+  type TranslationKey,
+} from "../../i18n";
 
 export interface Props {
   data: TypeGroup;
@@ -12,7 +16,14 @@ const { data } = Astro.props;
 const lang = getLangFromEnv();
 const t = useTranslations(lang);
 
-const typeMap = {
+type TypeMap = {
+  [key in ObjectType]: {
+    name: TranslationKey;
+    icon: string;
+  };
+};
+
+const typeMap: TypeMap = {
   variable: {
     name: "navigation.variables",
     icon: "variables",
@@ -30,13 +41,13 @@ const typeMap = {
     icon: "percent",
   },
   css: {
-    name: "CSS",
-    icon: "css",
+    name: "navigation.css",
+    icon: "style",
   },
 };
 
 const displayType = (type: ObjectType) => {
-  return type === "css" ? typeMap[type].name : t(typeMap[type].name);
+  return type === "css" ? "CSS" : t(typeMap[type].name);
 };
 
 const displayIcon = (type: ObjectType) => {
