@@ -19,7 +19,7 @@ const { items } = Astro.props;
 
 <Show condition={items && items.length > 0}>
   <section class={styles.container}>
-    <h5>{t("metadata.links.title")}</h5>
+    <h5 class={styles.title}>{t("metadata.links.title")}</h5>
     <ul>
       {
         items.map(({ url, caption }) => (

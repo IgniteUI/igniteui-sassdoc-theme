@@ -35,7 +35,7 @@ const { item, group, type } = Astro.props;
     <Metadata item={item} group={group} />
     <VersionHistory item={item} />
     <Show condition={item.link}>
-      <LinkList title="External Links" items={item.link || []} />
+      <LinkList items={item.link || []} />
     </Show>
   </section>
 </article>

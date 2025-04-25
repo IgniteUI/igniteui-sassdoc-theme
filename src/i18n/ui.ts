@@ -1,6 +1,8 @@
-import en from "./en.json?raw";
-import bg from "./bg.json?raw";
-import ja from "./ja.json?raw";
+import en from "./en.json";
+import bg from "./bg.json";
+import ja from "./ja.json";
+
+export type Lang = keyof typeof ui;
 
 export const languages = {
   en: "English",
@@ -8,12 +10,10 @@ export const languages = {
   ja: "日本語",
 };
 
-export const defaultLang = "en";
+export const defaultLang: Lang = "en" ;
 
 export const ui = {
-  en: JSON.parse(en),
-  bg: JSON.parse(bg),
-  ja: JSON.parse(ja),
+  en,
+  bg,
+  ja,
 } as const;
-
-export type Lang = keyof typeof ui;

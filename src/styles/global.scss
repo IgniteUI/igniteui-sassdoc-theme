@@ -34,7 +34,7 @@ html {
 }
 
 body {
-    @include type-style(detail-1) {
+    @include type-style(detail-1, false) {
         margin: 0;
     }
 

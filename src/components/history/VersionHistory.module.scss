@@ -7,7 +7,6 @@
     ul {
         display: grid;
         grid-template-columns: 24px 1fr;
-        row-gap: var(--spacing-4);
         align-items: start;
         list-style: none;
         padding-inline: 0;
@@ -16,6 +15,7 @@
 
     .title {
         grid-column: 1 / -1;
+        margin-block-end: var(--spacing-1);
     }
 
     li {
@@ -23,6 +23,10 @@
         align-items: center;
         grid-template-columns: subgrid;
         grid-column: 1 / -1;
+
+        + li {
+            margin-block-start: var(--spacing-1);
+        }
 
         i {
             font-size: var(--ig-h4-font-size);

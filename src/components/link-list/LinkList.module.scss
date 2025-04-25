@@ -4,11 +4,16 @@
 .container {
     ul {
         list-style: none;
+        margin: 0;
         padding: 0;
     }
 
-    li {
-        margin-bottom: rem(8px);
+    .title {
+        margin-block-end: var(--spacing-1);
+    }
+
+    li + li {
+        margin-block-start: var(--spacing-1);
     }
 
     a {

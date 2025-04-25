@@ -13,12 +13,7 @@ export interface Props {
 const { item, group } = Astro.props;
 
 const hasMetadata =
-  item.require ||
-  item.usedBy ||
-  item.see ||
-  item.alias ||
-  item.aliasedGroup ||
-  item.link;
+  item.require || item.usedBy || item.see || item.alias || item.aliasedGroup;
 
 const lang = getLangFromEnv();
 const t = useTranslations(lang);
@@ -33,17 +28,21 @@ const t = useTranslations(lang);
           items={item.require?.map(({ type, name, group }) => ({
             type,
             name,
-            group: group || ""
+            group: group || "",
           })) || []}
         />
       </Show>
 
-      <Show condition={item.usedBy}>
-        <ReferenceList
-          title={t("metadata.usedBy")}
-          items={item.usedBy?.map(({ context: { name, type }, group }) => ({ type, name, group })) || []}
-        />
-      </Show>
+      <!-- <Show condition={item.usedBy}> -->
+      <!--   <ReferenceList -->
+      <!--     title={t("metadata.usedBy")} -->
+      <!--     items={item.usedBy?.map(({ context: { name, type }, group }) => ({ -->
+      <!--       type, -->
+      <!--       name, -->
+      <!--       group, -->
+      <!--     })) || []} -->
+      <!--   /> -->
+      <!-- </Show> -->
 
       <Show condition={item.see}>
         <ReferenceList
@@ -51,7 +50,7 @@ const t = useTranslations(lang);
           items={item.see?.map((ref) => ({
             type: ref.context.type,
             name: ref.context.name,
-            group: ref.group[0]
+            group: ref.group[0],
           })) || []}
         />
       </Show>
@@ -59,11 +58,13 @@ const t = useTranslations(lang);
       <Show condition={item.alias}>
         <ReferenceList
           title={t("metadata.aliasOf")}
-          items={[{
-            type: item.context.type,
-            name: item.alias!,
-            group
-          }]}
+          items={[
+            {
+              type: item.context.type,
+              name: item.alias!,
+              group,
+            },
+          ]}
         />
       </Show>
 
@@ -73,7 +74,7 @@ const t = useTranslations(lang);
           items={item.aliasedGroup?.map(({ group, name }) => ({
             type: item.context.type,
             name,
-            group: group[0]
+            group: group[0],
           })) || []}
         />
       </Show>
