@@ -1,8 +1,6 @@
 {
   "$schema": "../schema/sassdoc-schema.json",
   "theme": "../dist",
-  "language": "en",
-  "environment": "development",
   "dest": "../site",
   "autofill": ["throw", "content"],
   "display": {

@@ -191,6 +191,8 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
 
       await this.executePluginHooks("beforeBuild", ctx);
 
+      process.env.PUBLIC_LANG = ctx.language;
+
       await build({
         logLevel: "error",
         mode: ctx.environment,

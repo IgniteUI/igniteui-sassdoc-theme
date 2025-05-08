@@ -24,7 +24,6 @@
     "@types/fs-extra": "^11.0.4",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.14.0",
-    "jsdom": "^26.1.0",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "sassdoc": "^2.7.4",
@@ -40,6 +39,7 @@
     "astro-pagefind": "^1.8.3",
     "fs-extra": "^11.3.0",
     "igniteui-theming": "^17.1.0",
+    "jsdom": "^26.1.0",
     "sass-embedded": "^1.86.2",
     "typescript": "^5.8.2"
   }

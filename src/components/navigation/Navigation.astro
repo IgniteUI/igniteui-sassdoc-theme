@@ -73,7 +73,7 @@ const displayIcon = (type: ObjectType) => {
         <ul>
           {items.map(({ context: { name } }) => (
             <li>
-              <a tabindex="0" href={`#${name}`} class="nav-link">
+              <a tabindex="0" href={`#${type}-${name}`} class="nav-link">
                 {name}
               </a>
             </li>
