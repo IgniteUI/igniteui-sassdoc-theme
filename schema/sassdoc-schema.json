@@ -72,7 +72,7 @@
       "description": "Enable strict mode"
     },
     "language": {
-      "enum": ["en", "ja", "bg"],
+      "enum": ["en", "ja"],
       "type": "string",
       "description": "Language of the documentation"
     },
