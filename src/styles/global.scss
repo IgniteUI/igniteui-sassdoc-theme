@@ -70,6 +70,10 @@ p {
     margin-block: 0;
 }
 
+a {
+    color: var(--ig-primary-500);
+}
+
 @each $e in ("h1", "h2", "h3", "h4", "h5", "h6") {
     #{$e} {
         @include type-style($e) {
@@ -85,17 +89,7 @@ p {
     }
 }
 
-.main-head {
-    position: sticky;
-    grid-column: document-start / document-end;
-    grid-row: 1 / 2;
-    top: 0;
-    padding: 80px;
-    z-index: 2;
-}
-
 .main-footer {
-    padding: rem(200px);
     grid-column: document-start / document-end;
     z-index: 1;
 }
@@ -203,7 +197,7 @@ astro-breadcrumbs {
     display: grid;
     grid-template-columns: subgrid;
     grid-column: pre-start / post-end;
-    gap: var(--content-gap) 0;
+    gap: calc(var(--content-gap) * 1.5) 0;
 }
 
 .sidebar {
@@ -229,6 +223,31 @@ astro-breadcrumbs {
     height: inherit;
     overflow-y: auto;
     overscroll-behavior: contain;
+}
+
+.ui-footer {
+    &__wrap--newsletter {
+        padding-inline: var(--spacing-4);
+    }
+
+    &__menu-block {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100% !important;
+        gap: var(--spacing-4);
+    }
+
+    &__col-block {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        float: none;
+        width: auto;
+    }
+
+    &__newsletter-block {
+        display: none;
+    }
 }
 
 @media (width >= 960px) {
@@ -258,5 +277,9 @@ astro-breadcrumbs {
 
     .main-footer {
         grid-column: sidebar-end / document-end;
+    }
+
+    .ui-footer__menu-block {
+        grid-template-columns: repeat(4, 1fr);
     }
 }

@@ -55,11 +55,16 @@ $timing-function: 0.15s ease-in-out;
         font-size: var(--ig-h6-font-size);
         text-decoration: none;
         color: var(--ig-gray-600);
-        transition: color $timing-function;
         padding: var(--spacing-1) var(--spacing-3);
+        transition: color $timing-function;
 
-        &:hover {
+        &:hover,
+        &[aria-current="location"] {
             color: var(--ig-gray-900);
+        }
+
+        &[aria-current="location"] {
+            transition: none;
         }
     }
 }

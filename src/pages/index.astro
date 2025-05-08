@@ -2,6 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
 import { getLangFromEnv, useTranslations } from "../i18n/utils";
+import Show from "../components/Show.astro";
 
 const sassdoc = await getCollection("sassdoc");
 

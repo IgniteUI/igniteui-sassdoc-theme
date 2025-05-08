@@ -1,0 +1,11 @@
+---
+import raw from "../../data/navigation.json";
+import { NavigationSchema } from "../../content/sassdoc-schema";
+
+const { footer, copyright } = NavigationSchema.parse(raw);
+---
+
+<div class="main-footer">
+  <Fragment set:html={footer} />
+  <Fragment set:html={copyright} />
+</div>

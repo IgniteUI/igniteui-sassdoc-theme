@@ -51,6 +51,10 @@ export default defineConfig({
           dest: "./src",
         },
         {
+          src: "src/utils",
+          dest: "./src",
+        },
+        {
           src: "src/package.json",
           dest: "./",
         },
@@ -69,6 +73,7 @@ export default defineConfig({
       external: [
         "astro",
         "fs-extra",
+        "jsdom",
         "path",
         "child_process",
         "url",

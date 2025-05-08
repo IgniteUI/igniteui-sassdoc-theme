@@ -1,9 +1,9 @@
 ---
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
+import Footer from "../components/footer/Footer.astro";
+import Header from "../components/header/Header.astro";
 import Show from "../components/Show.astro";
 import { SearchDialog } from "../components/search";
-import { getLangFromEnv } from '../i18n/utils';
+import { getLangFromEnv } from "../i18n/utils";
 import "../styles/global.scss";
 
 export interface Props {
@@ -12,10 +12,7 @@ export interface Props {
   lang?: string;
 }
 
-const {
-  title = "Sassdoc Documentation",
-  showSidebar = false,
-} = Astro.props;
+const { title = "Sassdoc Documentation", showSidebar = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -37,6 +34,8 @@ const {
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <title>{title}</title>
+    <link rel="stylesheet" href="https://www.infragistics.com/css/navigation.css" />
+    <link rel="stylesheet" href="https://www.infragistics.com/css/footer.css" />
   </head>
   <body data-has-sidebar={showSidebar}>
     <style>
@@ -70,9 +69,11 @@ const {
 
     <script>
       import { initLayoutObserver } from "../scripts/layoutObserver.ts";
+      import { initIntersectionObserver } from "../scripts/intesectionObserver.ts";
 
       document.addEventListener("DOMContentLoaded", () => {
         initLayoutObserver();
+        initIntersectionObserver();
       });
     </script>
   </body>

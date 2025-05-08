@@ -6,6 +6,8 @@ import {
   groupName,
   display,
   resolveGroupsForRequiredItems,
+  fetchNavigation,
+  fetchVersions,
 } from "./utils";
 import type {
   AnnotationCallback,
@@ -132,6 +134,9 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
       ...structuredClone(ctx.groups),
     };
 
+    ctx.language ??= "en";
+    ctx.environment ??= "production";
+
     await this.loadConfigPlugins(ctx);
 
     const terminate = await this.executePluginHooks("beforeProcess", ctx);
@@ -181,11 +186,14 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
       fs.ensureDir(path.dirname(srcDataPath));
       fs.writeJsonSync(srcDataPath, ctx.groupedData);
 
+      await fetchNavigation(ctx);
+      await fetchVersions(ctx);
+
       await this.executePluginHooks("beforeBuild", ctx);
-      process.env.PUBLIC_LANG = ctx.lang ?? 'en';
 
       await build({
         logLevel: "error",
+        mode: ctx.environment,
         root: projectRoot,
       });
 

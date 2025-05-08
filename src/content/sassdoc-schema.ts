@@ -133,7 +133,88 @@ export const SassDocSchema = z.object({
   items: ByGroupSchema,
 });
 
+export const ConfigSchema = z.object({
+  id: z.string(),
+  url: z.string(),
+  gaID: z.string(),
+  versions: z.string(),
+  sassdoc_default_url: z.string(),
+});
+
+export const VersionItemSchema = z.object({
+  version: z.string(),
+  url: z.string(),
+});
+
+export const VersionSchema = z.object({
+  versions: z.array(VersionItemSchema),
+});
+
+export const Modes = z.enum(["development", "staging", "production"]);
+
+export const PluginConfigSchema = z.object({
+  name: z.string(),
+  path: z.string(),
+  options: z.record(z.string(), z.any()).optional(),
+});
+
+export const ContextSchema = z.object({
+  data: z.array(ItemSchema),
+  display: z.object({
+    access: z.array(z.string()).optional(),
+    alias: z.boolean().optional(),
+    watermark: z.boolean().optional(),
+  }),
+  language: z.string().optional(),
+  environment: Modes.optional(),
+  groups: z.record(z.string()).optional(),
+  groupedData: ByGroupSchema.optional(),
+  plugins: z.array(PluginConfigSchema).optional(),
+});
+
+export const PluginSchema = z.object({
+  name: z.string(),
+  beforeProccess: z
+    .function()
+    .args(ContextSchema)
+    .returns(
+      z.union([
+        z.void(),
+        z.boolean(),
+        z.promise(z.void()),
+        z.promise(z.boolean()),
+      ]),
+    )
+    .optional(),
+  aftersProccess: z
+    .function()
+    .args(ContextSchema)
+    .returns(z.union([z.void(), z.promise(z.void())]))
+    .optional(),
+  beforeBuild: z
+    .function()
+    .args(ContextSchema)
+    .returns(z.union([z.void(), z.promise(z.void())]))
+    .optional(),
+  afterBuild: z
+    .function()
+    .args(ContextSchema)
+    .returns(z.union([z.void(), z.promise(z.void())]))
+    .optional(),
+});
+
+export const NavigationSchema = z.object({
+  header: z.string().nullable(),
+  footer: z.string().nullable(),
+  copyright: z.string().nullable(),
+});
+
 export type Item = z.infer<typeof ItemSchema>;
 export type ObjectType = z.infer<typeof ObjectTypeEnum>;
 export type DocGroup = z.infer<typeof ByGroupSchema>;
 export type TypeGroup = z.infer<typeof ByTypeSchema>;
+export type Config = z.infer<typeof ConfigSchema>;
+export type Version = z.infer<typeof VersionSchema>;
+export type Mode = z.infer<typeof Modes>;
+export type Context = z.infer<typeof ContextSchema>;
+export type Navigation = z.infer<typeof NavigationSchema>;

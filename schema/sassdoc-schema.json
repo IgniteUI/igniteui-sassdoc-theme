@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {},
+  "properties": {
+    "theme": {
+      "type": "string",
+      "description": "Path to the theme directory"
+    },
+    "dest": {
+      "type": "string",
+      "description": "Destination directory for the generated documentation"
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of files or directories to exclude from the documentation"
+    },
+    "package": {
+      "type": ["string", "object"],
+      "description": "The path to the package.json file or an object with information about the project",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human name of the project"
+        },
+        "name": {
+          "type": "string",
+          "description": "Package name of the project"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the project"
+        },
+        "license": {
+          "type": "string",
+          "description": "License of the project"
+        },
+        "homepage": {
+          "type": "string",
+          "description": "URL to the the project's homepage"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the project"
+        }
+      }
+    },
+    "autofill": {
+      "type": "array",
+      "description": "List of annotations to autofill when possible",
+      "items": {
+        "type": "string",
+        "enum": ["throw", "content", "require", "type", "property", "parameter"]
+      }
+    },
+    "groups": {
+      "type": "object",
+      "description": "Group aliases for group slugs"
+    },
+    "no-update-notifier": {
+      "type": "boolean",
+      "description": "Disable update notifier"
+    },
+    "verbose": {
+      "type": "boolean",
+      "description": "Enable verbose output"
+    },
+    "strict": {
+      "type": "boolean",
+      "description": "Enable strict mode"
+    },
+    "language": {
+      "enum": ["en", "ja", "bg"],
+      "type": "string",
+      "description": "Language of the documentation"
+    },
+    "environment": {
+      "enum": ["development", "staging", "production"],
+      "type": "string",
+      "description": "Target environment for deployment"
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the plugin"
+          },
+          "path": {
+            "type": "string",
+            "description": "Path to the plugin"
+          },
+          "options": {
+            "type": "object",
+            "description": "Options for the plugin"
+          }
+        }
+      },
+      "required": ["path"],
+      "description": "List of plugins to be used"
+    }
+  },
+  "required": ["theme", "dest"],
+  "type": "object"
+}

@@ -40,12 +40,10 @@ export function initLayoutObserver(): () => void {
     },
   );
 
-  // Start observing
   resizeObserver.observe(header);
   resizeObserver.observe(footer);
 
   function updateSpacing(): void {
-    // Update CSS variables or direct styles
     document.documentElement.style.setProperty(
       "--header-height",
       `${headerHeight}px`,
@@ -56,20 +54,15 @@ export function initLayoutObserver(): () => void {
     );
   }
 
-  // Cleanup function to remove observers and event listeners
   function cleanup(): void {
-    // Disconnect the observer to prevent memory leaks
     resizeObserver.disconnect();
 
-    // Remove event listeners
     window.removeEventListener("beforeunload", cleanup);
     document.removeEventListener("astro:before-swap", cleanup);
   }
 
-  // Attach event listeners for cleanup
   window.addEventListener("beforeunload", cleanup);
   document.addEventListener("astro:before-swap", cleanup);
 
-  // Return the cleanup function in case you need to call it manually
   return cleanup;
 }
