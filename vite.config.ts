@@ -77,7 +77,6 @@ export default defineConfig({
         "path",
         "child_process",
         "url",
-        "sassdoc-extras",
       ],
     },
   },

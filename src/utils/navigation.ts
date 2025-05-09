@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { JSDOM } from "jsdom";
 import { getConfig } from "./config";
-import type { Context } from "sassdoc";
+import type { Context } from "../content/sassdoc-schema";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname);
@@ -36,9 +36,8 @@ export async function fetchNavigation(ctx: Context): Promise<void> {
       copyright,
     });
   } catch (error) {
-    console.error(
-      "Failed to fetch navigation. You may be running outside of the Infragistics network.",
-    );
+    console.error("Failed to fetch navigation parts.", error);
+
     fs.writeJsonSync(OUT_PATH, {
       header: "",
       footer: "",

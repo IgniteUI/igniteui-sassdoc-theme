@@ -10,11 +10,11 @@ import {
   fetchVersions,
 } from "./utils";
 import type {
-  AnnotationCallback,
   Context,
+  AnnotationCallback,
   Plugin,
-  PluginConfig,
-} from "sassdoc";
+  PluginConfig
+} from "./content/sassdoc-schema";
 import { log } from "../scripts/logger";
 
 export interface SassDoc {

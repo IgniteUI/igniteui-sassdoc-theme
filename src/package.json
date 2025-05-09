@@ -12,9 +12,7 @@
     "fs-extra": "^11.3.0",
     "igniteui-theming": "^17.1.0",
     "jsdom": "^26.1.0",
-    "sass-embedded": "^1.86.3",
-    "sassdoc-extras": "^3.0.0",
-    "typescript": "^5.8.2"
+    "sass-embedded": "^1.86.3"
   },
   "exports": {
     ".": "./index.js",

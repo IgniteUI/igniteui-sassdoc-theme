@@ -9,10 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "sourceMap": false,
-    "paths": {
-      "sassdoc-extras": ["./node_modules/sassdoc-extras/index.js"]
-    }
+    "sourceMap": false
   },
   "extends": "astro/tsconfigs/strict",
   "include": [".astro/types.d.ts", "**/*"],

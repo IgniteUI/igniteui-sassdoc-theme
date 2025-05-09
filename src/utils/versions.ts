@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
 import { getConfig } from "./config";
-import type { Context } from "sassdoc";
+import type { Context } from "../content/sassdoc-schema";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname);
@@ -32,9 +32,8 @@ export async function fetchVersions(ctx: Context): Promise<void> {
       versions,
     });
   } catch (error) {
-    console.error(
-      "Failed to fetch product versions. You may be running outside of the Infragistics network.",
-    );
+    console.error("Failed to fetch previous documentation versions.", error);
+
     fs.writeJsonSync(OUT_PATH, {
       versions: [
         {

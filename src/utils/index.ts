@@ -1,5 +1,10 @@
-import type { Context, Data, GroupedData, Item, GroupedItems } from "sassdoc";
-import extras from "sassdoc-extras";
+import type {
+  Context,
+  Data,
+  Item,
+  GroupedData,
+  GroupedItems,
+} from "../content/sassdoc-schema";
 
 /**
  * Processes group names in the Context.
@@ -11,17 +16,45 @@ import extras from "sassdoc-extras";
 export function groupName(ctx: Context): void {
   if (!ctx.data) return;
 
-  extras.groupName(ctx);
+  ctx.groups = ctx.groups || {};
+  ctx.groupDescriptions = ctx.groupDescriptions || {};
+
+  for (const slug of Object.keys(ctx.groups)) {
+    if (ctx.groups) {
+      ctx.groups[slug.toLowerCase()] = ctx.groups[slug];
+    }
+  }
 
   for (const item of ctx.data) {
-    if (!item.group || item.group.length === 0) return;
+    if (!item.group || item.group.length === 0) continue;
 
-    const groups = item.group
-      .map((slug) => item.groupName[slug])
-      .filter(Boolean);
+    const group: Record<string, string> = {};
+    const processedGroups: string[] = [];
 
-    if (groups.length > 0) {
-      item.group = groups;
+    for (const slug of item.group) {
+      const lowerSlug = slug.toLowerCase();
+
+      if (ctx.groups && lowerSlug in ctx.groups) {
+        group[lowerSlug] = ctx.groups[lowerSlug];
+      } else if (ctx.groups) {
+        group[lowerSlug] = ctx.groups[lowerSlug] = lowerSlug;
+      }
+
+      const displayName = group[lowerSlug];
+
+      if (displayName) {
+        processedGroups.push(displayName);
+      }
+    }
+
+    if (item.groupDescriptions && ctx.groupDescriptions) {
+      Object.assign(ctx.groupDescriptions, item.groupDescriptions);
+    }
+
+    item.groupName = group;
+
+    if (processedGroups.length > 0) {
+      item.group = processedGroups;
     }
   }
 }
