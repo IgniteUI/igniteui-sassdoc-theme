@@ -12,16 +12,16 @@ const paths = {
     dest: path.join(projectRoot, "public", "pagefind"),
   },
   sassdoc: {
-    source: path.join(projectRoot, "dist", "src", "data", "sassdoc-data.json"),
-    dest: path.join(projectRoot, "src", "data", "sassdoc-data.json"),
+    source: path.join(projectRoot, "dist", "data", "sassdoc-data.json"),
+    dest: path.join(projectRoot, "data", "sassdoc-data.json"),
   },
   navigation: {
-    source: path.join(projectRoot, "dist", "src", "data", "navigation.json"),
-    dest: path.join(projectRoot, "src", "data", "navigation.json"),
+    source: path.join(projectRoot, "dist", "data", "navigation.json"),
+    dest: path.join(projectRoot, "data", "navigation.json"),
   },
   versions: {
-    source: path.join(projectRoot, "dist", "src", "data", "versions.json"),
-    dest: path.join(projectRoot, "src", "data", "versions.json"),
+    source: path.join(projectRoot, "dist", "data", "versions.json"),
+    dest: path.join(projectRoot, "data", "versions.json"),
   },
 };
 

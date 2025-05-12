@@ -3,7 +3,7 @@ import { file } from "astro/loaders";
 import { SassDocSchema, SourceSchema } from "./sassdoc-schema";
 
 const sassdoc = defineCollection({
-  loader: file("src/data/sassdoc-data.json", {
+  loader: file("data/sassdoc-data.json", {
     parser: (content) => {
       const data = Object.entries(JSON.parse(content));
 

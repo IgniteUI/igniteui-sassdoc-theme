@@ -7,7 +7,7 @@ import type { Context } from "../content/sassdoc-schema";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname);
-const OUT_PATH = path.join(projectRoot, "src", "data", "navigation.json");
+const OUT_PATH = path.join(projectRoot, "data", "navigation.json");
 
 export async function fetchNavigation(ctx: Context): Promise<void> {
   const { navigationURL } = getConfig(ctx.language, ctx.environment);

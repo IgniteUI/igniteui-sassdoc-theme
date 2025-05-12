@@ -13,7 +13,7 @@ import type {
   Context,
   AnnotationCallback,
   Plugin,
-  PluginConfig
+  PluginConfig,
 } from "./content/sassdoc-schema";
 import { log } from "../scripts/logger";
 
@@ -179,7 +179,6 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
 
       const srcDataPath = path.join(
         projectRoot,
-        "src",
         "data",
         "sassdoc-data.json",
       );

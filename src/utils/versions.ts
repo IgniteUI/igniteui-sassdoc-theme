@@ -6,7 +6,7 @@ import type { Context } from "../content/sassdoc-schema";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname);
-const OUT_PATH = path.join(projectRoot, "src", "data", "versions.json");
+const OUT_PATH = path.join(projectRoot, "data", "versions.json");
 
 export async function fetchVersions(ctx: Context): Promise<void> {
   const { url, versions: dataURL } = getConfig(ctx.language, ctx.environment);

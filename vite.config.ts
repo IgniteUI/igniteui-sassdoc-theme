@@ -1,9 +1,16 @@
-import { fileURLToPath } from "url";
-import path from "path";
-import { defineConfig } from "vite";
+import { dirname, join, resolve } from "path";
+import { defineConfig, normalizePath } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const SRC_EXCLUDE = [
+  "!**/theme.ts",
+  "!**/package.json",
+  "!**/index.ts",
+  "!**/annotations.ts",
+];
 
 export default defineConfig({
   publicDir: false,
@@ -15,44 +22,16 @@ export default defineConfig({
           dest: "./",
         },
         {
-          src: "tsconfig.json",
+          src: "schema/sassdoc-schema.json",
           dest: "./",
-        },
-        {
-          src: "src/components",
-          dest: "./src",
-        },
-        {
-          src: "src/scripts",
-          dest: "./src",
-        },
-        {
-          src: "src/i18n",
-          dest: "./src",
-        },
-        {
-          src: "src/content",
-          dest: "./src",
-        },
-        {
-          src: "src/layouts",
-          dest: "./src",
-        },
-        {
-          src: "src/pages",
-          dest: "./src",
-        },
-        {
-          src: "src/styles",
-          dest: "./src",
-        },
-        {
-          src: "src/utils",
-          dest: "./src",
         },
         {
           src: "src/package.json",
           dest: "./",
+        },
+        {
+          src: [normalizePath(join("src", "*"))].concat(SRC_EXCLUDE),
+          dest: "./src",
         },
       ],
     }),
@@ -60,20 +39,13 @@ export default defineConfig({
   build: {
     sourcemap: false,
     lib: {
-      entry: path.resolve(path.join(__dirname, "src", "index.ts")),
+      entry: resolve(join(__dirname, "src", "index.ts")),
       name: "IgniteUISassdocTheme",
       fileName: () => `index.js`,
       formats: ["cjs"],
     },
     rollupOptions: {
-      external: [
-        "astro",
-        "fs-extra",
-        "jsdom",
-        "path",
-        "child_process",
-        "url",
-      ],
+      external: ["astro", "fs-extra", "jsdom", "path", "child_process", "url"],
     },
   },
 });

@@ -29,8 +29,8 @@ build/Release
 /tmp
 /out-tsc
 /site
-public/
-src/data/
+/public
+/data
 
 # Dependency directories
 /node_modules/
