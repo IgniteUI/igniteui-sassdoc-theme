@@ -43,10 +43,6 @@ export default defineConfig({
           dest: "./src",
         },
         {
-          src: "src/pages",
-          dest: "./src",
-        },
-        {
           src: "src/styles",
           dest: "./src",
         },

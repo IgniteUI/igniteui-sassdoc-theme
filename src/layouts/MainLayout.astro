@@ -4,6 +4,8 @@ import Header from "../components/header/Header.astro";
 import Show from "../components/Show.astro";
 import { SearchDialog } from "../components/search";
 import { getLangFromEnv } from "../i18n/utils";
+import { getConfig } from "../utils";
+import { type Mode } from "../content/sassdoc-schema";
 import "../styles/global.scss";
 
 export interface Props {
@@ -12,32 +14,79 @@ export interface Props {
   lang?: string;
 }
 
+const lang = getLangFromEnv();
+const mode = import.meta.env.MODE as Mode;
+const { gaID, sassdoc_default_url } = getConfig(lang, mode);
 const { title = "Sassdoc Documentation", showSidebar = false } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={getLangFromEnv()}>
   <head>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Canonica URLs -->
+    <link rel="canonical" href={sassdoc_default_url} />
+    <link rel="alternate" href={sassdoc_default_url} hreflang={lang} />
+    <link rel="alternate" href={sassdoc_default_url} hreflang="x-default" />
+    <!-- End: Canonica URLs -->
+
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      href="https://www.infragistics.com/assets/images/favicon.ico"
+    />
+    <!-- End: Favicon -->
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://use.typekit.net" />
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/zhy2hpz.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://use.typekit.net" />
-    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
-    <link rel="stylesheet" href="https://use.typekit.net/zhy2hpz.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
+    <!-- End: Fonts -->
+
     <title>{title}</title>
-    <link rel="stylesheet" href="https://www.infragistics.com/css/navigation.css" />
+
+    <!-- Google Tag Manager -->
+    <script is:inline define:vars={{ gaID }}>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", gaID);
+    </script>
+    <!-- End: Google Tag Manager -->
+
+    <link
+      rel="stylesheet"
+      href="https://www.infragistics.com/css/navigation.css"
+    />
     <link rel="stylesheet" href="https://www.infragistics.com/css/footer.css" />
   </head>
   <body data-has-sidebar={showSidebar}>
+    <!-- Google Tag Manager (noscript) -->
+    <iframe
+      src=`https://www.googletagmanager.com/ns.html?id=${gaID}`
+      height="0"
+      width="0"
+      style="display:none;visibility:hidden"></iframe>
+    <!-- End: Google Tag Manager (noscript) -->
+
+    <!-- Configure Material Icons -->
     <style>
       .material-symbols-sharp {
         font-variation-settings:
@@ -47,6 +96,7 @@ const { title = "Sassdoc Documentation", showSidebar = false } = Astro.props;
           "opsz" 24;
       }
     </style>
+    <!-- End: Configure Material Icons -->
 
     <Header />
 
