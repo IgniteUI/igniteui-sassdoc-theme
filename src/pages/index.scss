@@ -1,0 +1,90 @@
+@use "igniteui-theming/sass/typography" as *;
+
+.home-layout {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: pre-start / post-end;
+    gap: var(--spacing-4);
+    margin-block-start: var(--content-gap);
+}
+
+.header {
+    grid-column: pre-end / post-start;
+    text-align: center;
+}
+
+.header h1 {
+    margin-block-end: var(--spacing-6);
+}
+
+.subtitle {
+    margin: 0 auto;
+    color: var(--ig-gray-700);
+    width: min(100%, rem(600px));
+    line-height: 1.6;
+}
+
+.search-wrapper {
+    margin-block: var(--spacing-8);
+    margin-inline: auto;
+    grid-column: pre-end / post-start;
+    width: min(100%, rem(600px));
+}
+
+.libraries-title {
+    grid-column: pre-end / post-start;
+    text-align: center;
+}
+
+.group-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-column: pre-end / post-start;
+    gap: var(--spacing-2);
+    padding: 0;
+    list-style: none;
+}
+
+.group-navigation li {
+    border: 1px solid var(--ig-gray-200);
+    transition: border 0.2s ease;
+    flex: 0 0 auto;
+}
+
+.group-navigation li:hover {
+    border-color: var(--ig-primary-300);
+}
+
+.group-navigation a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-3) var(--spacing-6);
+    font-weight: 500;
+    text-transform: capitalize;
+    color: var(--ig-gray-900);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.cta {
+    grid-column: pre-end / post-start;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    background-color: var(--ig-primary-500);
+    color: var(--ig-primary-800-contrast);
+    padding: var(--spacing-3) var(--spacing-6);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--ig-primary-700);
+}

@@ -6,6 +6,7 @@ export interface Props {
   id?: string;
   label?: string;
   showShortcut?: boolean;
+  large?: boolean;
   icon?: string;
   dialogId?: string;
 }
@@ -17,6 +18,7 @@ const {
   id = "search-trigger",
   label,
   showShortcut = true,
+  large = false,
   icon = "search",
   dialogId = "search-dialog",
 } = Astro.props;
@@ -31,6 +33,7 @@ const buttonLabel = label || t("search.trigger.label");
   aria-haspopup="dialog"
   aria-expanded="false"
   type="button"
+  data-large={large}
 >
   <i class={`material-symbols-sharp ${styles.icon}`}>{icon}</i>
   <span class={styles.label}>{buttonLabel}</span>

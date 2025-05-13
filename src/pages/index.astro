@@ -2,159 +2,14 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
 import { getLangFromEnv, useTranslations } from "../i18n/utils";
+import { SearchTrigger } from "../components/search";
+import "./index.scss";
 
 const sassdoc = await getCollection("sassdoc");
 
 const lang = getLangFromEnv();
 const t = useTranslations(lang);
 ---
-
-<style>
-  .home-layout {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: pre-start / post-end;
-    gap: var(--spacing-8);
-    margin-block-start: var(--content-gap);
-  }
-
-  .header {
-    grid-column: pre-end / post-start;
-    text-align: center;
-    margin-bottom: var(--spacing-4);
-  }
-
-  .main-title {
-    text-align: center;
-    font-size: clamp(rem(32px), 8vw, rem(64px));
-    margin-bottom: var(--spacing-4);
-  }
-
-  .subtitle {
-    font-size: rem(18px);
-    color: var(--ig-gray-700);
-    line-height: 1.6;
-    max-width: rem(600px);
-    margin: 0 auto;
-  }
-
-  .search-wrapper {
-    grid-column: pre-end / post-start;
-    margin-bottom: var(--spacing-6);
-  }
-
-  .features-title,
-  .libraries-title {
-    grid-column: pre-end / post-start;
-    text-align: center;
-    font-size: rem(24px);
-    margin-bottom: var(--spacing-4);
-  }
-
-  .features {
-    grid-column: pre-end / post-start;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-4);
-    margin-bottom: var(--spacing-8);
-  }
-
-  .feature {
-    background-color: var(--ig-surface-500);
-    border-radius: rem(4px);
-    padding: var(--spacing-4);
-    border: 1px solid var(--ig-gray-200);
-    flex: 1;
-    min-width: rem(250px);
-    max-width: rem(320px);
-  }
-
-  .feature-icon {
-    color: var(--ig-primary-500);
-    font-size: rem(24px);
-    margin-bottom: var(--spacing-2);
-  }
-
-  .feature-title {
-    font-size: rem(18px);
-    margin-bottom: var(--spacing-2);
-  }
-
-  .feature-description {
-    font-size: rem(14px);
-    color: var(--ig-gray-600);
-    line-height: 1.5;
-  }
-
-  .group-navigation {
-    grid-column: pre-end / post-start;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-3);
-    width: 100%;
-    padding: 0;
-    list-style: none;
-    margin-bottom: var(--spacing-4);
-  }
-
-  .group-navigation li {
-    background-color: var(--ig-surface-500);
-    border-radius: rem(4px);
-    border: 1px solid var(--ig-gray-200);
-    transition: all 0.2s ease;
-    flex: 0 0 auto;
-  }
-
-  .group-navigation li:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 rem(4px) rem(8px) rgba(0, 0, 0, 0.06);
-    border-color: var(--ig-primary-300);
-  }
-
-  .group-navigation a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: var(--spacing-3) var(--spacing-6);
-    font-weight: 500;
-    text-transform: capitalize;
-    color: var(--ig-gray-900);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .cta {
-    grid-column: pre-end / post-start;
-    text-align: center;
-  }
-
-  .cta-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-2);
-    background-color: var(--ig-primary-500);
-    color: white;
-    padding: var(--spacing-3) var(--spacing-5);
-    border-radius: rem(4px);
-    font-weight: 500;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-  }
-
-  .cta-button:hover {
-    background-color: var(--ig-primary-600);
-  }
-
-  @media (max-width: 768px) {
-    .stats {
-      flex-direction: column;
-      align-items: center;
-      gap: var(--spacing-4);
-    }
-  }
-</style>
 
 <MainLayout showSidebar={false}>
   <div class="home-layout">
@@ -165,31 +20,12 @@ const t = useTranslations(lang);
       </p>
     </header>
 
-    <div class="features">
-      <div class="feature">
-        <i class="material-symbols-sharp feature-icon">search</i>
-        <h3 class="feature-title">{t("home.feature1.title")}</h3>
-        <p class="feature-description">
-          {t("home.feature1.description")}
-        </p>
-      </div>
-      <div class="feature">
-        <i class="material-symbols-sharp feature-icon">code_blocks</i>
-        <h3 class="feature-title">{t("home.feature2.title")}</h3>
-        <p class="feature-description">
-          {t("home.feature2.description")}
-        </p>
-      </div>
-      <div class="feature">
-        <i class="material-symbols-sharp feature-icon">space_dashboard</i>
-        <h3 class="feature-title">{t("home.feature3.title")}</h3>
-        <p class="feature-description">
-          {t("home.feature3.description")}
-        </p>
-      </div>
+    <div class="search-wrapper">
+      <SearchTrigger showShortcut={false} large />
     </div>
 
-    <h2 class="libraries-title">{t("home.browse.title")}</h2>
+    <h3 class="libraries-title">{t("home.browse.title")}</h3>
+
     <ul class="group-navigation">
       {
         sassdoc.map(({ data: { group } }) => (
