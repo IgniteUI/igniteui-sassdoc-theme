@@ -7,8 +7,8 @@
     }
 
     ul {
-        display: flex;
-        gap: var(--spacing-2);
+        display: grid;
+        gap: var(--spacing-1);
         list-style: none;
         padding: 0;
         margin: 0;
