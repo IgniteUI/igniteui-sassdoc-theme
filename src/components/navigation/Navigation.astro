@@ -71,10 +71,10 @@ const displayIcon = (type: ObjectType) => {
           </i>
         </summary>
         <ul>
-          {items.map(({ context: { name } }) => (
+          {items.map(({ name: displayName, context: { name: contextName } }) => (
             <li>
-              <a tabindex="0" href={`#${type}-${name}`} class="nav-link">
-                {name}
+              <a tabindex="0" href={`#${type}-${displayName ?? contextName}`} class="nav-link">
+                {displayName ?? contextName}
               </a>
             </li>
           ))}

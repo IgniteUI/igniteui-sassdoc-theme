@@ -5,7 +5,7 @@ import {
   byGroupAndType,
   groupName,
   display,
-  resolveGroupsForRequiredItems,
+  enrichCrossReferences,
   fetchNavigation,
   fetchVersions,
 } from "./utils";
@@ -152,8 +152,8 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
     // Apply group names mapping
     groupName(ctx);
 
-    // Add group metadata for required items
-    resolveGroupsForRequiredItems(ctx);
+    // Enrich data with cross-references
+    enrichCrossReferences(ctx);
 
     // Transform data by group and type
     ctx.groupedData = byGroupAndType(ctx.data);

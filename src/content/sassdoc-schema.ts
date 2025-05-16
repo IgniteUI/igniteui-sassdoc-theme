@@ -52,14 +52,6 @@ export const ItemContext = z.object({
   line: LineSchema,
 });
 
-export const SeeSchema = z.array(
-  z.object({
-    description: z.string(),
-    context: ItemContext,
-    group: z.array(z.string()),
-  }),
-);
-
 export const ExampleSchema = z.object({
   type: z.string(),
   code: z.string(),
@@ -89,10 +81,11 @@ export const RequireSchema = z.object({
   external: z.boolean().optional(),
 });
 
-export const UsedBySchema = z.object({
+export const ReferenceSchema = z.object({
   description: z.string(),
   context: ItemContext,
   group: z.string(),
+  name: z.string(),
 });
 
 export const LinkSchema = z.object({
@@ -105,11 +98,12 @@ export const ItemSchema = z
     description: z.string(),
     access: z.string(),
     context: ItemContext,
+    name: z.string().optional(),
     file: FileSchema,
     type: z.string().optional(),
     group: z.array(z.string()),
     deprecated: z.string().optional(),
-    see: SeeSchema.optional(),
+    see: z.array(ReferenceSchema).optional(),
     since: SinceSchema.optional(),
     author: AuthorSchema.optional(),
     groupName: z.record(z.string()),
@@ -122,7 +116,7 @@ export const ItemSchema = z
     package: PackageSchema.optional(),
     return: ReturnSchema.optional(),
     require: z.array(RequireSchema).optional(),
-    usedBy: z.array(UsedBySchema).optional(),
+    usedBy: z.array(ReferenceSchema).optional(),
     throw: z.array(z.string()).optional(),
     link: z.array(LinkSchema).optional(),
   })

@@ -5,6 +5,7 @@
 
 /// Just a demo variable.
 /// @type String
+/// @name private-demo
 /// @access private
 /// @deprecated Use $another-demo
 /// @see $another-demo
@@ -17,6 +18,7 @@
 $demo: cubic-bezier(0.55, 0.085, 0.68, 0.53);
 
 /// Just a demo variable but public.
+/// @name public-demo
 /// @access public
 /// @alias demo
 /// @requires {variable} demo

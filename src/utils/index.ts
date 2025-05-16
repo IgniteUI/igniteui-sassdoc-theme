@@ -60,15 +60,17 @@ export function groupName(ctx: Context): void {
 }
 
 /**
- * Processes a require item to add group information
+ * Processes a require item to add group and name information
  */
 function processRequireItem(items: Map<string, string>, req: any) {
-  const { item: _, ...plainReq } = req;
+  const { item, ...plainReq } = req;
 
   if (!plainReq.external && plainReq.name) {
     const group = items.get(plainReq.name);
+
     if (group) {
       plainReq.group = group;
+      plainReq.name = item.name ?? plainReq.name;
     }
   }
 
@@ -76,29 +78,90 @@ function processRequireItem(items: Map<string, string>, req: any) {
 }
 
 /**
- * Processes a usedBy item to add group information
+ * Processes a referecne item to add group and name information
  */
-function processUsedByItem(items: Map<string, string>, usedByItem: any) {
-  const { description, context } = usedByItem;
-  const plainUsedBy = { description, context, group: "" };
+function processReferenceItem(
+  items: Map<string, string>,
+  item: Pick<Item, "context" | "description" | "name">,
+) {
+  const { context, description, name } = item;
+  const plainItem = { description, context, group: "", name: "" };
 
   if (context?.name) {
     const group = items.get(context.name);
+
     if (group) {
-      plainUsedBy.group = group;
+      plainItem.group = group;
+      plainItem.name = name ?? context.name;
     }
   }
 
-  return plainUsedBy;
+  return plainItem;
 }
 
 /**
- * Adds group information to cross-referenced items (require and usedBy)
- * to enable proper navigation between different groups in the documentation.
+ * Processes a reference to a group with an alias, returning the aliased item if found.
+ * If the aliased item exists in the context data, returns an object with its name and the provided group.
+ * Otherwise, returns the original reference.
  *
- * @param ctx - The Context to process
+ * @param ctx - The context containing data to search for the aliased item.
+ * @param ref - An object containing the name to search for and the group array.
+ * @returns An object with the resolved name and group.
  */
-export function resolveGroupsForRequiredItems(ctx: Context): void {
+function processAliasedGroup(
+  ctx: Context,
+  ref: { name: string; group: string[] },
+) {
+  const aliasedItem = ctx.data.find((item) => item.context.name === ref.name);
+
+  if (aliasedItem) {
+    return {
+      name: aliasedItem.name ?? aliasedItem.context.name,
+      group: ref.group,
+    };
+  }
+
+  return ref;
+}
+
+/**
+ * Resolves an alias to its corresponding item's name within the context data.
+ * If the alias is found, returns the item's name; otherwise, returns the alias itself.
+ *
+ * @param ctx - The context containing the data array.
+ * @param alias - The alias string to resolve.
+ * @returns The resolved name or the original alias if not found.
+ */
+function processAliased(ctx: Context, alias: string) {
+  const aliasedItem = ctx.data.find((item) => item.context.name === alias);
+
+  return aliasedItem?.name ?? alias;
+}
+
+/**
+ * Resolves the name of the item that the given item is an alias of.
+ * If the referenced item is found, returns its name; otherwise, returns the alias value.
+ *
+ * @param ctx - The context containing the data array.
+ * @param item - The item whose alias is to be resolved.
+ * @returns The resolved name or the original alias if not found.
+ */
+function processAliasOf(ctx: Context, item: Item) {
+  const itemAlias = ctx.data.find((_item) => {
+    return _item.context.name === item.alias;
+  });
+
+  return (itemAlias && itemAlias.name) ?? item.alias;
+}
+
+/**
+ * Enriches cross-references between items with group information.
+ * Processes various types of references (require, usedBy, see, aliased) to ensure
+ * they contain appropriate group data for navigation and display.
+ *
+ * @param ctx - The context containing the data to process.
+ */
+export function enrichCrossReferences(ctx: Context): void {
   if (!ctx.data) return;
 
   const itemToGroup = new Map<string, string>();
@@ -111,15 +174,35 @@ export function resolveGroupsForRequiredItems(ctx: Context): void {
 
   for (const item of ctx.data) {
     if (item.require && Array.isArray(item.require)) {
-      item.require = item.require.map((item) =>
-        processRequireItem(itemToGroup, item),
+      item.require = item.require.map((_item) =>
+        processRequireItem(itemToGroup, _item),
       );
     }
 
     if (item.usedBy && Array.isArray(item.usedBy)) {
-      item.usedBy = item.usedBy.map((item) =>
-        processUsedByItem(itemToGroup, item),
+      item.usedBy = item.usedBy.map((_item) =>
+        processReferenceItem(itemToGroup, _item),
       );
+    }
+
+    if (item.see && Array.isArray(item.see)) {
+      item.see = item.see.map((_item) =>
+        processReferenceItem(itemToGroup, _item),
+      );
+    }
+
+    if (item.aliased && Array.isArray(item.aliased)) {
+      item.aliased = item.aliased.map((alias) => processAliased(ctx, alias));
+    }
+
+    if (item.aliasedGroup && Array.isArray(item.aliasedGroup)) {
+      item.aliasedGroup = item.aliasedGroup.map((_item) =>
+        processAliasedGroup(ctx, _item),
+      );
+    }
+
+    if (item.alias) {
+      item.alias = processAliasOf(ctx, item);
     }
   }
 }

@@ -28,7 +28,7 @@ const t = useTranslations(lang);
           items={item.require?.map(({ type, name, group }) => ({
             type,
             name,
-            group: group || "",
+            group: group ?? "",
           })) || []}
         />
       </Show>
@@ -36,7 +36,7 @@ const t = useTranslations(lang);
       <!-- <Show condition={item.usedBy}> -->
       <!--   <ReferenceList -->
       <!--     title={t("metadata.usedBy")} -->
-      <!--     items={item.usedBy?.map(({ context: { name, type }, group }) => ({ -->
+      <!--     items={item.usedBy?.map(({ context: { type }, name, group }) => ({ -->
       <!--       type, -->
       <!--       name, -->
       <!--       group, -->
@@ -49,8 +49,8 @@ const t = useTranslations(lang);
           title={t("metadata.see")}
           items={item.see?.map((ref) => ({
             type: ref.context.type,
-            name: ref.context.name,
-            group: ref.group[0],
+            name: ref.name ?? ref.context.name,
+            group: ref.group ?? "",
           })) || []}
         />
       </Show>

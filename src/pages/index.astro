@@ -3,7 +3,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
 import { getLangFromEnv, useTranslations } from "../i18n/utils";
 import { SearchTrigger } from "../components/search";
-import "./index.scss";
+import "./_index.scss";
 
 const sassdoc = await getCollection("sassdoc");
 
