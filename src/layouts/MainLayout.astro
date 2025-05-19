@@ -25,6 +25,7 @@ const { title = t("home.title"), showSidebar = false } = Astro.props;
 <!doctype html>
 <html lang={getLangFromEnv()}>
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Canonica URLs -->
@@ -81,11 +82,10 @@ const { title = t("home.title"), showSidebar = false } = Astro.props;
   </head>
   <body data-has-sidebar={showSidebar}>
     <!-- Google Tag Manager (noscript) -->
-    <iframe
-      src=`https://www.googletagmanager.com/ns.html?id=${gaID}`
-      height="0"
-      width="0"
-      style="content-visibility:hidden"></iframe>
+    <noscript>
+      <iframe id="gtm-noscript" src=`https://www.googletagmanager.com/ns.html?id=${gaID}`
+      ></iframe>
+    </noscript>
     <!-- End: Google Tag Manager (noscript) -->
 
     <!-- Configure Material Icons -->

@@ -75,6 +75,10 @@ a {
     color: var(--ig-primary-500);
 }
 
+iframe#gtm-noscript {
+    @include hide-default();
+}
+
 @each $e in ("h1", "h2", "h3", "h4", "h5", "h6") {
     #{$e} {
         @include type-style($e) {
