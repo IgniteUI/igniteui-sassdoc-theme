@@ -34,10 +34,10 @@ jobs:
 
       - name: Create package version
         run: npm version ${VERSION} --no-git-tag-version --save --allow-same-version --verbose
-        working-directory: ./
+        working-directory: dist
 
       - name: Publish igniteui-sassdoc-theme
         run: npm publish --tag ${NPM_TAG}
-        working-directory: ./
+        working-directory: dist
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
