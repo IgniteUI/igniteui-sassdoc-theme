@@ -27,6 +27,8 @@
   "home.feature3.description": "関連するコンポーネントや依存関係の間を簡単に移動できます。",
   "home.browse.title": "モジュールを閲覧",
   "home.browse.button": "ドキュメントを閲覧",
+  "header.actions.components": "コンポーネント",
+  "header.actions.get-started": "はじめに",
   "metadata.requires": "必要条件",
   "metadata.usedBy": "使用元",
   "metadata.see": "参照",

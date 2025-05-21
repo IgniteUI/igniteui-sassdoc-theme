@@ -9,10 +9,11 @@ import {
   type Mode,
 } from "../../content/sassdoc-schema";
 import { getConfig } from "../../utils";
-import { getLangFromEnv } from "../../i18n";
+import { getLangFromEnv, useTranslations } from "../../i18n";
 
 const lang = getLangFromEnv();
 const mode = import.meta.env.MODE as Mode;
+const t = useTranslations(lang);
 
 const { url: baseUrl } = getConfig(lang, mode);
 const { header } = NavigationSchema.parse(navData);
@@ -45,7 +46,7 @@ const { versions } = VersionSchema.parse(versionsData);
         data-type="flat"
         target="_blank"
       >
-        Components
+        {t("header.actions.components")}
       </a>
       <a
         tabindex="0"
@@ -54,7 +55,7 @@ const { versions } = VersionSchema.parse(versionsData);
         data-type="contained"
         target="_blank"
       >
-        Get Started
+        {t("header.actions.get-started")}
       </a>
     </section>
   </div>

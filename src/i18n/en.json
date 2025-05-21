@@ -27,6 +27,8 @@
   "home.feature3.description": "Easily navigate between related components and dependencies.",
   "home.browse.title": "Modules",
   "home.browse.button": "Browse Documentation",
+  "header.actions.components": "Components",
+  "header.actions.get-started": "Get Started",
   "metadata.requires": "Requires",
   "metadata.usedBy": "Used By",
   "metadata.see": "See",

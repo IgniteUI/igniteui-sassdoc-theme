@@ -36,12 +36,12 @@ const t = useTranslations(lang);
   <header>
     <h2 id={`${type}-${name}`}>
       <span class={styles.definitionHeader}>
-        <span
-          data-pagefind-ignore
-          data-object-type={type}
-          class={styles.type}>{type}</span
+        <span data-pagefind-ignore data-object-type={type} class={styles.type}
+          >{type}</span
         >
         <span
+          data-pagefind-weight="2"
+          data-pagefind-meta={`type:${type}`}
           class:list={[
             styles.name,
             {
@@ -68,6 +68,8 @@ const t = useTranslations(lang);
         </a>
       </Show>
     </h2>
-    <p class={styles.description}>{description}</p>
+    <p class={styles.description}>
+      {description}
+    </p>
   </header>
 </section>
