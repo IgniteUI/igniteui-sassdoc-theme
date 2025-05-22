@@ -15,15 +15,18 @@
     "custom"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "npm run scss:build && vite build && node ./scripts/post-build.js",
     "compile": "npm run build && sassdoc ./test/library -c ./test/sassdoc.config.json",
-    "dev": "npm run compile && node ./scripts/copy-data.js && astro dev --host",
-    "serve": "npm run compile && serve -p 8080 site"
+    "dev": "npm run scss:watch & npm run compile && node ./scripts/copy-data.js && astro dev --host",
+    "serve": "npm run compile && serve -p 8080 site",
+    "scss:build": "sass src:src --quiet-deps --load-path=node_modules --no-source-map --style=compressed",
+    "scss:watch": "npm run scss:build -- --watch"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.14.0",
+    "igniteui-theming": "^18.0.1",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "sassdoc": "^2.7.4",
@@ -38,7 +41,6 @@
     "astro-expressive-code": "^0.40.2",
     "astro-pagefind": "^1.8.3",
     "fs-extra": "^11.3.0",
-    "igniteui-theming": "^17.1.0",
     "jsdom": "^26.1.0",
     "sass-embedded": "^1.86.2",
     "typescript": "^5.8.2"

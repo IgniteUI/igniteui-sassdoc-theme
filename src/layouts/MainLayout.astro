@@ -2,11 +2,11 @@
 import Footer from "../components/footer/Footer.astro";
 import Header from "../components/header/Header.astro";
 import Show from "../components/control-flow/Show.astro";
-import { SearchDialog } from "../components/search";
+import SearchDialog from "../components/search/SearchDialog.astro";
 import { getLangFromEnv, useTranslations } from "../i18n";
 import { getConfig } from "../utils";
 import { type Mode } from "../content/sassdoc-schema";
-import "../styles/global.scss";
+import "../styles/global.css";
 
 export interface Props {
   title?: string;

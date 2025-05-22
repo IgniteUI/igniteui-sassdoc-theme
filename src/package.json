@@ -10,9 +10,7 @@
     "astro-expressive-code": "^0.40.2",
     "astro-pagefind": "^1.8.3",
     "fs-extra": "^11.3.0",
-    "igniteui-theming": "^17.1.0",
-    "jsdom": "^26.1.0",
-    "sass-embedded": "^1.86.3"
+    "jsdom": "^26.1.0"
   },
   "exports": {
     ".": "./index.js",

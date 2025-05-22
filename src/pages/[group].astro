@@ -5,7 +5,7 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Item from "../components/item/Item.astro";
 import Navigation from "../components/navigation/Navigation.astro";
 import type { TypeGroup } from "../content/sassdoc-schema";
-import { SearchTrigger } from "../components/search";
+import SearchTrigger from "../components/search/SearchTrigger.astro";
 
 export async function getStaticPaths() {
   const sassdoc = await getCollection("sassdoc");

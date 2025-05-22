@@ -2,8 +2,8 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import { getCollection } from "astro:content";
 import { getLangFromEnv, useTranslations } from "../i18n/utils";
-import { SearchTrigger } from "../components/search";
-import "./_index.scss";
+import SearchTrigger from "../components/search/SearchTrigger.astro";
+import "../styles/index.css";
 
 const sassdoc = await getCollection("sassdoc");
 

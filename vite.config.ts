@@ -8,14 +8,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const SRC_EXCLUDE = [
   "!**/theme.ts",
   "!**/package.json",
-  "!**/index.ts",
   "!**/annotations.ts",
+  "!**/*.scss",
 ];
 
 export default defineConfig({
   publicDir: false,
   plugins: [
     viteStaticCopy({
+      structured: true,
       targets: [
         {
           src: "astro.config.ts",
@@ -26,12 +27,20 @@ export default defineConfig({
           dest: "./",
         },
         {
-          src: "src/package.json",
+          src: normalizePath(join("src", "**/*.astro")),
           dest: "./",
         },
         {
-          src: [normalizePath(join("src", "*"))].concat(SRC_EXCLUDE),
-          dest: "./src",
+          src: [normalizePath(join("src", "**/*.ts"))].concat(SRC_EXCLUDE),
+          dest: "./",
+        },
+        {
+          src: normalizePath(join("src", "**/*.css")),
+          dest: "./",
+        },
+        {
+          src: [normalizePath(join("src", "**/*.json"))].concat(SRC_EXCLUDE),
+          dest: "./",
         },
       ],
     }),
