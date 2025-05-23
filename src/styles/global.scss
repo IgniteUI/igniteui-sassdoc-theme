@@ -255,6 +255,10 @@ astro-breadcrumbs {
     }
 }
 
+@view-transition {
+  navigation: auto;
+}
+
 @media (width >= 960px) {
     body {
         --layout-rails: calc(var(--spacing-8) * 2);
