@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import {
   byGroupAndType,
   groupName,
@@ -69,7 +69,8 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
         }
 
         const pluginPath = path.resolve(process.cwd(), pluginConfig.path);
-        const pluginModule = await import(pluginPath);
+        const pluginUrl = process.platform === 'win32' ? pathToFileURL(pluginPath).href : pluginPath;
+        const pluginModule = await import(pluginUrl);
         const pluginFactory = pluginModule.default || pluginModule;
         const plugin =
           typeof pluginFactory === "function"
