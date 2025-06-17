@@ -1,6 +1,6 @@
 # Ignite UI SassDoc Theme
 
-[![Build Status](https://travis-ci.org/IgniteUI/igniteui-sassdoc-theme.svg?branch=master)](https://travis-ci.org/IgniteUI/igniteui-sassdoc-theme)
+[![npm version](https://badge.fury.io/js/igniteui-sassdoc-theme.svg)](https://badge.fury.io/js/igniteui-sassdoc-theme)
 
 A specialized SassDoc theme built specifically for **Infragistics' Ignite UI** component libraries. This theme generates comprehensive, searchable documentation websites for Sass/SCSS APIs with integrated Infragistics branding, global navigation, and enhanced user experience features.
 
