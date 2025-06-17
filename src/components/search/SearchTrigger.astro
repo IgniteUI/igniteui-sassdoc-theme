@@ -1,0 +1,65 @@
+---
+import styles from "./SearchTrigger.module.css";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  id?: string;
+  label?: string;
+  showShortcut?: boolean;
+  large?: boolean;
+  icon?: string;
+  dialogId?: string;
+}
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+
+const {
+  id = "search-trigger",
+  label,
+  showShortcut = true,
+  large = false,
+  icon = "search",
+  dialogId = "search-dialog",
+} = Astro.props;
+
+const buttonLabel = label || t("search.trigger.label");
+---
+
+<button
+  id={id}
+  class={styles.trigger}
+  aria-label={buttonLabel}
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  type="button"
+  data-large={large}
+>
+  <i class={`material-symbols-sharp ${styles.icon}`}>{icon}</i>
+  <span class={styles.label}>{buttonLabel}</span>
+  {
+    showShortcut && (
+      <div class={styles.shortcut}>
+        <kbd>CTRL</kbd>
+        <kbd>K</kbd>
+      </div>
+    )
+  }
+</button>
+
+<script is:inline define:vars={{ id, dialogId }}>
+  document.addEventListener("DOMContentLoaded", () => {
+    const triggerEl = document.getElementById(id);
+
+    if (triggerEl) {
+      triggerEl.addEventListener("click", () => {
+        if (
+          window.searchDialogEvents &&
+          typeof window.searchDialogEvents.openDialog === "function"
+        ) {
+          window.searchDialogEvents.openDialog(dialogId);
+        }
+      });
+    }
+  });
+</script>

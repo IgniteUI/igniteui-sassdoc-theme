@@ -1,0 +1,42 @@
+{
+  "name": "igniteui-sassdoc-theme",
+  "description": "Default SassDoc theme used in Ignite UI for Angular.",
+  "author": "Infragistics",
+  "license": "MIT",
+  "version": "2.0.0",
+  "dependencies": {
+    "astro": "^5.6.0",
+    "astro-breadcrumbs": "^3.3.1",
+    "astro-expressive-code": "^0.40.2",
+    "astro-pagefind": "^1.8.3",
+    "fs-extra": "^11.3.0",
+    "jsdom": "^26.1.0"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "engines": {
+    "node": ">=18.20.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IgniteUI/igniteui-sassdoc-theme.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/IgniteUI/igniteui-sassdoc-theme/issues"
+  },
+  "homepage": "https://github.com/IgniteUI/igniteui-sassdoc-theme#readme",
+  "keywords": [
+    "sassdoc",
+    "theme",
+    "styles api",
+    "custom"
+  ],
+  "sideEffects": false
+}

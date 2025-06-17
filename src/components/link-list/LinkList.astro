@@ -1,0 +1,36 @@
+---
+import Show from "../../components/control-flow/Show.astro";
+import styles from "./LinkList.module.css";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
+
+export interface LinkItem {
+  url: string;
+  caption?: string;
+}
+
+export interface Props {
+  items: LinkItem[];
+}
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+const { items } = Astro.props;
+---
+
+<Show condition={items && items.length > 0}>
+  <section class={styles.container}>
+    <h5 class={styles.title}>{t("metadata.links.title")}</h5>
+    <ul>
+      {
+        items.map(({ url, caption }) => (
+          <li>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              <span class={styles.icon}>link</span>
+              <span class={styles.caption}>{caption || url}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Show>

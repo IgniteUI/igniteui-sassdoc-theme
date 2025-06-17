@@ -1,0 +1,70 @@
+---
+import navData from "../../../data/navigation.json";
+import versionsData from "../../../data/versions.json";
+import styles from "./Header.module.css";
+import Show from "../control-flow/Show.astro";
+import {
+  NavigationSchema,
+  VersionSchema,
+  type Mode,
+} from "../../content/sassdoc-schema";
+import { getConfig } from "../../utils";
+import { getLangFromEnv, useTranslations } from "../../i18n";
+
+const lang = getLangFromEnv();
+const mode = import.meta.env.MODE as Mode;
+const t = useTranslations(lang);
+
+const { url: baseUrl } = getConfig(lang, mode);
+const { header } = NavigationSchema.parse(navData);
+const { versions } = VersionSchema.parse(versionsData);
+---
+
+<div class="main-head" class={styles.container}>
+  <Fragment set:html={header} />
+
+  <div class={styles.secondaryHead}>
+    <section class={styles.secondaryHead__section}>
+      <h5 class={styles.secondaryHead__title}>Ignite UI for Angular</h5>
+
+      <Show condition={versions}>
+        <select class={styles.secondaryHead__select}>
+          {
+            versions.map(({ version, url }) => (
+              <option value={url}>{version}</option>
+            ))
+          }
+        </select>
+      </Show>
+    </section>
+
+    <section class={styles.secondaryHead__section}>
+      <a
+        tabindex="0"
+        href=`${baseUrl}/products/ignite-ui-angular`
+        class={styles.secondaryHead__button}
+        data-type="flat"
+        target="_blank"
+      >
+        {t("header.actions.components")}
+      </a>
+      <a
+        tabindex="0"
+        href=`${baseUrl}/products/ignite-ui-angular/getting-started/`
+        class={styles.secondaryHead__button}
+        data-type="contained"
+        target="_blank"
+      >
+        {t("header.actions.get-started")}
+      </a>
+    </section>
+  </div>
+</div>
+<script>
+  const select = document.querySelector("select");
+
+  select!.addEventListener("change", () => {
+    const url = select!.value;
+    window.location.assign(url);
+  });
+</script>

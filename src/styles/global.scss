@@ -1,0 +1,294 @@
+@use "igniteui-theming" as *;
+@use "igniteui-theming/sass/typography" as *;
+@use "igniteui-theming/sass/typography/presets" as *;
+@use "igniteui-theming/sass/elevations/presets" as *;
+@use "igniteui-theming/sass/color/presets" as *;
+
+$type-face: "'aktiv-grotesk', 'Helvetica Neue Light', 'Helvetica Neue', 'Arial', sans-serif";
+
+@include palette($light-material-palette);
+@include elevations($material-elevations);
+@include typography($type-face, $indigo-type-scale);
+
+:root {
+    --function-color: var(--ig-success-400);
+    --mixin-color: var(--ig-error-300);
+    --variable-color: var(--ig-info-400);
+    --gray: light-dark(black, white);
+    --spacing-1: #{rem(4px)};
+    --spacing-2: #{rem(8px)};
+    --spacing-3: #{rem(12px)};
+    --spacing-4: #{rem(16px)};
+    --spacing-5: #{rem(20px)};
+    --spacing-6: #{rem(24px)};
+    --spacing-7: #{rem(28px)};
+    --spacing-8: #{rem(32px)};
+    --content-gap: calc(var(--spacing-6) * 2);
+    interpolate-size: allow-keywords;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + var(--content-gap));
+    scrollbar-gutter: stable;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    @include type-style(h6, false) {
+        margin: 0;
+        font-weight: normal;
+    }
+
+    --layout-rails: var(--spacing-4);
+
+    display: grid;
+    grid-template-columns:
+        [document-start] 0
+        [sidebar-start] rem(300px) [sidebar-end]
+        0
+        [content-start] minmax(auto, rem(1280px)) [content-end]
+        0
+        [document-end];
+    align-items: start;
+    font-family: var(--ig-font-family);
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+h1 {
+    color: var(--ig-gray-900);
+}
+
+p {
+    color: var(--ig-gray-700);
+    margin-block: 0;
+}
+
+a {
+    color: var(--ig-primary-500);
+}
+
+iframe#gtm-noscript {
+    @include hide-default();
+}
+
+@each $e in ("h1", "h2", "h3", "h4", "h5", "h6") {
+    #{$e} {
+        @include type-style($e) {
+            margin: 0;
+            line-height: 1.5;
+        }
+    }
+}
+
+@each $type in ("mixin", "placeholder", "function", "variable") {
+    [data-object-type="#{$type}"] {
+        color: var(--#{$type}-color);
+    }
+}
+
+.main-footer {
+    grid-column: document-start / document-end;
+    z-index: 1;
+}
+
+.main-head,
+.main-footer {
+    background-color: var(--ig-gray-900);
+}
+
+body[data-has-sidebar="false"] {
+    .content,
+    .main-footer {
+        grid-column: document-start / document-end;
+    }
+}
+
+.content {
+    position: relative;
+    display: grid;
+    grid-template-columns:
+        [pre-start] var(--layout-rails) [pre-end]
+        auto
+        [post-start] var(--layout-rails) [post-end];
+    grid-auto-rows: min-content;
+    grid-column: sidebar-start / content-end;
+    align-items: start;
+    min-height: calc(100dvh - var(--header-height));
+    margin-block-end: calc(var(--content-gap) * 3);
+    z-index: 0;
+}
+
+.main-title,
+.group-title {
+    font-family: "Faculty Glyphic", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    text-transform: capitalize;
+    grid-column: pre-end / post-start;
+    margin-block-end: var(--content-gap);
+}
+
+astro-breadcrumbs,
+.group-navigation,
+.pagefind-ui {
+    grid-column: pre-end / post-start;
+}
+
+astro-breadcrumbs {
+    position: sticky;
+    top: calc(var(--header-height));
+    background-color: var(--ig-surface-500);
+    padding-block: var(--spacing-3);
+    margin-block-end: calc(var(--content-gap) - var(--spacing-3));
+    z-index: 1;
+}
+
+.c-breadcrumbs {
+    ol {
+        display: flex;
+        list-style: none;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        text-transform: capitalize;
+        color: var(--ig-gray-500);
+        font-size: rem(14px);
+
+        &::before {
+            display: inline;
+            font-family: "Material Symbols Sharp";
+            font-size: rem(16px);
+            content: "\e5cc";
+            padding-inline: var(--spacing-1);
+        }
+
+        &:first-child {
+            &::before {
+                content: "";
+                padding-inline: 0;
+            }
+        }
+
+        a {
+            display: contents;
+            color: inherit;
+            transition: color 0.2s ease-in;
+
+            &:hover {
+                color: var(--ig-gray-800);
+            }
+        }
+
+        a.is-index > i {
+            font-size: rem(18px);
+        }
+    }
+}
+
+.items {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: pre-start / post-end;
+    gap: calc(var(--content-gap) * 1.5) 0;
+}
+
+.sidebar {
+    display: none;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100dvh - var(--header-height));
+    grid-column: sidebar-start / sidebar-end;
+    background-color: var(--ig-gray-50);
+    border-inline-end: 1px solid var(--ig-gray-200);
+    overflow: hidden;
+}
+
+.sidebar__search {
+    align-content: center;
+    background-color: white;
+    border: 1px solid var(--ig-gray-200);
+    padding: rem(8px);
+    height: rem(48px);
+}
+
+.sidebar__scrollable {
+    height: inherit;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.ui-footer {
+    &__wrap--newsletter {
+        padding-inline: var(--spacing-4);
+    }
+
+    &__menu-block {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100% !important;
+        gap: var(--spacing-4);
+    }
+
+    &__col-block {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        float: none;
+        width: auto;
+    }
+
+    &__newsletter-block {
+        display: none;
+    }
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@media (width >= 960px) {
+    body {
+        --layout-rails: calc(var(--spacing-8) * 2);
+
+        grid-template-columns:
+            [document-start] 0
+            [sidebar-start] rem(300px) [sidebar-end]
+            auto
+            [content-start] minmax(auto, rem(1280px)) [content-end]
+            auto
+            [document-end];
+    }
+
+    body[data-has-sidebar="true"] {
+        .content {
+            grid-column: content-start / content-end;
+        }
+    }
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        overflow-y: visible;
+    }
+
+    .main-footer {
+        grid-column: sidebar-end / document-end;
+    }
+
+    .ui-footer__menu-block {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

@@ -1,0 +1,114 @@
+---
+import Search from "astro-pagefind/components/Search";
+import styles from "./SearchDialog.module.css";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  id?: string;
+}
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+
+const { id = "search-dialog" } = Astro.props;
+---
+
+<dialog id={id}>
+  <div class={styles.wrapper}>
+    <header class={styles.header}>
+      <h2 id="search-title" class={styles.title}>{t("search.dialog.title")}</h2>
+
+      <button class={styles.closeButton} aria-label="Close search">
+        <i class="material-symbols-sharp">close</i>
+      </button>
+    </header>
+
+    <section class={styles.content}>
+      <Search
+        className={styles.searchUI}
+        uiOptions={{ showImages: false, showSubResults: true }}
+      />
+    </section>
+
+    <footer class={styles.footer}>
+      <div class={styles.shortcut}>
+        <kbd>ESC</kbd>
+        <span>{t("search.dialog.esc")}</span>
+      </div>
+    </footer>
+  </div>
+</dialog>
+
+<script is:inline define:vars={{ id }}>
+  if (!window.searchDialogEvents) {
+    window.searchDialogEvents = {
+      triggers: {},
+      registerDialog: function (dialogId, openFn, closeFn) {
+        this.triggers[dialogId] = { open: openFn, close: closeFn };
+      },
+
+      openDialog: function (dialogId) {
+        if (
+          this.triggers[dialogId] &&
+          typeof this.triggers[dialogId].open === "function"
+        ) {
+          this.triggers[dialogId].open();
+          return true;
+        }
+        return false;
+      },
+
+      closeDialog: function (dialogId) {
+        if (
+          this.triggers[dialogId] &&
+          typeof this.triggers[dialogId].close === "function"
+        ) {
+          this.triggers[dialogId].close();
+          return true;
+        }
+        return false;
+      },
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const dialogEl = document.getElementById(id);
+    if (!dialogEl) return;
+
+    const input = dialogEl.querySelector("input[type='text']");
+    input.setAttribute("autoFocus", "true");
+
+    const closeButtonEl = dialogEl.querySelector(
+      'button[aria-label="Close search"]',
+    );
+
+    function openDialog() {
+      dialogEl.showModal();
+    }
+
+    function closeDialog() {
+      dialogEl.close();
+    }
+
+    dialogEl.addEventListener("click", (e) => {
+      if (e.target === dialogEl) {
+        closeDialog();
+      }
+
+      if (e.target.classList.contains("pagefind-ui__result-link")) {
+        closeDialog();
+      }
+    });
+
+    closeButtonEl.addEventListener("click", closeDialog);
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        openDialog();
+      }
+    });
+
+    window.searchDialogEvents.registerDialog(id, openDialog, closeDialog);
+  });
+</script>

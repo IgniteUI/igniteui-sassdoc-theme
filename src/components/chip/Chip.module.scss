@@ -1,0 +1,24 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    @include ellipsis();
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--ig-subtitle-2-font-size);
+
+    &[data-object-type="default"] {
+        color: var(--ig-gray-700);
+        background-color: var(--ig-gray-200);
+    }
+
+    @each $color in ("mixin", "variable", "function") {
+        &[data-object-type="#{$color}"] {
+            color: var(--#{$color}-color);
+            border: rem(1px) solid var(--#{$color}-color);
+        }
+    }
+}

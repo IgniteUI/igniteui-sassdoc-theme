@@ -1,0 +1,83 @@
+---
+import { type Item } from "../../content/sassdoc-schema";
+import Show from "../control-flow/Show.astro";
+import ReferenceList from "../reference-list/ReferenceList.astro";
+import styles from "./Metadata.module.css";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
+
+export interface Props {
+  item: Item;
+  group: string;
+}
+
+const { item, group } = Astro.props;
+
+const hasMetadata =
+  item.require || item.usedBy || item.see || item.alias || item.aliasedGroup;
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+---
+
+<Show condition={hasMetadata}>
+  <section class={styles.container}>
+    <div class={styles.grid}>
+      <Show condition={item.require}>
+        <ReferenceList
+          title={t("metadata.requires")}
+          items={item.require?.map(({ type, name, group }) => ({
+            type,
+            name,
+            group: group ?? "",
+          })) || []}
+        />
+      </Show>
+
+      <!-- <Show condition={item.usedBy}> -->
+      <!--   <ReferenceList -->
+      <!--     title={t("metadata.usedBy")} -->
+      <!--     items={item.usedBy?.map(({ context: { type }, name, group }) => ({ -->
+      <!--       type, -->
+      <!--       name, -->
+      <!--       group, -->
+      <!--     })) || []} -->
+      <!--   /> -->
+      <!-- </Show> -->
+
+      <Show condition={item.see}>
+        <ReferenceList
+          title={t("metadata.see")}
+          items={item.see?.map((ref) => ({
+            type: ref.context.type,
+            name: ref.name ?? ref.context.name,
+            group: ref.group ?? "",
+          })) || []}
+        />
+      </Show>
+
+      <Show condition={item.alias}>
+        <ReferenceList
+          title={t("metadata.aliasOf")}
+          items={[
+            {
+              type: item.context.type,
+              name: item.alias!,
+              group,
+            },
+          ]}
+        />
+      </Show>
+
+      <Show condition={item.aliasedGroup}>
+        <ReferenceList
+          title={t("metadata.aliases")}
+          items={item.aliasedGroup?.map(({ group, name }) => ({
+            type: item.context.type,
+            name,
+            group: group[0],
+          })) || []}
+        />
+      </Show>
+    </div>
+  </section>
+</Show>

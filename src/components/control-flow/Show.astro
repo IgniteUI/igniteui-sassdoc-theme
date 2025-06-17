@@ -1,0 +1,8 @@
+---
+const { condition } = Astro.props;
+
+const isArray = Array.isArray(condition);
+const show = !isArray ? condition : isArray && condition.length > 0;
+---
+
+{show && <slot />}

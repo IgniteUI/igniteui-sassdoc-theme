@@ -1,0 +1,6 @@
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    display: grid;
+    gap: var(--spacing-2);
+}

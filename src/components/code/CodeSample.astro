@@ -1,0 +1,32 @@
+---
+import { Code } from "astro-expressive-code/components";
+import style from "./CodeSample.module.css";
+import { getLangFromEnv, useTranslations } from "../../i18n/utils";
+
+const { example: data } = Astro.props;
+
+const lang = getLangFromEnv();
+
+const t = useTranslations(lang);
+
+type ItemExample = {
+  type: string;
+  code: string;
+  description: string;
+};
+---
+
+<Fragment>
+  {
+    data &&
+      data.map((example: ItemExample) => (
+        <section data-pagefind-ignore="all" class={style.container}>
+          <header class={style.header}>
+            <h5>{t("item.example")}</h5>
+            {example.description && <p>{example.description}</p>}
+          </header>
+          <Code lang={example.type} code={example.code} />
+        </section>
+      ))
+  }
+</Fragment>

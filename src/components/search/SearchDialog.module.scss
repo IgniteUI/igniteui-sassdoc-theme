@@ -1,0 +1,212 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+dialog {
+    margin: calc(var(--header-height) + var(--content-gap)) auto;
+    padding: 0;
+    border: none;
+    width: 90%;
+    max-width: rem(800px);
+    max-height: 80vh;
+    box-shadow: var(--ig-elevation-24);
+    border-block-end: 2px solid var(--ig-primary-500);
+    overflow: hidden;
+
+    &::backdrop {
+        background-color: hsl(from var(--ig-gray-900) h s l / 0.5);
+    }
+}
+
+.wrapper {
+    display: grid;
+    background-color: var(--ig-surface-500);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-4) var(--spacing-5);
+    border-bottom: 1px solid var(--ig-gray-200);
+}
+
+.title {
+    font-size: rem(18px);
+    margin: 0;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ig-gray-600);
+    width: rem(32px);
+    height: rem(32px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease-in;
+    outline-style: none;
+
+    &:focus,
+    &:hover {
+        background-color: var(--ig-gray-200);
+        color: var(--ig-gray-900);
+    }
+
+    i {
+        font-size: rem(18px);
+    }
+}
+
+.content {
+    padding: var(--spacing-5);
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    max-height: 50dvh;
+}
+
+.footer {
+    padding: var(--spacing-3) var(--spacing-5);
+    border-top: 1px solid var(--ig-gray-200);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.shortcut {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--ig-gray-600);
+    font-size: var(--ig-body-2-font-size);
+
+    kbd {
+        background-color: var(--ig-gray-200);
+        padding: rem(2px) rem(6px);
+        font-family: monospace;
+        font-size: var(--ig-body-2-font-size);
+    }
+}
+
+/* Custom styling for pagefind UI */
+.searchUI {
+    --pagefind-ui-font: var(--ig-font-family);
+
+    :global(.pagefind-ui__search-input) {
+        width: 100%;
+        border: 1px solid var(--ig-gray-400);
+        border-radius: 0;
+        font-size: rem(16px);
+        box-shadow: none;
+        transition: all 0.2s ease-in;
+
+        &:focus {
+            border-color: var(--ig-primary-500);
+            box-shadow: 0 rem(4px) 0 0 rgba(var(--ig-primary-500), 0.2);
+            outline: none;
+        }
+    }
+
+    :global(.pagefind-ui__search-clear) {
+        background-color: transparent;
+        color: var(--ig-gray-700);
+        border: none;
+
+        &:hover {
+            color: var(--ig-gray-900);
+        }
+    }
+
+    :global(.pagefind-ui__results-container) {
+        margin-top: var(--spacing-4);
+    }
+
+    :global(.pagefind-ui__results-area) {
+        display: grid;
+        gap: var(--spacing-5);
+        margin-top: var(--spacing-5);
+    }
+
+    :global(.pagefind-ui__results) {
+        display: grid;
+        gap: var(--spacing-5);
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    :global(.pagefind-ui__result) {
+        padding-block: 0 !important;
+        border: none !important;
+
+        mark {
+            background-color: transparent;
+            color: var(--ig-warn-500);
+        }
+    }
+
+    :global(.pagefind-ui__result-title) {
+        font-size: rem(16px);
+        font-weight: 600;
+        margin-bottom: var(--spacing-2);
+        text-transform: capitalize;
+    }
+
+    :global(.pagefind-ui__result-inner) {
+        margin: 0 !important;
+        gap: var(--spacing-2);
+    }
+
+    :global(.pagefind-ui__result-link) {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: none !important;
+        }
+    }
+
+    :global(.pagefind-ui__result-nested) {
+        padding-top: 0 !important;
+        padding-inline-start: var(--ig-spacing-1);
+    }
+
+    :global(.pagefind-ui__result-nested > .pagefind-ui__result-title) {
+        font-size: var(--ig-h5-font-size);
+        font-weight: var(--ig-h5-font-weight);
+        text-transform: none;
+    }
+
+    :global(
+        .pagefind-ui__result-nested
+            > .pagefind-ui__result-title
+            > .pagefind-ui__result-link
+    ) {
+        display: flex;
+        gap: var(--spacing-2);
+        align-items: center;
+
+        &::before {
+            position: relative;
+            font-family: "Material Symbols Sharp";
+            font-size: rem(18px);
+            font-weight: normal;
+            margin: 0;
+            content: "\f587";
+            color: var(--ig-gray-700);
+            inset: 0;
+        }
+    }
+
+    :global(.pagefind-ui__result-excerpt) {
+        font-size: rem(14px);
+        color: var(--ig-gray-700);
+    }
+
+    :global(.pagefind-ui__message) {
+        color: var(--ig-gray-600);
+        padding-block: 0;
+    }
+}

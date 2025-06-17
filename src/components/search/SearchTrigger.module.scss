@@ -1,0 +1,67 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+.trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    background-color: var(--ig-surface-500);
+    border: none;
+    border-block-end: 1px solid var(--ig-gray-200);
+    color: var(--ig-gray-600);
+    padding: var(--spacing-2) var(--spacing-3);
+    cursor: pointer;
+    font-size: rem(14px);
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: start;
+
+    &:hover {
+        border-color: var(--ig-primary-500);
+    }
+
+    &:focus {
+        outline-style: none;
+    }
+}
+
+.trigger[data-large="true"] {
+    border: 1px solid var(--ig-primary-600);
+    padding: var(--spacing-3) var(--spacing-4);
+
+    .icon {
+        color: var(--ig-primary-600);
+    }
+}
+
+.icon {
+    font-size: rem(18px);
+    color: var(--ig-gray-600);
+}
+
+.label {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shortcut {
+    display: flex;
+    align-items: center;
+    gap: rem(2px);
+
+    kbd {
+        background-color: var(--ig-gray-200);
+        border-radius: rem(4px);
+        padding: rem(2px) rem(6px);
+        font-family: monospace;
+        font-size: rem(11px);
+        min-width: rem(14px);
+        height: rem(20px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+}

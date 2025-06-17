@@ -1,0 +1,33 @@
+@use "igniteui-theming/sass/themes/mixins" as *;
+@use "igniteui-theming/sass/typography" as *;
+
+.container {
+    .title {
+        margin-block-end: var(--spacing-1);
+    }
+
+    ul {
+        display: grid;
+        gap: var(--spacing-1);
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-1);
+        font-size: var(--ig-h6-font-size);
+        text-decoration: none;
+
+        span {
+            color: var(--ig-gray-700);
+            transition: color 0.2s ease-in;
+        }
+
+        &:hover span {
+            color: var(--ig-gray-900);
+        }
+    }
+}

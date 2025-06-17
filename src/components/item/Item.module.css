@@ -1,0 +1,1 @@
+.container{display:grid;grid-column:pre-start/post-end;grid-template-columns:subgrid;gap:var(--spacing-4) 0}.container .content{display:grid;grid-column:pre-end/post-start;grid-row:2;gap:inherit}

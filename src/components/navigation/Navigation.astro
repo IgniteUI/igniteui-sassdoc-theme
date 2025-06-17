@@ -1,0 +1,85 @@
+---
+import type { TypeGroup, ObjectType } from "../../content/sassdoc-schema";
+import styles from "./Navigation.module.css";
+import {
+  getLangFromEnv,
+  useTranslations,
+  type TranslationKey,
+} from "../../i18n";
+
+export interface Props {
+  data: TypeGroup;
+}
+
+const { data } = Astro.props;
+
+const lang = getLangFromEnv();
+const t = useTranslations(lang);
+
+type TypeMap = {
+  [key in ObjectType]: {
+    name: TranslationKey;
+    icon: string;
+  };
+};
+
+const typeMap: TypeMap = {
+  variable: {
+    name: "navigation.variables",
+    icon: "variables",
+  },
+  function: {
+    name: "navigation.functions",
+    icon: "function",
+  },
+  mixin: {
+    name: "navigation.mixins",
+    icon: "code_blocks",
+  },
+  placeholder: {
+    name: "navigation.placeholder",
+    icon: "percent",
+  },
+  css: {
+    name: "navigation.css",
+    icon: "style",
+  },
+};
+
+const displayType = (type: ObjectType) => {
+  return type === "css" ? "CSS" : t(typeMap[type].name);
+};
+
+const displayIcon = (type: ObjectType) => {
+  return typeMap[type].icon;
+};
+---
+
+<div class={styles.container}>
+  {
+    data.map(([type, items]) => (
+      <details open>
+        <summary>
+          <div style="display: flex; align-items: center; gap: var(--spacing-2)">
+            <i inert data-object-type={type} class="material-symbols-sharp">
+              {displayIcon(type)}
+            </i>
+            <span>{displayType(type)}</span>
+          </div>
+          <i inert class:list={["material-symbols-sharp", styles.toggleIcon]}>
+            chevron_right
+          </i>
+        </summary>
+        <ul>
+          {items.map(({ name: displayName, context: { name: contextName } }) => (
+            <li>
+              <a tabindex="0" href={`#${type}-${displayName ?? contextName}`} class="nav-link">
+                {displayName ?? contextName}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    ))
+  }
+</div>

@@ -1,0 +1,66 @@
+---
+import { type ObjectType } from "../../content/sassdoc-schema";
+import Show from "../control-flow/Show.astro";
+import styles from "./ReferenceList.module.css";
+
+export interface Props {
+  title: string;
+  items: Array<{
+    type: string;
+    name: string;
+    group: string;
+  }>;
+}
+
+const { title, items } = Astro.props;
+
+const typeMap = {
+  variable: {
+    name: "variables",
+    icon: "variables",
+  },
+  function: {
+    name: "functions",
+    icon: "function",
+  },
+  mixin: {
+    name: "mixins",
+    icon: "code_blocks",
+  },
+  placeholder: {
+    name: "placeholder",
+    icon: "percent",
+  },
+  css: {
+    name: "CSS",
+    icon: "css",
+  },
+};
+
+const displayIcon = (type: string) => {
+  return typeMap[type as ObjectType].icon;
+};
+---
+
+<Show condition={items && items.length > 0}>
+  <section class={styles.container}>
+    <h5 class={styles.title}>{title}</h5>
+    <ul>
+      {
+        items.map(({ type, name, group }) => (
+          <li>
+            <a href={`${group}#${type}-${name}`}>
+              <i
+                class="material-symbols-sharp"
+                data-object-type={type}
+              >
+                {displayIcon(type)}
+              </i>
+              <span>{name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Show>

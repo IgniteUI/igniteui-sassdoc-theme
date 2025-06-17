@@ -1,0 +1,54 @@
+{
+  "en": {
+    "development": {
+      "id": "en-development",
+      "url": "https://www.infragistics.com",
+      "navigationURL": "https://www.infragistics.com/navigation",
+      "gaID": "GTM-WLXLBZD",
+      "versions": "https://staging.infragistics.com/angular-docs/angular-api-docs-versions.json",
+      "sassdoc_default_url": "https://staging.infragistics.com/products/ignite-ui-angular/docs/sass/latest/"
+    },
+    "staging": {
+      "id": "en-staging",
+      "url": "https://staging.infragistics.com",
+      "navigationURL": "https://staging.infragistics.com/navigation",
+      "gaID": "GTM-NCKNPN",
+      "versions": "https://staging.infragistics.com/angular-docs/angular-api-docs-versions.json",
+      "sassdoc_default_url": "https://staging.infragistics.com/products/ignite-ui-angular/docs/sass/latest/"
+    },
+    "production": {
+      "id": "en-production",
+      "url": "https://www.infragistics.com",
+      "navigationURL": "https://www.infragistics.com/navigation",
+      "gaID": "GTM-T65CF7",
+      "versions": "https://www.infragistics.com/angular-docs/angular-api-docs-versions-prod.json",
+      "sassdoc_default_url": "https://www.infragistics.com/products/ignite-ui-angular/docs/sass/latest/"
+    }
+  },
+  "ja": {
+    "development": {
+      "id": "ja-development",
+      "url": "https://jp.infragistics.com",
+      "navigationURL": "https://jp.infragistics.com/navigation",
+      "gaID": "GTM-NNHVMC7",
+      "versions": "https://jp.infragistics.com/angular-docs/angular-api-docs-versions-prod-jp.json",
+      "sassdoc_default_url": "https://jp.staging.infragistics.com/products/ignite-ui-angular/docs/sass/latest/"
+    },
+    "staging": {
+      "id": "ja-staging",
+      "url": "https://jp.staging.infragistics.com",
+      "navigationURL": "https://jp.staging.infragistics.com/navigation",
+      "gaID": "GTM-WLWSDK",
+      "versions": "https://jp.staging.infragistics.com/angular-docs/angular-api-docs-versions-jp.json",
+      "sassdoc_default_url": "https://jp.staging.infragistics.com/products/ignite-ui-angular/docs/sass/latest/"
+    },
+    "production": {
+      "id": "ja-production",
+      "url": "https://jp.infragistics.com",
+      "navigationURL": "https://jp.infragistics.com/navigation",
+      "gaID": "GTM-KVNSWJ",
+      "versions": "https://jp.infragistics.com/angular-docs/angular-api-docs-versions-prod-jp.json",
+      "sassdoc_default_url": "https://jp.infragistics.com/products/ignite-ui-angular/docs/sass/latest/"
+    }
+  }
+}

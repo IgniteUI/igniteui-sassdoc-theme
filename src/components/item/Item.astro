@@ -1,0 +1,41 @@
+---
+import type { Item, ObjectType } from "../../content/sassdoc-schema";
+import ItemHeader from "../item-header/ItemHeader.astro";
+import Parameters from "../parameter/Parameters.astro";
+import Deprecated from "../deprecated/Deprecated.astro";
+import CodeSample from "../code/CodeSample.astro";
+import Show from "../control-flow/Show.astro";
+import { Code } from "astro-expressive-code/components";
+import styles from "./Item.module.css";
+import Metadata from "../metadata/Metadata.astro";
+import VersionHistory from "../history/VersionHistory.astro";
+import LinkList from "../link-list/LinkList.astro";
+
+export interface Props {
+  group: string;
+  item: Item;
+  type: ObjectType;
+}
+
+const { item, group, type } = Astro.props;
+---
+
+<article class:list={[styles.container, "item"]}>
+  <ItemHeader item={item} />
+  <section data-pagefind-ignore class={styles.content}>
+    <Deprecated item={item} />
+    <Show condition={type === "variable" && !item.example}>
+      <Code
+        lang="scss"
+        code={`$${item.context.name}: ${item.context.value!};`}
+      />
+    </Show>
+    <CodeSample example={item.example} />
+    <Parameters items={item.parameter} />
+    <Metadata item={item} group={group} />
+    <VersionHistory item={item} />
+    <Show condition={item.link}>
+      <LinkList items={item.link || []} />
+    </Show>
+  </section>
+</article>

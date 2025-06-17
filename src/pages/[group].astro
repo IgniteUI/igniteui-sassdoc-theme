@@ -1,0 +1,45 @@
+---
+import { Breadcrumbs } from "astro-breadcrumbs";
+import { getCollection } from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import Item from "../components/item/Item.astro";
+import Navigation from "../components/navigation/Navigation.astro";
+import type { TypeGroup } from "../content/sassdoc-schema";
+import SearchTrigger from "../components/search/SearchTrigger.astro";
+
+export async function getStaticPaths() {
+  const sassdoc = await getCollection("sassdoc");
+
+  return sassdoc.map(({ data: { group, items: entries } }) => {
+    const data = Object.entries(entries).map((data) => data);
+
+    return {
+      params: { group },
+      props: { data },
+    };
+  });
+}
+
+export interface Props {
+  data: TypeGroup;
+}
+
+const { group } = Astro.params;
+const { data } = Astro.props;
+---
+
+<MainLayout showSidebar={true}>
+  <SearchTrigger slot="sidebar" />
+  <Navigation slot="sidebar" data={data} />
+  <Breadcrumbs>
+    <i slot="index" class="material-symbols-sharp">home</i>
+  </Breadcrumbs>
+  <h1 class="group-title">{group}</h1>
+  <section class="items" data-pagefind-body>
+    {
+      data.map(([type, items]) =>
+        items.map((item) => <Item type={type} group={group} item={item} />),
+      )
+    }
+  </section>
+</MainLayout>

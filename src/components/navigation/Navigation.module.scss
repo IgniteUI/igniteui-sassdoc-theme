@@ -1,0 +1,72 @@
+@use "igniteui-theming/sass/typography" as *;
+
+$timing-function: 0.15s ease-in-out;
+
+.container {
+    display: grid;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+
+    details::details-content {
+        block-size: 0;
+        transition:
+            block-size $timing-function,
+            content-visibility $timing-function;
+        transition-behavior: allow-discrete;
+        overflow: hidden;
+    }
+
+    .toggleIcon {
+        transition: rotate $timing-function;
+    }
+
+    details[open] {
+        .toggleIcon {
+            rotate: 90deg;
+        }
+
+        &::details-content {
+            block-size: auto;
+        }
+    }
+
+    ul {
+        display: grid;
+        gap: var(--spacing-2);
+        margin-block: var(--spacing-1);
+        padding: 0;
+        list-style-type: "";
+        border-inline-start: 1px solid var(--ig-gray-400);
+    }
+
+    summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-transform: capitalize;
+        color: var(--ig-gray-900);
+        cursor: pointer;
+        user-select: none;
+        font-weight: 600;
+        margin-block-end: var(--spacing-1);
+    }
+
+    a {
+        font-size: var(--ig-h6-font-size);
+        text-decoration: none;
+        color: var(--ig-gray-600);
+        padding: var(--spacing-1) var(--spacing-3);
+        transition: color $timing-function;
+
+        @media (hover: hover) {
+            &:hover {
+                color: var(--ig-gray-900);
+            }
+        }
+
+        &[aria-current="location"] {
+            color: var(--ig-gray-900);
+            transition: none;
+        }
+    }
+}
