@@ -30,14 +30,14 @@ const t = useTranslations(lang);
       {
         sassdoc.map(({ data: { group } }) => (
           <li>
-            <a href={`/${group}`}>{group}</a>
+            <a href={`${group}`}>{group}</a>
           </li>
         ))
       }
     </ul>
 
     <div class="cta">
-      <a href={`/${sassdoc[0]?.data.group || ""}`} class="cta-button">
+      <a href={`${sassdoc[0]?.data.group || ""}`} class="cta-button">
         <i class="material-symbols-sharp">code</i>
         {t("home.browse.button")}
       </a>

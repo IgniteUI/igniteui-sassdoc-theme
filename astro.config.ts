@@ -2,12 +2,18 @@ import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import pagefind from "astro-pagefind";
 
+const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "/"
+    : "/products/ignite-ui-angular/docs/sass/latest/";
+
 export default defineConfig({
+  base: baseUrl,
   output: "static",
   outDir: "./site",
   build: {
     assets: "_assets",
-    format: "file",
+    format: "directory",
   },
   integrations: [
     expressiveCode({
