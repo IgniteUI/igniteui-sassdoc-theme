@@ -23,6 +23,10 @@ export default defineConfig({
           dest: "./",
         },
         {
+          src: "web.config",
+          dest: "./public/",
+        },
+        {
           src: "schema/sassdoc-schema.json",
           dest: "./",
         },
