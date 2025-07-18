@@ -162,7 +162,6 @@ src/
 
 data/
 ├── navigation.json    # Global navigation data
-├── versions.json      # Version information
 └── sassdoc-data.json  # Generated documentation data
 ```
 
