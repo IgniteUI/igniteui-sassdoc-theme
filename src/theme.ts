@@ -7,7 +7,6 @@ import {
   display,
   enrichCrossReferences,
   fetchNavigation,
-  fetchVersions,
 } from "./utils";
 import type {
   Context,
@@ -187,7 +186,6 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
       fs.writeJsonSync(srcDataPath, ctx.groupedData);
 
       await fetchNavigation(ctx);
-      await fetchVersions(ctx);
 
       await this.executePluginHooks("beforeBuild", ctx);
 

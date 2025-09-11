@@ -306,5 +306,4 @@ export function display(ctx: Context): void {
 }
 
 export * from "./navigation";
-export * from "./versions";
 export * from "./config";

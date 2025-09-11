@@ -1,13 +1,7 @@
 ---
 import navData from "../../../data/navigation.json";
-import versionsData from "../../../data/versions.json";
 import styles from "./Header.module.css";
-import Show from "../control-flow/Show.astro";
-import {
-  NavigationSchema,
-  VersionSchema,
-  type Mode,
-} from "../../content/sassdoc-schema";
+import { NavigationSchema, type Mode } from "../../content/sassdoc-schema";
 import { getConfig } from "../../utils";
 import { getLangFromEnv, useTranslations } from "../../i18n";
 
@@ -17,7 +11,6 @@ const t = useTranslations(lang);
 
 const { url: baseUrl } = getConfig(lang, mode);
 const { header } = NavigationSchema.parse(navData);
-const { versions } = VersionSchema.parse(versionsData);
 ---
 
 <div class="main-head" class={styles.container}>
@@ -27,15 +20,8 @@ const { versions } = VersionSchema.parse(versionsData);
     <section class={styles.secondaryHead__section}>
       <h5 class={styles.secondaryHead__title}>Ignite UI for Angular</h5>
 
-      <Show condition={versions}>
-        <select class={styles.secondaryHead__select}>
-          {
-            versions.map(({ version, url }) => (
-              <option value={url}>{version}</option>
-            ))
-          }
-        </select>
-      </Show>
+      <select class={styles.secondaryHead__select} id="version-selector">
+      </select>
     </section>
 
     <section class={styles.secondaryHead__section}>
@@ -61,10 +47,42 @@ const { versions } = VersionSchema.parse(versionsData);
   </div>
 </div>
 <script>
-  const select = document.querySelector("select");
+  const select = document.querySelector("#version-selector") as HTMLSelectElement;
 
-  select!.addEventListener("change", () => {
-    const url = select!.value;
-    window.location.assign(url);
+  interface Version {
+    version: string;
+    url: string;
+  }
+
+  interface VersionsResponse {
+    versions: Version[];
+  }
+
+  async function loadVersions(): Promise<void> {
+    try {
+      const response = await fetch("/api/versions");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const { versions }: VersionsResponse = await response.json();
+
+      select.innerHTML = versions
+        .map(({ version, url }: Version) => `<option value="${url}">${version}</option>`)
+        .join("");
+    } catch (error) {
+      console.error("Failed to fetch versions:", error);
+      select.innerHTML = '<option value="#">Error loading versions</option>';
+    }
+  }
+
+  loadVersions();
+
+  select.addEventListener("change", () => {
+    const url = select.value;
+    if (url && url !== "#") {
+      window.location.assign(url);
+    }
   });
 </script>

@@ -18,11 +18,7 @@ const paths = {
   navigation: {
     source: path.join(projectRoot, "dist", "data", "navigation.json"),
     dest: path.join(projectRoot, "data", "navigation.json"),
-  },
-  versions: {
-    source: path.join(projectRoot, "dist", "data", "versions.json"),
-    dest: path.join(projectRoot, "data", "versions.json"),
-  },
+  }
 };
 
 /**
@@ -58,7 +54,6 @@ async function main() {
   const results = await Promise.all([
     copyFiles(paths.sassdoc.source, paths.sassdoc.dest, "sassdoc data"),
     copyFiles(paths.navigation.source, paths.navigation.dest, "navigation"),
-    copyFiles(paths.versions.source, paths.versions.dest, "versions"),
     copyFiles(paths.pagefind.source, paths.pagefind.dest, "pagefind"),
   ]);
 
