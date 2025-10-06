@@ -88,18 +88,18 @@ const { header } = NavigationSchema.parse(navData);
         response = await fetch(versionsURL, { signal: controller.signal });
         clearTimeout(timeout);
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         // External API returns { folders: [...] }
         const payload = await response.json();
         versions = payload.folders
           .map((version: string) => ({
-            version: version,
+            version,
             url: `${baseUrl}/products/ignite-ui-angular/docs/${version}/sass/`,
           }))
           .reverse();
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
       } else {
         versions = [{ version: "dev", url: "#" }];
       }
