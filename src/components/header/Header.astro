@@ -81,11 +81,10 @@ const { header } = NavigationSchema.parse(navData);
       }
 
       if (mode !== "development") {
-        let response: Response;
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 5000);
 
-        response = await fetch(versionsURL, { signal: controller.signal });
+        const response = await fetch(versionsURL, { signal: controller.signal });
         clearTimeout(timeout);
 
         if (!response.ok) {
