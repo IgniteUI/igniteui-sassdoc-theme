@@ -8,8 +8,9 @@ import { getLangFromEnv, useTranslations } from "../../i18n";
 const lang = getLangFromEnv();
 const mode = import.meta.env.MODE as Mode;
 const t = useTranslations(lang);
+const siteBase = import.meta.env.BASE_URL;
 
-const { url: baseUrl } = getConfig(lang, mode);
+const { url: baseUrl, versions: versionsURL } = getConfig(lang, mode);
 const { header } = NavigationSchema.parse(navData);
 ---
 
@@ -20,7 +21,14 @@ const { header } = NavigationSchema.parse(navData);
     <section class={styles.secondaryHead__section}>
       <h5 class={styles.secondaryHead__title}>Ignite UI for Angular</h5>
 
-      <select class={styles.secondaryHead__select} id="version-selector">
+      <select
+        class={styles.secondaryHead__select}
+        id="version-selector"
+        data-site-base={siteBase}
+        data-versions-url={versionsURL}
+        data-base-url={baseUrl}
+        data-mode={mode}
+      >
       </select>
     </section>
 
@@ -47,7 +55,9 @@ const { header } = NavigationSchema.parse(navData);
   </div>
 </div>
 <script>
-  const select = document.querySelector("#version-selector") as HTMLSelectElement;
+  const select = document.querySelector(
+    "#version-selector",
+  ) as HTMLSelectElement;
 
   interface Version {
     version: string;
@@ -60,16 +70,44 @@ const { header } = NavigationSchema.parse(navData);
 
   async function loadVersions(): Promise<void> {
     try {
-      const response = await fetch("/api/versions");
+      const mode = select.dataset.mode;
+      const siteBase = select.dataset.siteBase || "/";
+      const versionsURL = select.dataset.versionsUrl;
+      const baseUrl = select.dataset.baseUrl;
+      let versions: Version[];
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!versionsURL || !baseUrl) {
+        throw new Error("Missing configuration data");
       }
 
-      const { versions }: VersionsResponse = await response.json();
+      if (mode !== "development") {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+
+        const response = await fetch(versionsURL, { signal: controller.signal });
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // External API returns { folders: [...] }
+        const payload = await response.json();
+        versions = payload.folders
+          .map((version: string) => ({
+            version,
+            url: `${baseUrl}/products/ignite-ui-angular/docs/${version}/sass/`,
+          }))
+          .reverse();
+      } else {
+        versions = [{ version: "dev", url: "#" }];
+      }
 
       select.innerHTML = versions
-        .map(({ version, url }: Version) => `<option value="${url}">${version}</option>`)
+        .map(
+          ({ version, url }: Version) =>
+            `<option value="${url}">${version}</option>`,
+        )
         .join("");
     } catch (error) {
       console.error("Failed to fetch versions:", error);
