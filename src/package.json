@@ -5,7 +5,7 @@
   "license": "MIT",
   "version": "2.0.0",
   "dependencies": {
-    "astro": "^5.6.0",
+    "astro": "^6.1.8",
     "astro-breadcrumbs": "^3.3.1",
     "astro-expressive-code": "^0.40.2",
     "astro-pagefind": "^1.8.3",
