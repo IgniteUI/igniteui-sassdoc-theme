@@ -113,7 +113,7 @@ class SassDocTheme implements Omit<SassDoc, keyof Function> {
           }
         } catch (error) {
           console.error(
-            `Error in plugin ${plugin.name} at ${hookName}:`,
+            `Error in plugin ${plugin.name} at ${String(hookName)}:`,
             error,
           );
         }

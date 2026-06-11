@@ -1,4 +1,4 @@
-import { z } from "astro:content";
+import { z } from "zod";
 
 export const AuthorSchema = z.array(z.string());
 
@@ -106,7 +106,7 @@ export const ItemSchema = z
     see: z.array(ReferenceSchema).optional(),
     since: SinceSchema.optional(),
     author: AuthorSchema.optional(),
-    groupName: z.record(z.string()),
+    groupName: z.record(z.string(), z.string()),
     alias: z.string().optional(),
     aliased: z.array(z.string()).optional(),
     aliasedGroup: AliasedGroupSchema.optional(),
@@ -175,7 +175,7 @@ export const ContextSchema = z
       .optional(),
     language: z.enum(["en", "ja"]).default("en"),
     environment: Modes.default("production"),
-    groups: z.record(z.string()).optional(),
+    groups: z.record(z.string(), z.string()).optional(),
     groupedData: ByGroupSchema.optional(),
     plugins: z.array(PluginConfigSchema).optional(),
   })
@@ -185,8 +185,8 @@ export const PluginSchema = z.object({
   name: z.string(),
   beforeProcess: z
     .function()
-    .args(ContextSchema)
-    .returns(
+    .input([ContextSchema])
+    .output(
       z.union([
         z.void(),
         z.boolean(),
@@ -197,18 +197,18 @@ export const PluginSchema = z.object({
     .optional(),
   afterProcess: z
     .function()
-    .args(ContextSchema)
-    .returns(z.union([z.void(), z.promise(z.void())]))
+    .input([ContextSchema])
+    .output(z.union([z.void(), z.promise(z.void())]))
     .optional(),
   beforeBuild: z
     .function()
-    .args(ContextSchema)
-    .returns(z.union([z.void(), z.promise(z.void())]))
+    .input([ContextSchema])
+    .output(z.union([z.void(), z.promise(z.void())]))
     .optional(),
   afterBuild: z
     .function()
-    .args(ContextSchema)
-    .returns(z.union([z.void(), z.promise(z.void())]))
+    .input([ContextSchema])
+    .output(z.union([z.void(), z.promise(z.void())]))
     .optional(),
 });
 
@@ -220,17 +220,15 @@ export const NavigationSchema = z.object({
 
 export const AnnotationResultSchema = z.object({
   name: z.string(),
-  parse: z.function().args(z.any()).returns(z.any()),
-  resolve: z.function().args(z.any()).returns(z.any()).optional(),
-  default: z.function().returns(z.any()).optional(),
-  autofill: z.function().args(z.object({})).optional(),
+  parse: z.function().input([z.any()]).output(z.any()),
+  resolve: z.function().input([z.any()]).output(z.any()).optional(),
+  default: z.function().output(z.any()).optional(),
+  autofill: z.function().input([z.object({})]).optional(),
   multiple: z.boolean(),
   alias: z.array(z.string()).optional(),
 });
 
-export const AnnotationCallbackSchema = z
-  .function()
-  .returns(AnnotationResultSchema);
+export const AnnotationCallbackSchema = z.function().output(AnnotationResultSchema);
 
 export type Line = z.infer<typeof LineSchema>;
 export type Item = z.infer<typeof ItemSchema>;

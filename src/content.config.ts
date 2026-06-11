@@ -1,6 +1,6 @@
 import { defineCollection } from "astro:content";
 import { file } from "astro/loaders";
-import { SassDocSchema, SourceSchema } from "./sassdoc-schema";
+import { SassDocSchema, SourceSchema } from "./content/sassdoc-schema";
 
 const sassdoc = defineCollection({
   loader: file("data/sassdoc-data.json", {
@@ -26,7 +26,7 @@ const sources = defineCollection({
       },
       {
         id: "theming",
-        url: "https://github.com/IgniteUI/igniteui-theming/tree/master/sass/",
+        url: "https://github.com/IgniteUI/igniteui-theming/tree/master/packages/theming/sass/",
       },
     ];
   },
