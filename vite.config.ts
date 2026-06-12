@@ -16,7 +16,6 @@ export default defineConfig({
   publicDir: false,
   plugins: [
     viteStaticCopy({
-      structured: true,
       targets: [
         {
           src: "astro.config.ts",
@@ -58,6 +57,7 @@ export default defineConfig({
       formats: ["cjs"],
     },
     rollupOptions: {
+      platform: "node",
       external: ["astro", "fs-extra", "jsdom", "path", "child_process", "url"],
     },
   },
