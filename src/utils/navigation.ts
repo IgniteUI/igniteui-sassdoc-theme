@@ -12,6 +12,12 @@ const OUT_PATH = path.join(projectRoot, "data", "navigation.json");
 export async function fetchNavigation(ctx: Context): Promise<void> {
   const { navigationURL } = getConfig(ctx.language, ctx.environment);
 
+  if (ctx.language !== "ja") {
+    fs.ensureDirSync(path.dirname(OUT_PATH));
+    fs.writeJsonSync(OUT_PATH, { header: "", footer: "", copyright: "" });
+    return;
+  }
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);

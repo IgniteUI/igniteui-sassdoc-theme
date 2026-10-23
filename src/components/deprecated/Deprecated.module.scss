@@ -4,9 +4,9 @@
     display: flex;
     flex-direction: column;
     gap: rem(8px);
-    padding: rem(8px);
+    padding: rem(12px) rem(16px);
     background-color: var(--ig-warn-50);
-    border-inline-start: 2px solid var(--ig-warn-500);
+    border-inline-start: rem(4px) solid var(--ig-warn-500);
     color: var(--ig-warn-50-contrast);
 
     h4 {

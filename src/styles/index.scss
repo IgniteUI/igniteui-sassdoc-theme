@@ -19,7 +19,7 @@
 
 .subtitle {
     margin: 0 auto;
-    color: var(--ig-gray-700);
+    color: var(--ig-gray-600);
     width: min(100%, rem(600px));
     line-height: 1.6;
 }
@@ -47,13 +47,14 @@
 }
 
 .group-navigation li {
-    border: 1px solid var(--ig-gray-200);
+    border: var(--igd-app-outline);
+    border-radius: var(--igd-border-radius);
     transition: border 0.2s ease;
     flex: 0 0 auto;
 }
 
 .group-navigation li:hover {
-    border-color: var(--ig-primary-300);
+    border-color: var(--igd-accent);
 }
 
 .group-navigation a {
@@ -77,8 +78,9 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-2);
-    background-color: var(--ig-primary-500);
-    color: var(--ig-primary-800-contrast);
+    background-color: var(--igd-accent);
+    color: var(--igd-on-accent);
+    border-radius: var(--igd-border-radius);
     padding: var(--spacing-3) var(--spacing-6);
     font-weight: 500;
     text-decoration: none;

@@ -1,0 +1,180 @@
+@use "igniteui-theming" as *;
+
+$h1: type-style(
+    $font-size: rem(36px),
+    $font-weight: 700,
+    $letter-spacing: normal,
+    $line-height: rem(40px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(24px),
+);
+
+$h2: type-style(
+    $font-size: rem(24px),
+    $font-weight: 700,
+    $letter-spacing: normal,
+    $line-height: rem(32px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(16px),
+);
+
+$h3: type-style(
+    $font-size: rem(20px),
+    $font-weight: 700,
+    $letter-spacing: normal,
+    $line-height: rem(28px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(16px),
+);
+
+$h4: type-style(
+    $font-size: rem(18px),
+    $font-weight: 700,
+    $letter-spacing: normal,
+    $line-height: rem(28px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(16px),
+);
+
+$h5: type-style(
+    $font-size: rem(16px),
+    $font-weight: 700,
+    $letter-spacing: normal,
+    $line-height: rem(24px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(12px),
+);
+
+$h6: type-style(
+    $font-size: rem(14px),
+    $font-weight: 600,
+    $letter-spacing: normal,
+    $line-height: rem(20px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(26px),
+);
+
+$body-1: type-style(
+    $font-size: rem(16px),
+    $font-weight: 400,
+    $letter-spacing: normal,
+    $line-height: rem(28px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(16px),
+);
+
+$body-2: type-style(
+    $font-size: rem(14px),
+    $font-weight: 500,
+    $letter-spacing: normal,
+    $line-height: rem(20px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(16px),
+);
+
+$detail-1: type-style(
+    $font-size: rem(13px),
+    $font-weight: 400,
+    $letter-spacing: 0.3px,
+    $line-height: rem(20px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(26px),
+);
+
+$detail-2: type-style(
+    $font-size: rem(13px),
+    $font-weight: 600,
+    $letter-spacing: 0.15px,
+    $line-height: rem(16px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(26px),
+);
+
+$subtitle-1: type-style(
+    $font-size: rem(16px),
+    $font-weight: 500,
+    $letter-spacing: 0.15px,
+    $line-height: rem(24px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(26px),
+);
+
+$subtitle-2: type-style(
+    $font-size: rem(14px),
+    $font-weight: 600,
+    $letter-spacing: 0.1px,
+    $line-height: rem(24px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(26px),
+);
+$button: type-style(
+    $font-size: rem(16px),
+    $font-weight: 400,
+    $letter-spacing: normal,
+    $line-height: rem(24px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: 0,
+);
+$caption: type-style(
+    $font-size: rem(12px),
+    $font-weight: 500,
+    $letter-spacing: normal,
+    $line-height: rem(18px),
+    $text-transform: none,
+);
+
+$overline: type-style(
+    $font-size: rem(10px),
+    $font-weight: 400,
+    $letter-spacing: rem(1.5px),
+    $line-height: rem(20px),
+    $text-transform: uppercase,
+);
+
+$igd-code: type-style(
+    $font-size: rem(14px),
+    $font-weight: 400,
+    $letter-spacing: normal,
+    $line-height: rem(24px),
+    $text-transform: none,
+    $margin-top: 0,
+    $margin-bottom: rem(26px),
+);
+
+$_base-scale: type-scale(
+    $h1: $h1,
+    $h2: $h2,
+    $h3: $h3,
+    $h4: $h4,
+    $h5: $h5,
+    $h6: $h6,
+    $body-1: $body-1,
+    $body-2: $body-2,
+    $subtitle-1: $subtitle-1,
+    $subtitle-2: $subtitle-2,
+    $button: $button,
+    $caption: $caption,
+    $overline: $overline,
+);
+
+$igd-type-scale: extend(
+    $_base-scale,
+    (
+        code: $igd-code,
+        detail-1: $detail-1,
+        detail-2: $detail-2,
+    )
+);

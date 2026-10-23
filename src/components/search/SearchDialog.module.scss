@@ -8,18 +8,18 @@ dialog {
     width: 90%;
     max-width: rem(800px);
     max-height: 80vh;
+    border-radius: var(--igd-border-radius-xl);
     box-shadow: var(--ig-elevation-24);
-    border-block-end: 2px solid var(--ig-primary-500);
     overflow: hidden;
 
     &::backdrop {
-        background-color: hsl(from var(--ig-gray-900) h s l / 0.5);
+        background-color: hsl(from var(--ig-gray-900) h s l / 0.4);
     }
 }
 
 .wrapper {
     display: grid;
-    background-color: var(--ig-surface-500);
+    background-color: var(--ig-surface-overlay);
 }
 
 .header {
@@ -27,11 +27,13 @@ dialog {
     align-items: center;
     justify-content: space-between;
     padding: var(--spacing-4) var(--spacing-5);
-    border-bottom: 1px solid var(--ig-gray-200);
+    border-bottom: var(--igd-app-outline);
 }
 
 .title {
     font-size: rem(18px);
+    font-weight: 700;
+    color: var(--ig-gray-900);
     margin: 0;
 }
 
@@ -45,13 +47,13 @@ dialog {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: var(--igd-border-radius);
     transition: all 0.2s ease-in;
     outline-style: none;
 
     &:focus,
     &:hover {
-        background-color: var(--ig-gray-200);
+        background-color: var(--ig-gray-100);
         color: var(--ig-gray-900);
     }
 
@@ -70,7 +72,7 @@ dialog {
 
 .footer {
     padding: var(--spacing-3) var(--spacing-5);
-    border-top: 1px solid var(--ig-gray-200);
+    border-top: var(--igd-app-outline);
     display: flex;
     justify-content: flex-end;
 }
@@ -83,130 +85,67 @@ dialog {
     font-size: var(--ig-body-2-font-size);
 
     kbd {
-        background-color: var(--ig-gray-200);
         padding: rem(2px) rem(6px);
-        font-family: monospace;
-        font-size: var(--ig-body-2-font-size);
+        border: rem(1px) solid var(--ig-gray-200);
+        border-radius: var(--igd-border-radius);
+        background-color: var(--ig-gray-50);
+        font-family: inherit;
+        font-size: rem(12px);
     }
 }
 
-/* Custom styling for pagefind UI */
 .searchUI {
-    --pagefind-ui-font: var(--ig-font-family);
+    --pf-font: var(--ig-font-family);
+    --pf-text: var(--ig-gray-900);
+    --pf-text-secondary: var(--ig-gray-700);
+    --pf-text-muted: var(--ig-gray-500);
+    --pf-background: var(--ig-surface-overlay);
+    --pf-border: var(--ig-gray-300);
+    --pf-border-focus: var(--igd-accent);
+    --pf-hover: var(--ig-gray-50);
+    --pf-mark: var(--igd-accent);
+    --pf-skeleton: var(--ig-gray-200);
+    --pf-skeleton-shine: var(--ig-gray-100);
+    --pf-outline-focus: var(--igd-accent);
+    --pf-border-radius: var(--igd-border-radius);
+    --pf-input-height: #{rem(40px)};
+    --pf-input-font-size: #{rem(16px)};
+    --pf-summary-font-size: #{rem(13px)};
+    --pf-result-title-font-size: #{rem(16px)};
+    --pf-result-excerpt-font-size: #{rem(14px)};
+    --pf-results-gap: var(--spacing-5);
 
-    :global(.pagefind-ui__search-input) {
-        width: 100%;
-        border: 1px solid var(--ig-gray-400);
-        border-radius: 0;
-        font-size: rem(16px);
-        box-shadow: none;
-        transition: all 0.2s ease-in;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-4);
 
-        &:focus {
-            border-color: var(--ig-primary-500);
-            box-shadow: 0 rem(4px) 0 0 rgba(var(--ig-primary-500), 0.2);
-            outline: none;
-        }
+    :global(.pf-input) {
+        border-color: var(--igd-accent) !important;
+        box-shadow: 0 0 0 rem(1px) var(--igd-accent) !important;
     }
 
-    :global(.pagefind-ui__search-clear) {
-        background-color: transparent;
-        color: var(--ig-gray-700);
-        border: none;
-
-        &:hover {
-            color: var(--ig-gray-900);
-        }
+    :global(.pf-result-title) {
+        font-weight: 600 !important;
+        text-transform: capitalize !important;
     }
 
-    :global(.pagefind-ui__results-container) {
-        margin-top: var(--spacing-4);
+    :global(.pf-result-link) {
+        color: var(--ig-gray-900) !important;
     }
 
-    :global(.pagefind-ui__results-area) {
-        display: grid;
-        gap: var(--spacing-5);
-        margin-top: var(--spacing-5);
+    :global(.pf-result-link:hover) {
+        color: var(--igd-accent) !important;
     }
 
-    :global(.pagefind-ui__results) {
-        display: grid;
-        gap: var(--spacing-5);
-
-        &:empty {
-            display: none;
-        }
+    :global(.pf-heading-link) {
+        color: var(--ig-gray-900) !important;
     }
 
-    :global(.pagefind-ui__result) {
-        padding-block: 0 !important;
-        border: none !important;
-
-        mark {
-            background-color: transparent;
-            color: var(--ig-warn-500);
-        }
-    }
-
-    :global(.pagefind-ui__result-title) {
-        font-size: rem(16px);
-        font-weight: 600;
-        margin-bottom: var(--spacing-2);
-        text-transform: capitalize;
-    }
-
-    :global(.pagefind-ui__result-inner) {
-        margin: 0 !important;
-        gap: var(--spacing-2);
-    }
-
-    :global(.pagefind-ui__result-link) {
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: none !important;
-        }
-    }
-
-    :global(.pagefind-ui__result-nested) {
-        padding-top: 0 !important;
-        padding-inline-start: var(--ig-spacing-1);
-    }
-
-    :global(.pagefind-ui__result-nested > .pagefind-ui__result-title) {
-        font-size: var(--ig-h5-font-size);
-        font-weight: var(--ig-h5-font-weight);
-        text-transform: none;
-    }
-
-    :global(
-        .pagefind-ui__result-nested
-            > .pagefind-ui__result-title
-            > .pagefind-ui__result-link
-    ) {
-        display: flex;
-        gap: var(--spacing-2);
-        align-items: center;
-
-        &::before {
-            position: relative;
-            font-family: "Material Symbols Sharp";
-            font-size: rem(18px);
-            font-weight: normal;
-            margin: 0;
-            content: "\f587";
-            color: var(--ig-gray-700);
-            inset: 0;
-        }
-    }
-
-    :global(.pagefind-ui__result-excerpt) {
-        font-size: rem(14px);
-        color: var(--ig-gray-700);
-    }
-
-    :global(.pagefind-ui__message) {
-        color: var(--ig-gray-600);
-        padding-block: 0;
+    :global(.pf-heading-link::before) {
+        font-family: "Material Symbols Sharp" !important;
+        font-size: rem(16px) !important;
+        vertical-align: middle;
+        color: var(--igd-accent) !important;
+        content: "\f587" !important;
     }
 }

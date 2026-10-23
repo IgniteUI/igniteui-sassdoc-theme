@@ -6,19 +6,29 @@
     grid-template-columns: subgrid;
     grid-column: pre-start / post-end;
 
-    .type {
-        padding: rem(4px) rem(8px);
-        border: rem(2px) solid;
-        font-size: rem(14px);
+    .type,
+    .access {
+        display: inline-flex;
+        align-items: center;
+        height: rem(24px);
+        padding-inline: rem(8px);
+        border: rem(1px) solid;
+        border-radius: var(--igd-border-radius);
+        font-size: rem(13px);
+        font-weight: 500;
+        line-height: 1;
+        text-transform: capitalize;
         align-self: center;
     }
 
     .name {
         @include ellipsis();
 
-        color: var(--ig-gray-800);
+        color: var(--ig-gray-900);
         flex: 1 1 auto;
         min-width: 0;
+        // Optically center the lowercase name on the badges (x-height offset of aktiv-grotesk).
+        translate: 0 -0.11em;
     }
 
     .deprecated {
@@ -33,8 +43,9 @@
     }
 
     .access {
-        color: var(--ig-gray-300);
-        align-self: center;
+        border-color: var(--igd-app-outline-color);
+        background-color: var(--ig-gray-50);
+        color: var(--ig-gray-600);
     }
 
     header {
@@ -43,7 +54,10 @@
 
     h2 {
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
+        gap: var(--spacing-1) var(--spacing-4);
+        min-width: 0;
     }
 
     .definitionHeader {
@@ -51,6 +65,7 @@
         gap: var(--spacing-2);
         align-items: center;
         flex: 0 1 auto;
+        min-width: 0;
     }
 
     a {
@@ -65,26 +80,32 @@
         @include type-style(h2);
 
         display: none;
-        color: var(--ig-gray-400);
+        font-weight: 400;
+        color: var(--ig-gray-300);
         padding-inline: var(--spacing-4);
         grid-column: pre-start / pre-end;
         text-align: end;
 
         &:hover {
-            color: var(--ig-gray-600);
-            text-decoration: underline;
+            color: var(--igd-accent);
         }
     }
 
     .codeLink {
         display: inline-flex;
         align-items: center;
-        color: var(--ig-gray-700);
-        font-size: var(--ig-h5-font-size);
+        color: var(--igd-accent);
+        font-size: rem(14px);
+        font-weight: 500;
         text-decoration: none;
-        gap: var(--spacing-2);
+        gap: var(--spacing-1);
 
-        span {
+        i {
+            font-size: rem(18px);
+            color: inherit;
+        }
+
+        &:hover span {
             text-decoration: underline;
         }
     }

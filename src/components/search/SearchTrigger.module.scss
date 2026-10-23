@@ -5,38 +5,46 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-2);
-    background-color: var(--ig-surface-500);
-    border: none;
-    border-block-end: 1px solid var(--ig-gray-200);
-    color: var(--ig-gray-600);
-    padding: var(--spacing-2) var(--spacing-3);
-    cursor: pointer;
+    width: calc(100% - var(--spacing-3) * 2);
+    height: rem(40px);
+    margin: var(--spacing-3);
+    padding-inline: var(--spacing-3);
+    background-color: var(--igd-app-bg);
+    border: rem(1px) solid var(--ig-gray-300);
+    border-radius: var(--igd-border-radius);
+    color: var(--ig-gray-500);
+    font: inherit;
     font-size: rem(14px);
-    transition: all 0.2s ease;
-    width: 100%;
     text-align: start;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
 
     &:hover {
-        border-color: var(--ig-primary-500);
+        border-color: var(--igd-accent);
     }
 
-    &:focus {
-        outline-style: none;
+    &:focus-visible {
+        outline: rem(2px) solid var(--igd-accent);
+        outline-offset: rem(1px);
     }
 }
 
 .trigger[data-large="true"] {
-    border: 1px solid var(--ig-primary-600);
-    padding: var(--spacing-3) var(--spacing-4);
+    width: 100%;
+    height: rem(48px);
+    margin: 0;
+    padding-inline: var(--spacing-4);
+    border-color: var(--igd-accent);
+    font-size: rem(16px);
 
     .icon {
-        color: var(--ig-primary-600);
+        color: var(--igd-accent);
     }
 }
 
 .icon {
     font-size: rem(18px);
-    color: var(--ig-gray-600);
+    color: var(--ig-gray-500);
 }
 
 .label {
@@ -52,16 +60,18 @@
     gap: rem(2px);
 
     kbd {
-        background-color: var(--ig-gray-200);
-        border-radius: rem(4px);
-        padding: rem(2px) rem(6px);
-        font-family: monospace;
-        font-size: rem(11px);
-        min-width: rem(14px);
-        height: rem(20px);
         display: flex;
         align-items: center;
         justify-content: center;
+        min-width: rem(18px);
+        height: rem(20px);
+        padding: 0 rem(4px);
+        border: rem(1px) solid var(--ig-gray-200);
+        border-radius: var(--igd-border-radius);
+        background-color: var(--ig-gray-50);
+        color: var(--ig-gray-500);
+        font-family: inherit;
+        font-size: rem(11px);
         line-height: 1;
     }
 }

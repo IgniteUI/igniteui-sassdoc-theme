@@ -4,7 +4,7 @@ $timing-function: 0.15s ease-in-out;
 
 .container {
     display: grid;
-    gap: var(--spacing-3);
+    gap: var(--spacing-2);
     padding: var(--spacing-3);
 
     details::details-content {
@@ -32,40 +32,63 @@ $timing-function: 0.15s ease-in-out;
 
     ul {
         display: grid;
-        gap: var(--spacing-2);
+        gap: rem(2px);
         margin-block: var(--spacing-1);
         padding: 0;
         list-style-type: "";
-        border-inline-start: 1px solid var(--ig-gray-400);
     }
 
     summary {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        min-height: rem(36px);
+        padding-inline: var(--spacing-2);
+        border-radius: var(--igd-border-radius);
         text-transform: capitalize;
         color: var(--ig-gray-900);
         cursor: pointer;
         user-select: none;
+        font-size: rem(14px);
         font-weight: 600;
-        margin-block-end: var(--spacing-1);
+
+        @media (hover: hover) {
+            &:hover {
+                background-color: var(--ig-gray-100);
+            }
+        }
     }
 
     a {
-        font-size: var(--ig-h6-font-size);
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: rem(14px);
+        line-height: rem(20px);
         text-decoration: none;
-        color: var(--ig-gray-600);
-        padding: var(--spacing-1) var(--spacing-3);
-        transition: color $timing-function;
+        color: var(--ig-gray-700);
+        padding: var(--spacing-2) var(--spacing-2) var(--spacing-2) rem(36px);
+        border-radius: var(--igd-border-radius);
+        transition:
+            color $timing-function,
+            background-color $timing-function;
 
         @media (hover: hover) {
             &:hover {
                 color: var(--ig-gray-900);
+                background-color: var(--ig-gray-100);
             }
         }
 
+        &:focus-visible {
+            outline: rem(2px) solid var(--igd-accent);
+            outline-offset: rem(-2px);
+        }
+
         &[aria-current="location"] {
-            color: var(--ig-gray-900);
+            color: var(--igd-on-accent);
+            background-color: var(--igd-accent);
             transition: none;
         }
     }

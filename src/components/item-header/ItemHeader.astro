@@ -24,7 +24,8 @@ const {
 
 const sources = await getCollection("sources");
 const source = sources.find((item) => item.data.id === project?.name)?.data.url;
-const codeLocURL = source && `${source}${path}#L${line.start}`;
+const filePath = path.replace(/\\/g, "/").replace(/^\/+/, "");
+const codeLocURL = source && `${source}${filePath}#L${line.start}`;
 const name = displayName ?? contextName;
 
 const lang = getLangFromEnv();

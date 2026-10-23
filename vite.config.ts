@@ -1,53 +1,11 @@
 import { dirname, join, resolve } from "path";
-import { defineConfig, normalizePath } from "vite";
-import { viteStaticCopy } from "vite-plugin-static-copy";
+import { defineConfig } from "vite";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const SRC_EXCLUDE = [
-  "!**/theme.ts",
-  "!**/package.json",
-  "!**/annotations.ts",
-  "!**/*.scss",
-];
-
 export default defineConfig({
   publicDir: false,
-  plugins: [
-    viteStaticCopy({
-      targets: [
-        {
-          src: "astro.config.ts",
-          dest: "./",
-        },
-        {
-          src: "web.config",
-          dest: "./public/",
-        },
-        {
-          src: "schema/sassdoc-schema.json",
-          dest: "./",
-        },
-        {
-          src: normalizePath(join("src", "**/*.astro")),
-          dest: "./",
-        },
-        {
-          src: [normalizePath(join("src", "**/*.ts"))].concat(SRC_EXCLUDE),
-          dest: "./",
-        },
-        {
-          src: normalizePath(join("src", "**/*.css")),
-          dest: "./",
-        },
-        {
-          src: [normalizePath(join("src", "**/*.json"))].concat(SRC_EXCLUDE),
-          dest: "./",
-        },
-      ],
-    }),
-  ],
   build: {
     sourcemap: false,
     lib: {

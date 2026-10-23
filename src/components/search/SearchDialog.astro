@@ -1,5 +1,5 @@
 ---
-import Search from "astro-pagefind/components/Search";
+import PagefindConfig from "astro-pagefind/components/PagefindConfig.astro";
 import styles from "./SearchDialog.module.css";
 import { getLangFromEnv, useTranslations } from "../../i18n/utils";
 
@@ -24,10 +24,15 @@ const { id = "search-dialog" } = Astro.props;
     </header>
 
     <section class={styles.content}>
-      <Search
-        className={styles.searchUI}
-        uiOptions={{ showImages: false, showSubResults: true }}
-      />
+      <PagefindConfig lang={lang} />
+      <div class={styles.searchUI}>
+        <pagefind-input
+          placeholder={t("search.dialog.placeholder")}
+          hide-shortcut
+        ></pagefind-input>
+        <pagefind-summary></pagefind-summary>
+        <pagefind-results max-sub-results="5"></pagefind-results>
+      </div>
     </section>
 
     <footer class={styles.footer}>
@@ -75,8 +80,7 @@ const { id = "search-dialog" } = Astro.props;
     const dialogEl = document.getElementById(id);
     if (!dialogEl) return;
 
-    const input = dialogEl.querySelector("input[type='text']");
-    input.setAttribute("autoFocus", "true");
+    const input = dialogEl.querySelector("pagefind-input");
 
     const closeButtonEl = dialogEl.querySelector(
       'button[aria-label="Close search"]',
@@ -84,6 +88,7 @@ const { id = "search-dialog" } = Astro.props;
 
     function openDialog() {
       dialogEl.showModal();
+      input?.focus();
     }
 
     function closeDialog() {
@@ -95,7 +100,7 @@ const { id = "search-dialog" } = Astro.props;
         closeDialog();
       }
 
-      if (e.target.classList.contains("pagefind-ui__result-link")) {
+      if (e.target.closest(".pf-result-link, .pf-heading-link")) {
         closeDialog();
       }
     });
