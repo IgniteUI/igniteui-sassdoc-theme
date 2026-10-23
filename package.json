@@ -17,7 +17,7 @@
   "scripts": {
     "build": "npm run scss:build && vite build && node ./scripts/post-build.js",
     "compile": "npm run build && sassdoc ./test/library -c ./test/sassdoc.config.json",
-    "dev": "npm run scss:watch & npm run compile && node ./scripts/copy-data.js && astro dev --host",
+    "dev": "npm run compile && node ./scripts/copy-data.js && concurrently --kill-others --names scss,astro \"npm:scss:watch\" \"astro dev --host\"",
     "serve": "npm run compile && serve -p 8080 site",
     "scss:build": "sass src:src --quiet-deps --load-path=node_modules --no-source-map --style=compressed",
     "scss:watch": "npm run scss:build -- --watch",
@@ -27,6 +27,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.5",
+    "concurrently": "^10.0.6",
     "igniteui-theming": "^30.0.0",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
