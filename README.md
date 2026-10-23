@@ -164,6 +164,9 @@ npm run build
 # Test with sample documentation
 npm run compile
 
+# Build the sample documentation and serve it under its production base path
+npm run serve
+
 # Refresh the embedded header/footer snapshots from the marketing site
 npm run chrome:sync
 ```

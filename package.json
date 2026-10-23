@@ -18,7 +18,7 @@
     "build": "npm run scss:build && vite build && node ./scripts/post-build.js",
     "compile": "npm run build && sassdoc ./test/library -c ./test/sassdoc.config.json",
     "dev": "npm run compile && node ./scripts/copy-data.js && concurrently --kill-others --names scss,astro \"npm:scss:watch\" \"astro dev --host\"",
-    "serve": "npm run compile && serve -p 8080 site",
+    "serve": "npm run compile && node ./scripts/serve.js",
     "scss:build": "sass src:src --quiet-deps --load-path=node_modules --no-source-map --style=compressed",
     "scss:watch": "npm run scss:build -- --watch",
     "chrome:sync": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON ./scripts/chrome-sync.js"
@@ -32,7 +32,7 @@
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "sassdoc": "^2.7.4",
-    "serve": "^14.2.6",
+    "serve-handler": "^6.1.7",
     "vite": "^8.3.5",
     "vite-plugin-static-copy": "^4.1.1"
   },
