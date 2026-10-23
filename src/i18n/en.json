@@ -3,6 +3,7 @@
   "search.dialog.title": "Search Documentation",
   "search.dialog.close": "Close search",
   "search.dialog.esc": "to close",
+  "search.dialog.placeholder": "Search mixins, functions, variables...",
   "search.trigger.label": "Search documentation",
   "deprecated.label": "Deprecated",
   "parameters.title": "Parameters",

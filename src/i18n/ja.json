@@ -3,6 +3,7 @@
   "search.dialog.title": "ドキュメントを検索",
   "search.dialog.close": "検索を閉じる",
   "search.dialog.esc": "で閉じる",
+  "search.dialog.placeholder": "ミックスイン、関数、変数を検索...",
   "search.trigger.label": "ドキュメントを検索",
   "deprecated.label": "非推奨",
   "parameters.title": "パラメーター",

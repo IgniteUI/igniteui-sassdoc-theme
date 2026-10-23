@@ -90,123 +90,49 @@ dialog {
     }
 }
 
-/* Custom styling for pagefind UI */
+/* Theme the pagefind component UI through its custom properties */
 .searchUI {
-    --pagefind-ui-font: var(--ig-font-family);
+    --pf-font: var(--ig-font-family);
+    --pf-text: var(--ig-gray-900);
+    --pf-text-secondary: var(--ig-gray-700);
+    --pf-text-muted: var(--ig-gray-600);
+    --pf-background: var(--ig-surface-500);
+    --pf-border: var(--ig-gray-300);
+    --pf-border-focus: var(--ig-primary-500);
+    --pf-hover: var(--ig-gray-100);
+    --pf-mark: var(--ig-warn-500);
+    --pf-skeleton: var(--ig-gray-200);
+    --pf-skeleton-shine: var(--ig-gray-100);
+    --pf-outline-focus: var(--ig-primary-500);
+    --pf-border-radius: 0;
+    --pf-input-height: #{rem(40px)};
+    --pf-input-font-size: #{rem(16px)};
+    --pf-summary-font-size: #{rem(13px)};
+    --pf-result-title-font-size: #{rem(16px)};
+    --pf-result-excerpt-font-size: #{rem(14px)};
+    --pf-results-gap: var(--spacing-5);
 
-    :global(.pagefind-ui__search-input) {
-        width: 100%;
-        border: 1px solid var(--ig-gray-400);
-        border-radius: 0;
-        font-size: rem(16px);
-        box-shadow: none;
-        transition: all 0.2s ease-in;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-4);
 
-        &:focus {
-            border-color: var(--ig-primary-500);
-            box-shadow: 0 rem(4px) 0 0 rgba(var(--ig-primary-500), 0.2);
-            outline: none;
-        }
+    :global(.pf-result-title) {
+        font-weight: 600 !important;
+        text-transform: capitalize !important;
     }
 
-    :global(.pagefind-ui__search-clear) {
-        background-color: transparent;
-        color: var(--ig-gray-700);
-        border: none;
-
-        &:hover {
-            color: var(--ig-gray-900);
-        }
+    :global(.pf-result-link) {
+        color: var(--ig-primary-500) !important;
     }
 
-    :global(.pagefind-ui__results-container) {
-        margin-top: var(--spacing-4);
+    :global(.pf-heading-chip) {
+        border-radius: 0 !important;
     }
 
-    :global(.pagefind-ui__results-area) {
-        display: grid;
-        gap: var(--spacing-5);
-        margin-top: var(--spacing-5);
-    }
-
-    :global(.pagefind-ui__results) {
-        display: grid;
-        gap: var(--spacing-5);
-
-        &:empty {
-            display: none;
-        }
-    }
-
-    :global(.pagefind-ui__result) {
-        padding-block: 0 !important;
-        border: none !important;
-
-        mark {
-            background-color: transparent;
-            color: var(--ig-warn-500);
-        }
-    }
-
-    :global(.pagefind-ui__result-title) {
-        font-size: rem(16px);
-        font-weight: 600;
-        margin-bottom: var(--spacing-2);
-        text-transform: capitalize;
-    }
-
-    :global(.pagefind-ui__result-inner) {
-        margin: 0 !important;
-        gap: var(--spacing-2);
-    }
-
-    :global(.pagefind-ui__result-link) {
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: none !important;
-        }
-    }
-
-    :global(.pagefind-ui__result-nested) {
-        padding-top: 0 !important;
-        padding-inline-start: var(--ig-spacing-1);
-    }
-
-    :global(.pagefind-ui__result-nested > .pagefind-ui__result-title) {
-        font-size: var(--ig-h5-font-size);
-        font-weight: var(--ig-h5-font-weight);
-        text-transform: none;
-    }
-
-    :global(
-        .pagefind-ui__result-nested
-            > .pagefind-ui__result-title
-            > .pagefind-ui__result-link
-    ) {
-        display: flex;
-        gap: var(--spacing-2);
-        align-items: center;
-
-        &::before {
-            position: relative;
-            font-family: "Material Symbols Sharp";
-            font-size: rem(18px);
-            font-weight: normal;
-            margin: 0;
-            content: "\f587";
-            color: var(--ig-gray-700);
-            inset: 0;
-        }
-    }
-
-    :global(.pagefind-ui__result-excerpt) {
-        font-size: rem(14px);
-        color: var(--ig-gray-700);
-    }
-
-    :global(.pagefind-ui__message) {
-        color: var(--ig-gray-600);
-        padding-block: 0;
+    :global(.pf-heading-link::before) {
+        font-family: "Material Symbols Sharp" !important;
+        font-size: rem(16px) !important;
+        vertical-align: middle;
+        content: "\f587" !important;
     }
 }
