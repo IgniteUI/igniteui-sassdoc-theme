@@ -33,8 +33,7 @@
     "prettier-plugin-astro": "^1.1.1",
     "sassdoc": "^2.7.4",
     "serve-handler": "^6.1.7",
-    "vite": "^8.3.5",
-    "vite-plugin-static-copy": "^4.1.1"
+    "vite": "^8.3.5"
   },
   "dependencies": {
     "astro": "^7.4.2",
@@ -46,5 +45,13 @@
     "sass-embedded": "^1.106.1",
     "typescript": "^7.0.2",
     "zod": "^4.6.7"
+  },
+  "overrides": {
+    "nunjucks": {
+      "chokidar": "^5.0.0"
+    },
+    "sass-convert": {
+      "semver-regex": "^3.1.4"
+    }
   }
 }
