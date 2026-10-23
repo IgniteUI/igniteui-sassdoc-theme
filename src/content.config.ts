@@ -22,11 +22,11 @@ const sources = defineCollection({
     return [
       {
         id: "default",
-        url: "https://github.com/IgniteUI/igniteui-angular/tree/master/projects/igniteui-angular/src/lib/core/styles/",
+        url: "https://github.com/IgniteUI/igniteui-angular/blob/master/projects/igniteui-angular/core/src/core/styles/",
       },
       {
         id: "theming",
-        url: "https://github.com/IgniteUI/igniteui-theming/tree/master/packages/theming/sass/",
+        url: "https://github.com/IgniteUI/igniteui-theming/blob/master/packages/theming/sass/",
       },
     ];
   },
