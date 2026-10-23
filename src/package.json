@@ -3,7 +3,7 @@
   "description": "Default SassDoc theme used in Ignite UI for Angular.",
   "author": "Infragistics",
   "license": "MIT",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "dependencies": {
     "astro": "^7.4.2",
     "astro-breadcrumbs": "^3.4.2",
