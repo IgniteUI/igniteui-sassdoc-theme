@@ -47,11 +47,13 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode({
-      themes: ["github-light"],
+      // Same theme as the code blocks of the Ignite UI documentation.
+      themes: ["dark-plus"],
       styleOverrides: {
-        borderRadius: "0",
+        borderRadius: "var(--igd-border-radius)",
         borderWidth: "1px",
-        borderColor: "var(--ig-gray-300)",
+        borderColor: "var(--igd-app-outline-color)",
+        codeFontFamily: "var(--igd-font-mono)",
         frames: {
           shadowColor: "none",
         },

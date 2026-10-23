@@ -9,8 +9,8 @@
 
     .tableContainer {
         display: grid;
-        border-radius: rem(1px);
-        border: 1px solid var(--ig-gray-300);
+        border-radius: var(--igd-border-radius);
+        border: var(--igd-app-outline);
         grid-template-columns: repeat(1, minmax(0, 1fr));
         overflow: auto;
     }
@@ -19,19 +19,20 @@
         width: 100%;
         border-collapse: collapse;
         font-size: rem(14px);
-        background-color: white;
+        background-color: var(--igd-app-bg);
     }
 
     thead {
         color: var(--ig-gray-900);
-        border-block-end: 2px solid var(--ig-gray-300);
+        background-color: var(--ig-gray-50);
+        border-block-end: var(--igd-app-outline);
     }
 
     th,
     td {
         padding: rem(8px) rem(12px);
         text-align: start;
-        border-bottom: 1px solid var(--ig-gray-300);
+        border-bottom: var(--igd-app-outline);
     }
 
     td {
@@ -54,6 +55,6 @@
     }
 
     .required {
-        color: var(--ig-error-900);
+        color: var(--ig-error-600);
     }
 }

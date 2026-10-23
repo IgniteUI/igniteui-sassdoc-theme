@@ -2,18 +2,30 @@
 @use "igniteui-theming/sass/typography" as *;
 @use "igniteui-theming/sass/typography/presets" as *;
 @use "igniteui-theming/sass/elevations/presets" as *;
-@use "igniteui-theming/sass/color/presets" as *;
+@use "palette" as *;
+@use "type-scale" as *;
 
-$type-face: "'aktiv-grotesk', 'Helvetica Neue Light', 'Helvetica Neue', 'Arial', sans-serif";
+$type-face: "aktiv-grotesk, 'Segoe UI', system-ui, sans-serif";
 
-@include palette($light-material-palette);
+@include palette($light-palette);
 @include elevations($material-elevations);
-@include typography($type-face, $indigo-type-scale);
+@include typography($type-face, $igd-type-scale);
 
 :root {
-    --function-color: var(--ig-success-400);
-    --mixin-color: var(--ig-error-300);
-    --variable-color: var(--ig-info-400);
+    --function-color: var(--ig-success-500);
+    --mixin-color: var(--ig-error-500);
+    --variable-color: var(--ig-info-500);
+
+    // Design tokens of the Ignite UI documentation (igniteui-astro-components)
+    --igd-accent: var(--ig-primary-600);
+    --igd-on-accent: var(--ig-primary-600-contrast);
+    --igd-border-radius: #{rem(4px)};
+    --igd-border-radius-xl: #{rem(10px)};
+    --igd-app-bg: var(--ig-surface-base);
+    --igd-app-outline-color: var(--ig-gray-200);
+    --igd-app-outline: #{rem(1px)} solid var(--igd-app-outline-color);
+    --igd-font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+
     --gray: light-dark(black, white);
     --spacing-1: #{rem(4px)};
     --spacing-2: #{rem(8px)};
@@ -47,11 +59,13 @@ body {
         [document-start] 0
         [sidebar-start] rem(300px) [sidebar-end]
         0
-        [content-start] minmax(auto, rem(1280px)) [content-end]
+        [content-start] minmax(0, rem(1280px)) [content-end]
         0
         [document-end];
     align-items: start;
     font-family: var(--ig-font-family);
+    background-color: var(--igd-app-bg);
+    color: var(--ig-gray-700);
     margin: 0;
     padding: 0;
 }
@@ -72,7 +86,7 @@ p {
 }
 
 a {
-    color: var(--ig-primary-500);
+    color: var(--igd-accent);
 }
 
 iframe#gtm-noscript {
@@ -83,7 +97,6 @@ iframe#gtm-noscript {
     #{$e} {
         @include type-style($e) {
             margin: 0;
-            line-height: 1.5;
         }
     }
 }
@@ -99,7 +112,10 @@ iframe#gtm-noscript {
     z-index: 1;
 }
 
-.main-head,
+.main-head {
+    background-color: var(--igd-app-bg);
+}
+
 .main-footer {
     background-color: var(--ig-gray-900);
 }
@@ -116,7 +132,7 @@ body[data-has-sidebar="false"] {
     display: grid;
     grid-template-columns:
         [pre-start] var(--layout-rails) [pre-end]
-        auto
+        minmax(0, 1fr)
         [post-start] var(--layout-rails) [post-end];
     grid-auto-rows: min-content;
     grid-column: sidebar-start / content-end;
@@ -128,9 +144,7 @@ body[data-has-sidebar="false"] {
 
 .main-title,
 .group-title {
-    font-family: "Faculty Glyphic", sans-serif;
-    font-weight: 600;
-    font-style: normal;
+    color: var(--ig-gray-900);
     text-transform: capitalize;
     grid-column: pre-end / post-start;
     margin-block-end: var(--content-gap);
@@ -145,7 +159,7 @@ astro-breadcrumbs,
 astro-breadcrumbs {
     position: sticky;
     top: calc(var(--header-height));
-    background-color: var(--ig-surface-500);
+    background-color: var(--igd-app-bg);
     padding-block: var(--spacing-3);
     margin-block-end: calc(var(--content-gap) - var(--spacing-3));
     z-index: 1;
@@ -164,7 +178,7 @@ astro-breadcrumbs {
         display: flex;
         align-items: center;
         text-transform: capitalize;
-        color: var(--ig-gray-500);
+        color: var(--ig-gray-600);
         font-size: rem(14px);
 
         &::before {
@@ -188,7 +202,7 @@ astro-breadcrumbs {
             transition: color 0.2s ease-in;
 
             &:hover {
-                color: var(--ig-gray-800);
+                color: var(--igd-accent);
             }
         }
 
@@ -211,8 +225,8 @@ astro-breadcrumbs {
     top: var(--header-height);
     height: calc(100dvh - var(--header-height));
     grid-column: sidebar-start / sidebar-end;
-    background-color: var(--ig-gray-50);
-    border-inline-end: 1px solid var(--ig-gray-200);
+    background-color: var(--igd-app-bg);
+    border-inline-end: var(--igd-app-outline);
     overflow: hidden;
 }
 
@@ -266,9 +280,9 @@ astro-breadcrumbs {
         grid-template-columns:
             [document-start] 0
             [sidebar-start] rem(300px) [sidebar-end]
-            auto
-            [content-start] minmax(auto, rem(1280px)) [content-end]
-            auto
+            1fr
+            [content-start] minmax(0, rem(1280px)) [content-end]
+            1fr
             [document-end];
     }
 

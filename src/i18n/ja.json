@@ -28,6 +28,8 @@
   "home.feature3.description": "関連するコンポーネントと依存関係の間を簡単に移動できます。",
   "home.browse.title": "モジュール",
   "home.browse.button": "ドキュメントを閲覧",
+  "header.badge": "Sass API",
+  "header.version": "バージョン",
   "header.actions.components": "コンポーネント",
   "header.actions.get-started": "使用開始",
   "metadata.requires": "必要条件",

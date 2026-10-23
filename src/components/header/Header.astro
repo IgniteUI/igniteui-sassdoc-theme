@@ -16,45 +16,51 @@ const chrome = getChrome(lang);
 const header = chrome?.header ?? NavigationSchema.parse(navData).header;
 ---
 
-<div class="main-head" class={styles.container}>
+<div class="main-nav">
   <Fragment set:html={header} />
+</div>
 
-  <div class={styles.secondaryHead}>
-    <section class={styles.secondaryHead__section}>
-      <h5 class={styles.secondaryHead__title}>Ignite UI for Angular</h5>
+<div class:list={["main-head", styles.secondaryHead]}>
+  <section class={styles.secondaryHead__section}>
+    <a
+      class={styles.secondaryHead__brand}
+      href=`${baseUrl}/products/ignite-ui-angular`
+    >
+      <span class={styles.secondaryHead__title}>Ignite UI</span>
+    </a>
+    <span class={styles.secondaryHead__badge}>{t("header.badge")}</span>
+  </section>
 
-      <select
-        class={styles.secondaryHead__select}
-        id="version-selector"
-        data-site-base={siteBase}
-        data-versions-url={versionsURL}
-        data-base-url={baseUrl}
-        data-mode={mode}
-      >
-      </select>
-    </section>
-
-    <section class={styles.secondaryHead__section}>
-      <a
-        tabindex="0"
-        href=`${baseUrl}/products/ignite-ui-angular`
-        class={styles.secondaryHead__button}
-        data-type="flat"
-        target="_blank"
-      >
-        {t("header.actions.components")}
-      </a>
-      <a
-        tabindex="0"
-        href=`${baseUrl}/products/ignite-ui-angular/getting-started/`
-        class={styles.secondaryHead__button}
-        data-type="contained"
-        target="_blank"
-      >
-        {t("header.actions.get-started")}
-      </a>
-    </section>
-  </div>
+  <section class={styles.secondaryHead__section}>
+    <select
+      class={styles.secondaryHead__select}
+      id="version-selector"
+      aria-label={t("header.version")}
+      data-site-base={siteBase}
+      data-versions-url={versionsURL}
+      data-base-url={baseUrl}
+      data-mode={mode}
+    >
+    </select>
+    <a
+      tabindex="0"
+      href=`${baseUrl}/products/ignite-ui-angular`
+      class={styles.secondaryHead__button}
+      data-type="flat"
+      target="_blank"
+    >
+      {t("header.actions.components")}
+    </a>
+    <a
+      tabindex="0"
+      href=`${baseUrl}/products/ignite-ui-angular/getting-started/`
+      class={styles.secondaryHead__button}
+      data-type="contained"
+      target="_blank"
+    >
+      {t("header.actions.get-started")}
+    </a>
+  </section>
 </div>
 <script>
   const select = document.querySelector(

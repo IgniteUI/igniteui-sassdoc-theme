@@ -7,12 +7,15 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-1);
-    padding: var(--spacing-1) var(--spacing-2);
-    font-size: var(--ig-subtitle-2-font-size);
+    padding: rem(2px) var(--spacing-2);
+    border-radius: var(--igd-border-radius);
+    font-family: var(--igd-font-mono);
+    font-size: rem(13px);
 
     &[data-object-type="default"] {
         color: var(--ig-gray-700);
-        background-color: var(--ig-gray-200);
+        background-color: var(--ig-gray-100);
+        border: var(--igd-app-outline);
     }
 
     @each $color in ("mixin", "variable", "function") {
