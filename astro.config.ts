@@ -9,19 +9,13 @@ const baseUrl =
     ? "/"
     : "/products/ignite-ui-angular/docs/sass/latest/";
 
-// Set by the theme from the SassDoc `environment` option.
 const chromeSnapshot =
   process.env.SASSDOC_ENV === "staging"
     ? "./ig-chrome/staging"
     : "./ig-chrome/production";
 
-/**
- * Self-contained prerender bundle for builds: when the theme runs inside a
- * consuming project (or outside its cwd, where Astro falls back to <cwd>/.astro),
- * bare imports of Astro's own dependencies would otherwise resolve whatever
- * versions that project has hoisted (e.g. an old `cookie`).
- * Build only: the dev server's module runner can't load bundled CommonJS.
- */
+// Bundle Astro's dependencies into the prerender build, so they don't resolve to
+// incompatible versions hoisted by the consuming project. Build only: dev can't load bundled CJS.
 const bundlePrerender: AstroIntegration = {
   name: "igniteui:bundle-prerender",
   hooks: {
@@ -47,7 +41,6 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode({
-      // Same theme as the code blocks of the Ignite UI documentation.
       themes: ["dark-plus"],
       styleOverrides: {
         borderRadius: "var(--igd-border-radius)",

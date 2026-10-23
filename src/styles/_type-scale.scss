@@ -1,8 +1,5 @@
 @use "igniteui-theming" as *;
 
-// The type scale of the Ignite UI documentation (igniteui-astro-components,
-// src/styles/global/_type-scale.scss).
-
 $h1: type-style(
     $font-size: rem(36px),
     $font-weight: 700,

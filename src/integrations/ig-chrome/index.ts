@@ -1,23 +1,3 @@
-/**
- * `igChrome()` — render the Infragistics header and footer from a snapshot of
- * the marketing site's own export (see scripts/chrome-sync.js).
- *
- * Per build:
- *   - the snapshot is validated against the ig-chrome contract; a missing or
- *     broken snapshot fails the build;
- *   - the layout reads the parsed head/header/footer through the build-time
- *     `__IG_CHROME__` constant;
- *   - the CSS, JS and images are served from the generated site, under its base
- *     path: `{base}/_ig-chrome/{build}/…`. Nothing is loaded from the marketing
- *     host at runtime.
- *
- * SNAPSHOT LAYOUT:
- *   <snapshot>/manifest.json       contract, build hash, source, sync time
- *   <snapshot>/fragment.html       asset URLs written as %IG_CHROME_ASSETS%/…
- *   <snapshot>/assets/chrome.css
- *   <snapshot>/assets/chrome.js
- *   <snapshot>/assets/media/*
- */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -25,7 +5,6 @@ import type { AstroIntegration } from "astro";
 import { parseFragment, ASSET_TOKEN, type ParsedFragment } from "./contract";
 
 export interface IgChromeOptions {
-  /** The snapshot folder, absolute or relative to the Astro project root. */
   snapshot: string;
 }
 
@@ -106,13 +85,11 @@ export function igChrome(options: IgChromeOptions): AstroIntegration {
             plugins: [
               {
                 name: "igniteui:chrome-dev-assets",
-                // Server environments only; the client never needs the snapshot.
                 configEnvironment(name) {
                   if (name !== "client") {
                     return { define: { __IG_CHROME__: JSON.stringify(data) } };
                   }
                 },
-                // `astro dev`: serve the snapshot's assets at the URLs the build emits.
                 configureServer(server) {
                   const prefixes = [`${prefix}/`, `/_ig-chrome/${build}/`];
 

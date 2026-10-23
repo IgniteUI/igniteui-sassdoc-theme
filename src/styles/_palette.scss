@@ -1,8 +1,5 @@
 @use "igniteui-theming" as *;
 
-// The light palette of the Ignite UI documentation (igniteui-astro-components,
-// src/styles/global/_palette.scss), so the API docs match the component docs.
-
 $light-palette: (
     "primary": (
         "50": oklch(97% 0.014 254.604),
@@ -124,7 +121,6 @@ $light-palette: (
         "900-contrast": adaptive-contrast(oklch(21% 0.034 264.665)),
         "900-raw": oklch(21% 0.034 264.665),
     ),
-    // Seeded with white: the documentation pages render on its lightest surface shade.
     "surface": shades("surface", white, $ISurfaceShades),
     "info": shades("info", #1151c1, $IColorShades),
     "success": shades("success", #028a54, $IColorShades),

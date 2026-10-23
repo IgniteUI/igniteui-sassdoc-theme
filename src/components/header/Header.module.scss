@@ -45,8 +45,6 @@
         }
     }
 
-    // The Infragistics nav scrolls away; only the sub-header below it sticks,
-    // as in the Ignite UI documentation. Its menus must overlay the sub-header.
     .main-nav {
         position: relative;
         grid-column: document-start / document-end;
@@ -182,7 +180,6 @@
     @media (width < 768px) {
         padding-inline: var(--spacing-4);
 
-        // The Infragistics nav already links to these; keep the bar within the viewport.
         &__badge,
         &__button {
             display: none;

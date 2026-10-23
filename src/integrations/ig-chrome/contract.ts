@@ -1,18 +1,5 @@
-/**
- * The `ig-chrome` contract: the shape of the header/footer fragment the
- * marketing site publishes at `/assets/chrome/fragment.html`.
- *
- * Mirrors `igniteui-astro-components/chrome/contract`, which igniteui-documentation
- * uses for the same snapshot, so a fragment one consumer accepts, every consumer accepts.
- */
-
-/** The fragment shape this code understands. */
 export const CHROME_CONTRACT = "v1";
 
-/**
- * Placeholder the synced snapshot uses for "where this site serves the chrome
- * assets". Replaced with `{base}/_ig-chrome/{build}` at build time.
- */
 export const ASSET_TOKEN = "%IG_CHROME_ASSETS%";
 
 export interface ParsedFragment {
@@ -24,12 +11,8 @@ export interface ParsedFragment {
 }
 
 const STAMP = /<!--\s*ig-chrome\s+(v\d+)\s+build=([A-Za-z0-9]+)/;
-/** The site header itself: a <header> whose class list starts with "nv". */
 const SITE_HEADER = /<header\b[^>]*\sclass="nv[\s"]/i;
 
-/**
- * Splits a fragment into its parts. Throws on anything that does not match the contract.
- */
 export function parseFragment(html: string): ParsedFragment {
   const text = html ?? "";
   const stamp = STAMP.exec(text);

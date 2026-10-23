@@ -6,7 +6,6 @@
     grid-template-columns: subgrid;
     grid-column: pre-start / post-end;
 
-    // The type and access badges share one size, so the heading reads as a single line.
     .type,
     .access {
         display: inline-flex;
@@ -28,9 +27,7 @@
         color: var(--ig-gray-900);
         flex: 1 1 auto;
         min-width: 0;
-        // Item names are lowercase, so their ink sits in the x-height band, below the
-        // line box center the badges align to. Lift the name by the distance between the
-        // two (measured for aktiv-grotesk), so it sits optically centered between them.
+        // Optically center the lowercase name on the badges (x-height offset of aktiv-grotesk).
         translate: 0 -0.11em;
     }
 

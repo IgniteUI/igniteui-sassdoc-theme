@@ -1,37 +1,10 @@
 #!/usr/bin/env node
 /**
- * chrome-sync — copy the marketing site's exported header/footer into this repo.
+ * Snapshots the marketing site's header/footer (fragment, CSS, JS and media) into ig-chrome/.
  *
- * The marketing site (Marketing-Infragistics) is the single source of the
- * Infragistics header and footer. It publishes them at
- * /assets/chrome/fragment.html (src/lib/chromeExport.ts there). This script
- * fetches that fragment, validates it against the ig-chrome contract, downloads
- * everything it needs and writes a self-contained snapshot, which the theme
- * renders through its igChrome() integration (src/integrations/ig-chrome):
- *
- *   <out>/manifest.json      contract, build hash, source, sync time
- *   <out>/fragment.html      the fragment, every asset URL rewritten to
- *                            %IG_CHROME_ASSETS%/… (resolved per site, under its
- *                            base path, at build time)
- *   <out>/assets/chrome.css  the versioned CSS the fragment was built with
- *   <out>/assets/chrome.js   the versioned JS the fragment was built with
- *   <out>/assets/media/*     every image the markup or CSS loads from the
- *                            source host (footer badges, logos, framework marks)
- *
- * After the sync nothing is loaded from the marketing host at runtime except
- * the Google Fonts stylesheet the fragment links.
- *
- * Writes nothing when the fragment's build hash equals the snapshot's, so the
- * sync is a no-op until the marketing site changes the chrome.
- * In GitHub Actions it sets the `changed` and `build` step outputs.
- *
- *   node scripts/chrome-sync.js                     # sync every target in TARGETS
- *   node scripts/chrome-sync.js --source <url | path/to/dist/assets/chrome/fragment.html> --out ig-chrome/production
- *   node scripts/chrome-sync.js ... --allow-missing   # a 404 source is not an error (not published yet)
- *   node scripts/chrome-sync.js ... --force           # rewrite even when the build hash is unchanged
- *
- * The validation is the same the theme build applies (and the same as
- * igniteui-astro-components' contract), so a snapshot this writes always builds.
+ *   node scripts/chrome-sync.js                  # every target in TARGETS
+ *   node scripts/chrome-sync.js --source <url | dist/assets/chrome/fragment.html> --out <dir>
+ *   node scripts/chrome-sync.js ... --allow-missing --force
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -40,7 +13,6 @@ import { parseFragment, ASSET_TOKEN } from '../src/integrations/ig-chrome/contra
 const MAX_BYTES = 5 * 1024 * 1024;
 const IMAGE_EXT = /\.(?:png|jpe?g|webp|avif|gif|svg|ico)$/i;
 
-/** The snapshots `npm run chrome:sync` refreshes when no --source/--out is given. */
 const TARGETS = [
   { source: 'https://www.infragistics.com/assets/chrome/fragment.html', out: 'ig-chrome/production' },
   { source: 'https://astro-staging.infragistics.com/assets/chrome/fragment.html', out: 'ig-chrome/staging' },
@@ -75,7 +47,6 @@ async function fetchBytes(url, { html = false } = {}) {
       headers: { 'User-Agent': 'igniteui-chrome-sync/1.0' },
     });
   } catch (err) {
-    // A host that can't be reached is a failure, not "not published yet".
     const cause = err.cause?.code || err.cause?.message || err.message;
     throw new Error(`${url} could not be reached (${cause})`);
   }
@@ -87,7 +58,6 @@ async function fetchBytes(url, { html = false } = {}) {
       throw new Error(`${url} answered with Content-Type '${type || '(none)'}', not text/html`);
     }
   }
-  // Enforce the limit while reading, so an oversized response is never buffered whole.
   const length = Number(res.headers.get('content-length'));
   if (length > MAX_BYTES) throw new Error(`${url} is ${length} bytes, over the ${MAX_BYTES} limit`);
   const chunks = [];
@@ -100,11 +70,6 @@ async function fetchBytes(url, { html = false } = {}) {
   return Buffer.concat(chunks);
 }
 
-/**
- * Where to read the fragment's assets from. From a URL source, the asset URLs
- * themselves. From a local marketing build (dist/assets/chrome/fragment.html),
- * the same paths inside that dist folder, whatever host the URLs name.
- */
 function makeReader(source) {
   if (isUrl(source)) {
     return {
@@ -117,7 +82,7 @@ function makeReader(source) {
   return {
     fragment: async () => fs.readFileSync(file),
     asset: async (url) => {
-      // Decoding can turn %2F into a separator, so check the result stays inside dist.
+      // Decoding can turn %2F into a separator; keep the result inside dist.
       const asset = path.join(distRoot, decodeURIComponent(new URL(url).pathname));
       const rel = path.relative(distRoot, asset);
       if (rel === '..' || rel.startsWith(`..${path.sep}`) || path.isAbsolute(rel)) {
@@ -128,10 +93,6 @@ function makeReader(source) {
   };
 }
 
-/**
- * A flat file name for an image path: /assets/logos/fw-react.svg -> assets-logos-fw-react.svg.
- * Only [\w.-] is kept, so a name can never point outside assets/media.
- */
 const mediaName = (pathname) =>
   (pathname.startsWith('/assets/chrome/media/')
     ? pathname.slice('/assets/chrome/media/'.length)
@@ -177,12 +138,9 @@ async function sync(args) {
     return;
   }
 
-  /* The versioned CSS and JS the head links. */
   const cssUrl = /href="([^"]+\/chrome\.css)"/.exec(parsed.head)?.[1];
   const jsUrl = /src="([^"]+\/chrome\.js)"/.exec(parsed.head)?.[1];
   if (!cssUrl || !jsUrl) throw new Error("The fragment's head does not link chrome.css and chrome.js.");
-  // From a URL, fetch only from the host --source names, whatever hosts the
-  // fragment links. (A local build is read from its dist folder; hosts don't matter.)
   const origin = new URL(isUrl(args.source) ? args.source : cssUrl).origin;
   if (isUrl(args.source)) {
     for (const url of [cssUrl, jsUrl]) {
@@ -193,8 +151,6 @@ async function sync(args) {
   const css = (await read.asset(cssUrl)).toString('utf8');
   const js = (await read.asset(jsUrl)).toString('utf8');
 
-  /* Every image on the source host the markup or CSS loads: absolute URLs on
-   * the source origin, and root-relative ones (the CSS uses those). */
   const images = new Map(); // pathname -> media file name
   const collect = (text, pattern) => {
     for (const m of text.matchAll(pattern)) {
@@ -216,17 +172,13 @@ async function sync(args) {
     fs.writeFileSync(path.join(tmp, 'assets', 'media', name), await read.asset(origin + pathname));
   }
 
-  /* Rewrite the head's CSS/JS and every image to the asset token, so the
-   * integration can serve them from each site's own build. */
   let fragment = html.replace(cssUrl, `${ASSET_TOKEN}/chrome.css`).replace(jsUrl, `${ASSET_TOKEN}/chrome.js`);
   let cssOut = css;
   for (const [pathname, name] of images) {
     fragment = fragment.split(origin + pathname).join(`${ASSET_TOKEN}/media/${name}`);
-    // CSS sits at the root of the asset folder, so a relative path works under any base.
     cssOut = cssOut.split(`(${pathname})`).join(`(media/${name})`).split(`("${pathname}")`).join(`("media/${name}")`);
   }
 
-  // The rewritten fragment must still satisfy the contract.
   parseFragment(fragment);
 
   fs.writeFileSync(path.join(tmp, 'fragment.html'), fragment);
@@ -238,7 +190,6 @@ async function sync(args) {
       {
         contract: parsed.contract,
         build: parsed.build,
-        // A local path would be machine-specific in a committed file.
         source: isUrl(args.source) ? args.source : 'local marketing build',
         origin,
         syncedAt: new Date().toISOString(),
@@ -249,7 +200,6 @@ async function sync(args) {
     ) + '\n',
   );
 
-  // Replace the snapshot in one step, so a failed run never leaves a half-written one.
   fs.rmSync(outDir, { recursive: true, force: true });
   fs.renameSync(tmp, outDir);
 
