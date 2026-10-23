@@ -18,6 +18,8 @@ const TARGETS = [
   { source: 'https://astro-staging.infragistics.com/assets/chrome/fragment.html', out: 'ig-chrome/staging' },
 ];
 
+const ALLOWED_ORIGINS = new Set(TARGETS.map(({ source }) => new URL(source).origin));
+
 class NotPublished extends Error {}
 
 function parseArgs(argv) {
@@ -40,6 +42,10 @@ function parseArgs(argv) {
 const isUrl = (s) => /^https?:\/\//i.test(s);
 
 async function fetchBytes(url, { html = false } = {}) {
+  const { origin } = new URL(url);
+  if (!ALLOWED_ORIGINS.has(origin)) {
+    throw new Error(`${url} is not on an allowed host (${[...ALLOWED_ORIGINS].join(', ')}).`);
+  }
   let res;
   try {
     res = await fetch(url, {
