@@ -4,6 +4,14 @@
   "author": "Infragistics",
   "license": "MIT",
   "version": "3.0.0",
+  "files": [
+    "index.js",
+    "astro.config.ts",
+    "src/",
+    "schema/",
+    "public/",
+    "ig-chrome/"
+  ],
   "dependencies": {
     "astro": "^7.4.2",
     "astro-breadcrumbs": "^3.4.2",
