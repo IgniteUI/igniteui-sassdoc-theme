@@ -2,11 +2,18 @@ import { defineConfig } from "astro/config";
 import type { AstroIntegration } from "astro";
 import expressiveCode from "astro-expressive-code";
 import pagefind from "astro-pagefind";
+import { igChrome } from "./src/integrations/ig-chrome";
 
 const baseUrl =
   process.env.NODE_ENV === "development"
     ? "/"
     : "/products/ignite-ui-angular/docs/sass/latest/";
+
+// Set by the theme from the SassDoc `environment` option.
+const chromeSnapshot =
+  process.env.SASSDOC_ENV === "staging"
+    ? "./ig-chrome/staging"
+    : "./ig-chrome/production";
 
 /**
  * Self-contained prerender bundle for builds: when the theme runs inside a
@@ -58,6 +65,7 @@ export default defineConfig({
       },
     }),
     pagefind(),
+    igChrome({ snapshot: chromeSnapshot }),
     bundlePrerender,
   ],
   vite: {

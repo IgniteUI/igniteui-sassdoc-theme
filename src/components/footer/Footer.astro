@@ -1,8 +1,13 @@
 ---
 import raw from "../../../data/navigation.json";
 import { NavigationSchema } from "../../content/sassdoc-schema";
+import { getLangFromEnv } from "../../i18n";
+import { getChrome } from "../../utils/chrome";
 
-const { footer, copyright } = NavigationSchema.parse(raw);
+const chrome = getChrome(getLangFromEnv());
+const { footer, copyright } = chrome
+  ? { footer: chrome.footer, copyright: "" }
+  : NavigationSchema.parse(raw);
 ---
 
 <div class="main-footer">

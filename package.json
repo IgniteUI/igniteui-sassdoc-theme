@@ -20,7 +20,8 @@
     "dev": "npm run scss:watch & npm run compile && node ./scripts/copy-data.js && astro dev --host",
     "serve": "npm run compile && serve -p 8080 site",
     "scss:build": "sass src:src --quiet-deps --load-path=node_modules --no-source-map --style=compressed",
-    "scss:watch": "npm run scss:build -- --watch"
+    "scss:watch": "npm run scss:build -- --watch",
+    "chrome:sync": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON ./scripts/chrome-sync.js"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

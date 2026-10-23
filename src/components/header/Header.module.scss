@@ -45,6 +45,12 @@
         }
     }
 
+    // The whole .main-head block is sticky, so the chrome's own sticky nav must not be.
+    .main-head .igd-chrome header.nv {
+        position: relative;
+        top: auto;
+    }
+
     .main-head {
         position: sticky;
         grid-column: document-start / document-end;

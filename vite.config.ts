@@ -30,6 +30,10 @@ export default defineConfig({
           dest: "./",
         },
         {
+          src: "ig-chrome",
+          dest: "./",
+        },
+        {
           src: normalizePath(join("src", "**/*.astro")),
           dest: "./",
         },

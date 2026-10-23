@@ -5,6 +5,7 @@ import Show from "../components/control-flow/Show.astro";
 import SearchDialog from "../components/search/SearchDialog.astro";
 import { getLangFromEnv, useTranslations } from "../i18n";
 import { getConfig } from "../utils";
+import { getChrome } from "../utils/chrome";
 import { type Mode } from "../content/sassdoc-schema";
 import "../styles/global.css";
 
@@ -20,6 +21,7 @@ const t = useTranslations(lang);
 const mode = import.meta.env.MODE as Mode;
 const { gaID, sassdoc_default_url } = getConfig(lang, mode);
 const { title = t("home.title"), showSidebar = false } = Astro.props;
+const chrome = getChrome(lang);
 ---
 
 <!doctype html>
@@ -74,11 +76,28 @@ const { title = t("home.title"), showSidebar = false } = Astro.props;
     </script>
     <!-- End: Google Tag Manager -->
 
-    <link
-      rel="stylesheet"
-      href="https://www.infragistics.com/css/navigation.css"
-    />
-    <link rel="stylesheet" href="https://www.infragistics.com/css/footer.css" />
+    {
+      chrome ? (
+        <>
+          <meta
+            name="ig-chrome"
+            content={`${chrome.contract} build=${chrome.build}`}
+          />
+          <Fragment set:html={chrome.head} />
+        </>
+      ) : (
+        <>
+          <link
+            rel="stylesheet"
+            href="https://www.infragistics.com/css/navigation.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://www.infragistics.com/css/footer.css"
+          />
+        </>
+      )
+    }
   </head>
   <body data-has-sidebar={showSidebar}>
     <!-- Google Tag Manager (noscript) -->

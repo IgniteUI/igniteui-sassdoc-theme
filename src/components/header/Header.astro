@@ -3,6 +3,7 @@ import navData from "../../../data/navigation.json";
 import styles from "./Header.module.css";
 import { NavigationSchema, type Mode } from "../../content/sassdoc-schema";
 import { getConfig } from "../../utils";
+import { getChrome } from "../../utils/chrome";
 import { getLangFromEnv, useTranslations } from "../../i18n";
 
 const lang = getLangFromEnv();
@@ -11,7 +12,8 @@ const t = useTranslations(lang);
 const siteBase = import.meta.env.BASE_URL;
 
 const { url: baseUrl, versions: versionsURL } = getConfig(lang, mode);
-const { header } = NavigationSchema.parse(navData);
+const chrome = getChrome(lang);
+const header = chrome?.header ?? NavigationSchema.parse(navData).header;
 ---
 
 <div class="main-head" class={styles.container}>
